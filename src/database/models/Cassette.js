@@ -6,7 +6,7 @@ class Cassette extends Model {}
 
 Cassette.init(
   {
-   id_cassete: {
+   id_cassette: {
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,

@@ -18,6 +18,6 @@ app.listen(PORT, () => {
   console.log(`Servidor eschando en http://localhost:${PORT}`);
 
   sequelize
-  .sync({force: false})
+  .sync({force: true})
   .then(() => console.log('Conectado a sanitaria')) 
 });
