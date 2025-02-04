@@ -16,6 +16,18 @@ const getImageById = async (id) => {
   }
 };
 
+const getImagesByMuestra = async (idMuestra) => {
+  try {
+    return await Imagen.findAll({
+      where: {
+        muestraIdMuestra: idMuestra,
+      }
+    })
+  } catch (error) {
+    throw new Error("Error al pedir un imagen por id: " + error.message);
+  }
+};
+
 const createImage = async (imgData) => {
   try {
     return await Imagen.create(imgData);
@@ -48,10 +60,30 @@ const deleteImage = async (id) => {
   }
 };
 
+const deleteAllImages = async () => {
+  try {
+    // Eliminar todas las imágenes
+    const result = await Imagen.destroy({
+      where: {},  // Sin condiciones, se eliminarán todas las imágenes
+    });
+
+    if (result === 0) {
+      throw new Error("No hay imágenes para borrar");
+    }
+
+    return { message: "Todas las imágenes han sido eliminadas" };
+  } catch (error) {
+    throw new Error("Error al borrar las imágenes: " + error.message);
+  }
+};
+
+
 module.exports = {
   getAllImages,
   getImageById,
+  getImagesByMuestra,
   createImage,
   updateImage,
   deleteImage,
+  deleteAllImages
 };
