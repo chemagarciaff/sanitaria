@@ -27,6 +27,16 @@ const getCassetesByUser = async (id_user) => {
     }
   };
 
+  const getCassetesByOrgano = async (id_organo) => {
+    try {
+      return await Cassette.findAll({
+        where:{
+            organo_cassette:id_organo,
+        }});
+    } catch (error) {
+      throw new Error("Error al pedir un cassette por organo : " + error.message);
+    }
+  };
 
 const createCassette = async (cassetteData) => {
   try {
@@ -64,8 +74,8 @@ module.exports = {
   getAllCassettes,
   getCassettesById,
   getCassetesByUser,
+  getCassetesByOrgano,
   createCassette,
   updateCassette,
   deleteCassette,
-
 };
