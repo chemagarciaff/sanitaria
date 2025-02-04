@@ -16,7 +16,7 @@ const getCassettesById = async (id) => {
   }
 };
 
-const getCassetesByUser = async (id_user) => {
+const getCassettesByUser = async (id_user) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -63,7 +63,7 @@ const deleteCassette = async (id) => {
 module.exports = {
   getAllCassettes,
   getCassettesById,
-  getCassetesByUser,
+  getCassettesByUser,
   createCassette,
   updateCassette,
   deleteCassette,
