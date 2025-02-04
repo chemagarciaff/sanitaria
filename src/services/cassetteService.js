@@ -1,4 +1,5 @@
 const Cassette = require("../database/models/Cassette");
+const {Op} = require ("sequelize");
 
 const getAllCassettes = async () => {
   try {
@@ -35,6 +36,33 @@ const getCassetesByUser = async (id_user) => {
         }});
     } catch (error) {
       throw new Error("Error al pedir un cassette por organo : " + error.message);
+    }
+  };
+
+  const getCassetesByFecha = async (startDate) => {
+    try {
+      return await Cassette.findAll({
+        where:{
+            fecha_cassette:{
+                [Op.gte]: startDate,
+            },
+        }});
+    } catch (error) {
+      throw new Error("Error al pedir un cassette por fecha : " + error.message);
+    }
+  };
+
+  const getCassetesBetweenFecha = async (startDate, endDate) => {
+    try {
+      return await Cassette.findAll({
+        where:{
+            fecha_cassette:{
+                [Op.gte]: startDate,
+                [Op.lte]: endDate,
+            },
+        }});
+    } catch (error) {
+      throw new Error("Error al pedir un cassette entre fechas : " + error.message);
     }
   };
 
@@ -75,6 +103,8 @@ module.exports = {
   getCassettesById,
   getCassetesByUser,
   getCassetesByOrgano,
+  getCassetesByFecha,
+  getCassetesBetweenFecha,
   createCassette,
   updateCassette,
   deleteCassette,
