@@ -17,7 +17,7 @@ const checkToken = (req, res, next) => {
 
   if (payload.expiredAt < moment().unix()) {
     return res.json({
-      error: "El token ha expirado tiene que volver a loguearte",
+      error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
     });
   }
   next();
