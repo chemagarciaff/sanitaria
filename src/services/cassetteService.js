@@ -1,6 +1,6 @@
 const Cassette = require("../database/models/Cassette");
 const {Op} = require ("sequelize");
-
+// Obtener todos los cassettes
 const getAllCassettes = async () => {
   try {
     return await Cassette.findAll();
@@ -8,7 +8,7 @@ const getAllCassettes = async () => {
     throw new Error("Error al pedir todos los cassettes: " + error.message);
   }
 };
-
+// Obtener un cassette por ID
 const getCassettesById = async (id) => {
   try {
     return await Cassette.findByPk(id);
@@ -16,7 +16,7 @@ const getCassettesById = async (id) => {
     throw new Error("Error al pedir un cassette por id: " + error.message);
   }
 };
-
+// Obtener un cassette por Usuario
 const getCassettesByUser = async (id_user) => {
     try {
       return await Cassette.findAll({
@@ -101,7 +101,7 @@ const deleteCassette = async (id) => {
 module.exports = {
   getAllCassettes,
   getCassettesById,
-  getCassetesByUser,
+  getCassettesByUser,
   getCassetesByOrgano,
   getCassetesByFecha,
   getCassetesBetweenFecha,
