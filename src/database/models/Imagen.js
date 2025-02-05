@@ -12,7 +12,7 @@ Imagen.init({
     },
     imagen: {
         type: DataTypes.BLOB('long'),
-        allowNull: false
+        allowNull: true,
     }
 }, {
     sequelize, modelName: 'imagenes', timestamps: false, freezeTableName: true

@@ -10,8 +10,8 @@ require("./database/associations.js")
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const apiroutes = require("./routes/apiRouter");
-// app.use("/sanitaria", apiroutes);
+const apiroutes = require("./routes/apiRouter");
+app.use("/sanitaria", apiroutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

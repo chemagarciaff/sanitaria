@@ -93,10 +93,25 @@ Usuario.init({
             }
         }
     },
+    rol: {
+        type: DataTypes.CHAR(),
+        allowNull: false,
+        validate: {
+            notNull: {
+                msg: "El rol del usuario no puede ser nulo"
+            },
+            len: {
+                args: [1, 1],
+                msg: "El rol del usuario debe tener 1 caracter"
+            }
+        }
+
+
+    }
 
 }, {
-        sequelize, modelName: 'usuarios', timestamps: false, freezeTableName: true
-    })
+    sequelize, modelName: 'usuarios', timestamps: false, freezeTableName: true
+})
 
 
 module.exports = Usuario;

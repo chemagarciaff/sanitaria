@@ -1,27 +1,29 @@
 const imagenRouter = require("express").Router();
 const imagenController = require("./../controllers/imagenController");
-const {Op} = require("sequelize");
 
 
-imagenRouter.get("/imagenes", imagenController.getAllImages);
+imagenRouter.get("/", imagenController.getAllImages);
 
 
-imagenRouter.get("/imagenes/:id", imagenController.getImageById);
+imagenRouter.get("/:id", imagenController.getImageById);
 
 
-imagenRouter.post("/imagenes", imagenController.createImage);
+imagenRouter.get("/muestra/:id", imagenController.getImagesByMuestra);
 
 
-imagenRouter.put("/imagenes/:id", imagenController.updateImage);
+imagenRouter.post("/", imagenController.createImage);
 
 
-imagenRouter.patch("/imagenes/:id", imagenController.updateImage);
+imagenRouter.put("/:id", imagenController.updateImage);
 
 
-imagenRouter.delete("/imagenes/:id", imagenController.deleteImage);
+imagenRouter.patch("/:id", imagenController.updateImage);
 
 
-imagenRouter.delete("/imagenes/", imagenController.deleteImage);
+imagenRouter.delete("/:id", imagenController.deleteImage);
+
+
+imagenRouter.delete("/", imagenController.deleteAllImages);
 
 
 module.exports = imagenRouter;
