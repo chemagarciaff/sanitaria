@@ -38,52 +38,96 @@ const getCassettesByUser = async (req, res) => {
     }
   };
 
-// Crear un nuevo cassette
-const createClient = async (req, res) => {
+// Obtener un cassette por Organo
+const getCassettesByOrgano = async (req, res) => {
   try {
-    const createdClient = await cassetteController.createClient(req.body);
-    res.status(201).json(createdClient);
+    const cassette = await cassetteController.getCassettesByOrgano(req.params.id);
+    if (cassette) {
+      res.status(200).json(cassette);
+    } else {
+      res.status(404).json({ message: "Cassette no encontrado" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Actualizar un cliente existente
-const updateClient = async (req, res) => {
+// Obtener un cassette por Fecha
+const getCassettesByFecha = async (req, res) => {
   try {
-    const updatedClient = await cassetteController.updateClient(
+    const cassette = await cassetteController.getCassettesByFecha(req.params.id);
+    if (cassette) {
+      res.status(200).json(cassette);
+    } else {
+      res.status(404).json({ message: "Cassette no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Obtener un cassette entre fechas
+const getCassettesBetweenFecha = async (req, res) => {
+  try {
+    const cassette = await cassetteController.getCassettesBetweenFecha(req.params.id);
+    if (cassette) {
+      res.status(200).json(cassette);
+    } else {
+      res.status(404).json({ message: "Cassette no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+// Crear un cassette
+const createCassette = async (req, res) => {
+  try {
+    const createdCassette = await cassetteController.createCassette(req.body);
+    res.status(201).json(createdCassette);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Actualizar un cassette existente
+const updateCassette = async (req, res) => {
+  try {
+    const updatedCassette = await cassetteController.updateCassette(
       req.params.id,
       req.body
     );
-    if (updatedClient) {
-      res.status(200).json(updatedClient);
+    if (updatedCassette) {
+      res.status(200).json(updatedCassette);
     } else {
-      res.status(404).json({ message: "Cliente no encontrado" });
+      res.status(404).json({ message: "Cassette no encontrado" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
 
-// Eliminar un cliente
-const deleteClient = async (req, res) => {
+// Borrar un cassette
+const deleteCassette = async (req, res) => {
   try {
-    const deleted = await cassetteController.deleteClient(req.params.id);
-    if (deleted) {
-      res.status(204).json({ message: "Cliente eliminado" });
+    const cassette = await cassetteController.deleteCassette(req.params.id);
+    if (cassette) {
+      res.status(200).json({ message: "Cassette eliminado" });
     } else {
-      res.status(404).json({ message: "Cliente no encontrado" });
+      res.status(404).json({ message: "Cassette no encontrado" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-};
+}
 
 module.exports = {
   getAllCassettes,
   getCassettesById,
   getCassettesByUser,
-  createClient,
-  updateClient,
-  deleteClient,
+  getCassettesByOrgano,
+  getCassettesByFecha,
+  getCassettesBetweenFecha,
+  createCassette,
+  updateCassette,
+  deleteCassette,
 };

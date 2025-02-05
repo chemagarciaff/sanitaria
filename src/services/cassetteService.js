@@ -27,7 +27,7 @@ const getCassettesByUser = async (id_user) => {
       throw new Error("Error al pedir un cassette por id: " + error.message);
     }
   };
-
+//Obtener un cassette por organo
   const getCassetesByOrgano = async (id_organo) => {
     try {
       return await Cassette.findAll({
@@ -38,7 +38,7 @@ const getCassettesByUser = async (id_user) => {
       throw new Error("Error al pedir un cassette por organo : " + error.message);
     }
   };
-
+//Obtener un cassette por fecha
   const getCassetesByFecha = async (startDate) => {
     try {
       return await Cassette.findAll({
@@ -51,7 +51,7 @@ const getCassettesByUser = async (id_user) => {
       throw new Error("Error al pedir un cassette por fecha : " + error.message);
     }
   };
-
+//Obtener un cassette entre fechas
   const getCassetesBetweenFecha = async (startDate, endDate) => {
     try {
       return await Cassette.findAll({
@@ -65,7 +65,7 @@ const getCassettesByUser = async (id_user) => {
       throw new Error("Error al pedir un cassette entre fechas : " + error.message);
     }
   };
-
+// Crear un cassette
 const createCassette = async (cassetteData) => {
   try {
     return await Cassette.create(cassetteData);
@@ -73,7 +73,7 @@ const createCassette = async (cassetteData) => {
     throw new Error("Error al crear el cassette: " + error.message);
   }
 };
-
+// Actualizar un cassette
 const updateCassette = async (id, cassetteData) => {
   try {
     const cassette = await Cassette.findByPk(id);
@@ -85,7 +85,7 @@ const updateCassette = async (id, cassetteData) => {
     throw new Error("Error al borrar modificar el cassette: " + error.message);
   }
 };
-
+// Borrar un cassette
 const deleteCassette = async (id) => {
   try {
     const cassette = await Cassette.findByPk(id);
