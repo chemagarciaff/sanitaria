@@ -8,19 +8,25 @@ cassetteRouter.get("/", cassetteController.getAllCassettes);
 cassetteRouter.get("/:id", cassetteController.getCassettesById);
 
 
-cassetteRouter.post("/", cassetteController.createUser);
+cassetteRouter.get("/user/:id", cassetteController.getCassettesByUser);
 
 
-cassetteRouter.put("/:id", cassetteController.updateUser);
+cassetteRouter.get("/organo/:id", cassetteController.getCassettesByOrgano);
 
 
-cassetteRouter.patch("/:id", cassetteController.updateUser);
+cassetteRouter.get("/fecha/:id", cassetteController.getCassettesByFecha);   
 
 
-cassetteRouter.delete("/:id", cassetteController.deleteUser);
+cassetteRouter.get("/fecha/:fechaInicio/:fechaFin", cassetteController.getCassettesByFecha);
 
 
-cassetteRouter.delete("/", cassetteController.deleteAllUsers);
+cassetteRouter.post("/", cassetteController.createCassette);
+
+
+cassetteRouter.put("/:id", cassetteController.updateCassette);
+
+
+cassetteRouter.delete("/:id", cassetteController.deleteCassette);
 
 
 module.exports = cassetteRouter;
