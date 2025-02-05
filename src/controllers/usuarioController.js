@@ -13,7 +13,8 @@ const getAllUsers = async (req, res) => {
 // Obtener un cliente por ID
 const getUserById = async (req, res) => {
   try {
-    const user = await usuarioService.getClientById(req.params.id);
+    const { id } = req.params;
+    const user = await usuarioService.getClientById(id);
     if (user) {
       res.status(200).json(user);
     } else {
@@ -27,7 +28,8 @@ const getUserById = async (req, res) => {
 // Crear un nuevo cliente
 const createUser = async (req, res) => {
   try {
-    const createdUser = await usuarioService.createUser(req.body);
+    const body = req.body;
+    const createdUser = await usuarioService.createUser(body);
     res.status(201).json(createdUser);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -37,10 +39,11 @@ const createUser = async (req, res) => {
 // Actualizar un cliente existente
 const updateUser = async (req, res) => {
   try {
-    const updatedUser = await usuarioService.updateUser(
-      req.params.id,
-      req.body
-    );
+    const { id } = req.params;
+    const body = req.body;
+
+    const updatedUser = await usuarioService.updateUser(id, body);
+
     if (updatedUser) {
       res.status(200).json(updatedUser);
     } else {
@@ -54,11 +57,30 @@ const updateUser = async (req, res) => {
 // Eliminar un cliente
 const deleteUser = async (req, res) => {
   try {
-    const deletedUser = await usuarioService.deleteUser(req.params.id);
+    const { id } = req.params;
+
+    const deletedUser = await usuarioService.deleteUser(id);
+    
     if (deletedUser) {
-      res.status(204).json({ message: "Cliente eliminado" });
+      res.status(204).json({ message: "Usuario eliminado" });
     } else {
-      res.status(404).json({ message: "Cliente no encontrado" });
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Eliminar un Usuario
+const deleteAllUsers = async (req, res) => {
+  try {
+
+    const deletedUsers = await usuarioService.deleteAllUser();
+
+    if (deletedUsers) {
+      res.status(204).json({ message: "Usuarios eliminados" });
+    } else {
+      res.status(404).json({ message: "Usuarios no encontrados" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -66,9 +88,11 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
-  getAllClients,
-  getClientById,
-  createClient,
-  updateClient,
-  deleteClient,
+  getAllUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  deleteAllUsers,
 };
+
