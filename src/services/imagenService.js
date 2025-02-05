@@ -24,7 +24,7 @@ const getImagesByMuestra = async (idMuestra) => {
       }
     })
   } catch (error) {
-    throw new Error("Error al pedir un imagen por id: " + error.message);
+    throw new Error("Error al pedir un imagen por muestra: " + error.message);
   }
 };
 
