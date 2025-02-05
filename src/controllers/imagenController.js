@@ -30,7 +30,7 @@ const getAllImages = async (req, res) => {
 const getImageById = async (req, res) => {
   try {
     const { id } = req.params;
-    const image = await imagenService.getClientById(id);
+    const image = await imagenService.getImageById(id);
     if (image) {
       res.status(200).json(image);
     } else {
@@ -54,7 +54,7 @@ const getImageById = async (req, res) => {
 const getImagesByMuestra = async (req, res) => {
   try {
     const { id } = req.params;
-    const images = await imagenService.getClientById(id);
+    const images = await imagenService.getImagesByMuestra(id);
     if (images) {
       res.status(200).json(images);
     } else {
@@ -79,7 +79,7 @@ const createImage = async (req, res) => {
   try {
     const body = req.body;
 
-    const createdImage = await imagenService.createUser(body);
+    const createdImage = await imagenService.createImage(body);
     res.status(201).json(createdImage);
   } catch (error) {
     res.status(500).json({ error: error.message });
