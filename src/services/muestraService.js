@@ -1,5 +1,5 @@
 const Muestra = require("../database/models/Muestra");
-
+//Obtener todas las muestras
 const getAllMuestras = async () => {
   try {
     return await Muestra.findAll();
@@ -7,7 +7,7 @@ const getAllMuestras = async () => {
     throw new Error("Error al pedir todas los Muestras: " + error.message);
   }
 };
-
+//Obtener una muestra por ID
 const getMuestraById = async (id) => {
   try {
     return await Muestra.findByPk(id);
@@ -15,7 +15,7 @@ const getMuestraById = async (id) => {
     throw new Error("Error al pedir un Muestras por id: " + error.message);
   }
 };
-
+//Obtener una muestra por cassette
 const getMuestrasByCassette = async (id_cassette) => {
     try {
       return await Muestra.findAll({
@@ -27,7 +27,7 @@ const getMuestrasByCassette = async (id_cassette) => {
     }
   };
 
-
+//Crear una muestra
 const createMuestra = async (muestraData) => {
   try {
     return await Muestra.create(muestraData);
@@ -35,7 +35,7 @@ const createMuestra = async (muestraData) => {
     throw new Error("Error al crear una muestra: " + error.message);
   }
 };
-
+//Modificar una muestra
 const updateMuestra = async (id, muestraData) => {
   try {
     const Muestras = await Muestras.findByPk(id);
@@ -47,7 +47,7 @@ const updateMuestra = async (id, muestraData) => {
     throw new Error("Error al borrar modificar el Muestras: " + error.message);
   }
 };
-
+//Eliminar una muestra
 const deleteMuestra = async (id) => {
   try {
     const Muestras = await Muestras.findByPk(id);
@@ -59,7 +59,7 @@ const deleteMuestra = async (id) => {
     throw new Error("Error al borrar las muestras: " + error.message);
   }
 };
-
+//Eliminar todas las muestras
 const deleteAllMuestras = async () =>{
     try {
         const result = await Muestra.destroy({
