@@ -1,0 +1,24 @@
+
+INSERT INTO usuarios (nombre_usu, apelidos_usu, email_usu, password_usu, centro_usu, rol)
+VALUES 
+('Juan', 'Pérez', 'juan.perez@email.com', 'password123', 'Centro de Salud 1', 'A'),
+('Ana', 'Gómez', 'ana.gomez@email.com', 'password456', 'Centro de Salud 2', 'T'),
+('Luis', 'Martínez', 'luis.martinez@email.com', 'password789', 'Centro de Salud 3', 'T');
+
+INSERT INTO cassettes (fecha_cassette, observaciones_cassette, descripcion_cassette, caracteristicas_cassette, qr_casette, organo_cassette, usuarioIdUsu)
+VALUES
+('2025-02-05 10:00:00', 'Observación 1', 'Descripción de cassette 1', 'Característica 1', 'QR001', 'Órgano 1', 1),
+('2025-02-06 12:30:00', 'Observación 2', 'Descripción de cassette 2', 'Característica 2', 'QR002', 'Órgano 2', 2),
+('2025-02-07 14:00:00', 'Observación 3', 'Descripción de cassette 3', 'Característica 3', 'QR003', 'Órgano 3', 3);
+
+INSERT INTO muestras (fecha_muestra, observaciones_muestra, descripcion_muestra, tincion_muestra, qr_muestra, cassetteIdCassette)
+VALUES
+('2025-02-05 10:30:00', 'Observación muestra 1', 'Descripción muestra 1', 'Tinción 1', 'QR001M', 1),
+('2025-02-06 13:00:00', 'Observación muestra 2', 'Descripción muestra 2', 'Tinción 2', 'QR002M', 2),
+('2025-02-07 14:30:00', 'Observación muestra 3', 'Descripción muestra 3', 'Tinción 3', 'QR003M', 3);
+
+INSERT INTO imagenes (muestraIdMuestra)
+VALUES
+(1),
+(2),
+(3);

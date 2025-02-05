@@ -8,7 +8,7 @@ const imagenRouter = require("./imagenRouter");
 
 // apirouter.use("/cassette", /* checkToken, */ cassetteRouter);
 // apirouter.use("/muestra", /* checkToken, */ muestraRouter);
-apirouter.use("/usuario", /* checkToken, */ usuarioRouter);
+apirouter.use("/usuarios", /* checkToken, */ usuarioRouter);
 apirouter.use("/images", /* checkToken, */ imagenRouter);
 
 module.exports = apirouter;

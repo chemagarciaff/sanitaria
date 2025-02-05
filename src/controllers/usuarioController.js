@@ -14,7 +14,7 @@ const getAllUsers = async (req, res) => {
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await usuarioService.getClientById(id);
+    const user = await usuarioService.getUserById(id);
     if (user) {
       res.status(200).json(user);
     } else {
