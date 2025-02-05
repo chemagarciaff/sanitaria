@@ -3,7 +3,7 @@ const apirouter = require("express").Router();
 
 // const cassetteRouter = require("./cassetteRouter");
 // const muestraRouter = require("./muestraRouter");
-// const usuarioRouter = require("./usuarioRouter");
+const usuarioRouter = require("./usuarioRouter");
 const imagenRouter = require("./imagenRouter");
 
 // apirouter.use("/cassette", /* checkToken, */ cassetteRouter);
