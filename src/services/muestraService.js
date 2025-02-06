@@ -16,11 +16,11 @@ const getMuestraById = async (id) => {
   }
 };
 //Obtener una muestra por cassette
-const getMuestrasByCassette = async (id_cassette) => {
+const getMuestrasByCassette = async (idCassette) => {
     try {
       return await Muestra.findAll({
         where:{
-            cassetteIdCassette:id_cassette,
+            cassetteIdCassette: idCassette,
         }});
     } catch (error) {
       throw new Error("Error al pedir una muestra por cassette: " + error.message);

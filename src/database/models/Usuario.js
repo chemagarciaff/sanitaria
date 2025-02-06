@@ -74,10 +74,6 @@ Usuario.init({
                 args: [1, 100],
                 msg: "La contraseña del usuario debe tener entre 1 y 100 caracteres"
             },
-            is: {
-                args: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,16}$/,
-                msg: "La contraseña debe tener al menos una mayúscula, una minúscula, un número y un símbolo, y tener entre 8 y 16 caracteres"
-            }
         }
     },
     centro_usu: {

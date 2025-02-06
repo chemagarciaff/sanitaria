@@ -28,23 +28,23 @@ const getCassettesByUser = async (id_user) => {
     }
   };
 //Obtener un cassette por organo
-  const getCassettesByOrgano = async (id_organo) => {
+  const getCassettesByOrgano = async (organo) => {
     try {
       return await Cassette.findAll({
         where:{
-            organo_cassette:id_organo,
+            organo_cassette: organo,
         }});
     } catch (error) {
       throw new Error("Error al pedir un cassette por organo : " + error.message);
     }
   };
 //Obtener un cassette por fecha
-  const getCassettesByFecha = async (startDate) => {
+  const getCassettesByFecha = async (fecha) => {
     try {
       return await Cassette.findAll({
         where:{
             fecha_cassette:{
-                [Op.gte]: startDate,
+                [Op.gte]: fecha,
             },
         }});
     } catch (error) {
@@ -52,13 +52,13 @@ const getCassettesByUser = async (id_user) => {
     }
   };
 //Obtener un cassette entre fechas
-  const getCassettesBetweenFecha = async (startDate, endDate) => {
+  const getCassettesBetweenFecha = async (fechaInicio, fechaFin) => {
     try {
       return await Cassette.findAll({
         where:{
             fecha_cassette:{
-                [Op.gte]: startDate,
-                [Op.lte]: endDate,
+                [Op.gte]: fechaInicio,
+                [Op.lte]: fechaFin,
             },
         }});
     } catch (error) {

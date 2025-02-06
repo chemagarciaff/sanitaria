@@ -26,9 +26,9 @@ const getMuestraById = async (req, res) => {
 //Obtener una muestra por cassette
 const getMuestrasByCassette = async (req, res) => {
   try {
-    const { id } = req.params;
+    const { idCassette } = req.params;
 
-    const muestra = await muestraService.getMuestrasByCassette(id);
+    const muestra = await muestraService.getMuestrasByCassette(idCassette);
     if (muestra) {
       res.status(200).json(muestra);
     } else {

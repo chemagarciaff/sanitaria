@@ -8,7 +8,7 @@ muestraRouter.get("/", muestraController.getAllMuestras);
 muestraRouter.get("/:id", muestraController.getMuestraById);
 
 
-muestraRouter.get("/cassette/:id", muestraController.getMuestrasByCassette);
+muestraRouter.get("/cassette/:idCassette", muestraController.getMuestrasByCassette);
 
 
 muestraRouter.post("/", muestraController.createMuestra);

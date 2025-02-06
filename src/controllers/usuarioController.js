@@ -1,4 +1,5 @@
 const usuarioService = require("./../services/usuarioService");
+const argon2 = require("argon2");
 
 // Obtener todos los clientes
 const getAllUsers = async (req, res) => {
@@ -44,10 +45,49 @@ const getUserByEmail = async (req, res) => {
 const createUser = async (req, res) => {
   try {
     const body = req.body;
-    const createdUser = await usuarioService.createUser(body);
+
+    const contraseñaHasheada = await argon2.hash(body.password_usu);
+
+    const userData = {
+      ...body,  // Copiar todo el contenido de body
+      password_usu: contraseñaHasheada,  // Cambiar solo la propiedad 'password_usu'
+    };
+
+    const createdUser = await usuarioService.createUser(userData);
+
     res.status(201).json(createdUser);
+  
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// Crear un nuevo cliente
+const logUser = async (req, res) => {
+  try {
+    const { email_usu, password_usu } = req.body;
+
+    const user = await usuarioService.getUserByEmail(email_usu);
+
+    console.log("Usuario encontrado:", user[0]);
+
+    if(!user[0]) return res.status(404).json({ message: "Usuario no encontrado"});
+    
+    const contraseñaCorrecta = await argon2.verify(user[0].dataValues.password_usu, password_usu);
+
+    if (contraseñaCorrecta) {
+
+      res.json({ message: 'Loggin correcto' });
+
+    } else {
+
+      res.status(401).json({ message: 'Contraseña incorrecta' });
+
+    }
+  } catch (error) {
+
+    res.status(500).json({ message: 'Error al iniciar sesión', error: error.message});
+
   }
 };
 
@@ -107,6 +147,7 @@ module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
+  logUser,
   updateUser,
   deleteUser,
   deleteAllUsers,

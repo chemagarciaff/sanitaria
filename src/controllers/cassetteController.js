@@ -43,8 +43,8 @@ const getCassettesByUser = async (req, res) => {
 // Obtener un cassette por Organo
 const getCassettesByOrgano = async (req, res) => {
   try {
-    const {id} = req.params;
-    const cassette = await cassetteService.getCassettesByOrgano(id);
+    const {organo} = req.params;
+    const cassette = await cassetteService.getCassettesByOrgano(organo);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -58,8 +58,8 @@ const getCassettesByOrgano = async (req, res) => {
 // Obtener un cassette por Fecha
 const getCassettesByFecha = async (req, res) => {
   try {
-    const body = req.body;
-    const cassette = await cassetteService.getCassettesByFecha(body);
+    const {fecha} = req.params;
+    const cassette = await cassetteService.getCassettesByFecha(fecha);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -73,9 +73,9 @@ const getCassettesByFecha = async (req, res) => {
 // Obtener un cassette entre fechas
 const getCassettesBetweenFecha = async (req, res) => {
   try {
-    const body = req.body;
+    const {fechaInicio, fechaFin} = req.params;
 
-    const cassette = await cassetteService.getCassettesBetweenFecha(body);
+    const cassette = await cassetteService.getCassettesBetweenFecha(fechaInicio, fechaFin);
     if (cassette) {
       res.status(200).json(cassette);
     } else {

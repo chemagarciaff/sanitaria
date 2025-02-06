@@ -20,7 +20,7 @@ const getUserByEmail = async (email) => {
   try {
     return await Usuario.findAll({
       where: {
-        email: email,
+        email_usu: email,
       },
     });
   } catch (error) {
@@ -31,6 +31,14 @@ const getUserByEmail = async (email) => {
 const createUser = async (userData) => {
   try {
     return await Usuario.create(userData);
+  } catch (error) {
+    throw new Error("Error al crear el cliente: " + error.message);
+  }
+};
+
+const logUser = async (userData) => {
+  try {
+    return await Usuario.findOne(userData);
   } catch (error) {
     throw new Error("Error al crear el cliente: " + error.message);
   }
@@ -82,6 +90,7 @@ module.exports = {
   getUserById,
   getUserByEmail,
   createUser,
+  logUser,
   updateUser,
   deleteUser,
   deleteAllUsers,

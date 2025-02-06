@@ -11,13 +11,13 @@ cassetteRouter.get("/:id", cassetteController.getCassettesById);
 cassetteRouter.get("/user/:id", cassetteController.getCassettesByUser);
 
 
-cassetteRouter.get("/organo/:id", cassetteController.getCassettesByOrgano);
+cassetteRouter.get("/organo/:organo", cassetteController.getCassettesByOrgano);
 
 
-cassetteRouter.get("/fecha/:id", cassetteController.getCassettesByFecha);   
+cassetteRouter.get("/fecha/:fecha", cassetteController.getCassettesByFecha);   
 
 
-cassetteRouter.get("/fecha/:fechaInicio/:fechaFin", cassetteController.getCassettesByFecha);
+cassetteRouter.get("/fecha/:fechaInicio/:fechaFin", cassetteController.getCassettesBetweenFecha);
 
 
 cassetteRouter.post("/", cassetteController.createCassette);

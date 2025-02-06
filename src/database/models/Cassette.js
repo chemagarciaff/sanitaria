@@ -12,7 +12,7 @@ Cassette.init(
       autoIncrement: true,
     },
     fecha_cassette: {
-        type: DataTypes.DATE,
+        type: DataTypes.DATEONLY,
         allowNull: false, 
         validate: {
             isDate: true,
