@@ -1,9 +1,9 @@
-const muestraController = require('../controllers/muestraService');
+const muestraService = require('../services/muestraService');
 
 // Obtener todas las muestras
 const getAllMuestras = async (req, res) => {
   try {
-    const muestras = await muestraController.getAllMuestras();
+    const muestras = await muestraService.getAllMuestras();
     res.status(200).json(muestras);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -12,7 +12,8 @@ const getAllMuestras = async (req, res) => {
 //Obtener una muestra por ID
 const getMuestraById = async (req, res) => {
   try {
-    const muestra = await muestraController.getMuestraById(req.params.id);
+    const { id } = req.params;
+    const muestra = await muestraService.getMuestraById(id);
     if (muestra) {
       res.status(200).json(muestra);
     } else {
@@ -25,7 +26,9 @@ const getMuestraById = async (req, res) => {
 //Obtener una muestra por cassette
 const getMuestrasByCassette = async (req, res) => {
   try {
-    const muestra = await muestraController.getMuestrasByCassette(req.params.id);
+    const { id } = req.params;
+
+    const muestra = await muestraService.getMuestrasByCassette(id);
     if (muestra) {
       res.status(200).json(muestra);
     } else {
@@ -39,7 +42,8 @@ const getMuestrasByCassette = async (req, res) => {
 //Crear una muestra
 const createMuestra = async (req, res) => {
   try {
-    const muestra = await muestraController.createMuestra(req.body);
+    const body = req.body;
+    const muestra = await muestraService.createMuestra(body);
     res.status(201).json(muestra);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -48,10 +52,16 @@ const createMuestra = async (req, res) => {
 //Modificar una muestra existente
 const updateMuestra = async (req, res) => {
   try {
-    const updatedMuestra = await muestraController.updateMuestra(
-        req.params.id, 
-        req.body);
-    res.status(200).json(updatedMuestra);
+    const { id } = req.params;
+    const body = req.body;
+
+    const updatedMuestra = await muestraService.updateMuestra(id, body);
+        
+    if (updatedMuestra) {
+          res.status(200).json(updatedMuestra);
+        }else{
+          res.status(404).json({ message: "Muestra no encontrada" });
+        }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -60,8 +70,13 @@ const updateMuestra = async (req, res) => {
 //Eliminar una muestra
 const deleteMuestra = async (req, res) => {
   try {
-    await muestraController.deleteMuestra(req.params.id);
-    res.status(204).end();
+    const { id } = req.params;
+    const deletedMuestra = await muestraService.deleteMuestra(id);
+    if (deletedMuestra) {
+      res.status(204).json({ message: "Muestra eliminada" });
+    } else {  
+      res.status(404).json({ message: "Muestra no encontrada" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -69,8 +84,12 @@ const deleteMuestra = async (req, res) => {
 //Eliminar todas las muestras
 const deleteAllMuestras = async (req, res) => {
   try {
-    await muestraController.deleteAllMuestras();
-    res.status(204).end();
+    const deletedMuestras =await muestraService.deleteAllMuestras();
+    if(deletedMuestras){
+      res.status(204).json({ message: "Muestras eliminadas" });
+    }else{  
+      res.status(404).json({ message: "Muestras no encontradas" });
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

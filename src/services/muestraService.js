@@ -38,25 +38,25 @@ const createMuestra = async (muestraData) => {
 //Modificar una muestra
 const updateMuestra = async (id, muestraData) => {
   try {
-    const Muestras = await Muestras.findByPk(id);
-    if (!Muestras) {
+    const muestra = await Muestra.findByPk(id);
+    if (!muestra) {
       throw new Error("Muestra no encontrada");
     }
-    return await Muestras.update(muestraData);
+    return await muestra.update(muestraData);
   } catch (error) {
-    throw new Error("Error al borrar modificar el Muestras: " + error.message);
+    throw new Error("Error al modificar la muestra: " + error.message);
   }
 };
 //Eliminar una muestra
 const deleteMuestra = async (id) => {
   try {
-    const Muestras = await Muestras.findByPk(id);
-    if (!Muestras) {
+    const muestra = await Muestra.findByPk(id);
+    if (!muestra) {
       throw new Error("La muestra no existe");
     }
-    return await Muestras.destroy();
+    return await muestra.destroy();
   } catch (error) {
-    throw new Error("Error al borrar las muestras: " + error.message);
+    throw new Error("Error al borrar la muestra: " + error.message);
   }
 };
 //Eliminar todas las muestras

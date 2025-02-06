@@ -1,9 +1,9 @@
-const cassetteController = require("./../services/cassetteService");
+const cassetteService = require("./../services/cassetteService");
 
 // Obtener todos los cassettes
 const getAllCassettes = async (req, res) => {
   try {
-    const cassettes = await cassetteController.getAllCassettes();
+    const cassettes = await cassetteService.getAllCassettes();
     res.status(200).json(cassettes);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -13,7 +13,8 @@ const getAllCassettes = async (req, res) => {
 // Obtener un cassette por ID
 const getCassettesById = async (req, res) => {
   try {
-    const cassette = await cassetteController.getCassettesById(req.params.id);
+    const {id} = req.params;
+    const cassette = await cassetteService.getCassettesById(id);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -27,7 +28,8 @@ const getCassettesById = async (req, res) => {
 // Obtener un cassette por Usuario
 const getCassettesByUser = async (req, res) => {
     try {
-      const cassette = await cassetteController.getCassettesByUser(req.params.id);
+      const {id} = req.params;  
+      const cassette = await cassetteService.getCassettesByUser(id);
       if (cassette) {
         res.status(200).json(cassette);
       } else {
@@ -41,7 +43,8 @@ const getCassettesByUser = async (req, res) => {
 // Obtener un cassette por Organo
 const getCassettesByOrgano = async (req, res) => {
   try {
-    const cassette = await cassetteController.getCassettesByOrgano(req.params.id);
+    const {id} = req.params;
+    const cassette = await cassetteService.getCassettesByOrgano(id);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -55,7 +58,8 @@ const getCassettesByOrgano = async (req, res) => {
 // Obtener un cassette por Fecha
 const getCassettesByFecha = async (req, res) => {
   try {
-    const cassette = await cassetteController.getCassettesByFecha(req.params.id);
+    const body = req.body;
+    const cassette = await cassetteService.getCassettesByFecha(body);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -69,7 +73,9 @@ const getCassettesByFecha = async (req, res) => {
 // Obtener un cassette entre fechas
 const getCassettesBetweenFecha = async (req, res) => {
   try {
-    const cassette = await cassetteController.getCassettesBetweenFecha(req.params.id);
+    const body = req.body;
+
+    const cassette = await cassetteService.getCassettesBetweenFecha(body);
     if (cassette) {
       res.status(200).json(cassette);
     } else {
@@ -82,7 +88,8 @@ const getCassettesBetweenFecha = async (req, res) => {
 // Crear un cassette
 const createCassette = async (req, res) => {
   try {
-    const createdCassette = await cassetteController.createCassette(req.body);
+    const body = req.body;
+    const createdCassette = await cassetteService.createCassette(body);
     res.status(201).json(createdCassette);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -92,9 +99,10 @@ const createCassette = async (req, res) => {
 // Actualizar un cassette existente
 const updateCassette = async (req, res) => {
   try {
-    const updatedCassette = await cassetteController.updateCassette(
-      req.params.id,
-      req.body
+    const { id } = req.params;
+    const body = req.body;
+    const updatedCassette = await cassetteService.updateCassette(
+      id,body
     );
     if (updatedCassette) {
       res.status(200).json(updatedCassette);
@@ -109,11 +117,26 @@ const updateCassette = async (req, res) => {
 // Borrar un cassette
 const deleteCassette = async (req, res) => {
   try {
-    const cassette = await cassetteController.deleteCassette(req.params.id);
+    const { id } = req.params;
+    const cassette = await cassetteService.deleteCassette(id);
     if (cassette) {
       res.status(200).json({ message: "Cassette eliminado" });
     } else {
       res.status(404).json({ message: "Cassette no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//Eliminar todos los cassettes
+const deleteAllCassettes = async (req, res) => {
+  try {
+    const cassette = await cassetteService.deleteAllCassettes();
+    if (cassette) {
+      res.status(200).json({ message: "Cassettes eliminados" });
+    } else {
+      res.status(404).json({ message: "Cassettes no encontrados" });
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -130,4 +153,5 @@ module.exports = {
   createCassette,
   updateCassette,
   deleteCassette,
+  deleteAllCassettes
 };

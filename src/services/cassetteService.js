@@ -28,7 +28,7 @@ const getCassettesByUser = async (id_user) => {
     }
   };
 //Obtener un cassette por organo
-  const getCassetesByOrgano = async (id_organo) => {
+  const getCassettesByOrgano = async (id_organo) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -39,7 +39,7 @@ const getCassettesByUser = async (id_user) => {
     }
   };
 //Obtener un cassette por fecha
-  const getCassetesByFecha = async (startDate) => {
+  const getCassettesByFecha = async (startDate) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -52,7 +52,7 @@ const getCassettesByUser = async (id_user) => {
     }
   };
 //Obtener un cassette entre fechas
-  const getCassetesBetweenFecha = async (startDate, endDate) => {
+  const getCassettesBetweenFecha = async (startDate, endDate) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -98,14 +98,24 @@ const deleteCassette = async (id) => {
   }
 };
 
+//Elimininar todos los cassettes
+const deleteAllCassettes = async () => {
+  try {
+    return await Cassette.destroy({where:{}});
+  } catch (error) {
+    throw new Error("Error al borrar todos los cassettes: " + error.message);
+  }
+};
+
 module.exports = {
   getAllCassettes,
   getCassettesById,
   getCassettesByUser,
-  getCassetesByOrgano,
-  getCassetesByFecha,
-  getCassetesBetweenFecha,
+  getCassettesByOrgano,
+  getCassettesByFecha,
+  getCassettesBetweenFecha,
   createCassette,
   updateCassette,
   deleteCassette,
+  deleteAllCassettes,
 };
