@@ -29,7 +29,7 @@ Usuario.init({
             }
         }
     },
-    apelidos_usu: {
+    apellidos_usu: {
         type: DataTypes.STRING(60),
         allowNull: false,
         validate: {

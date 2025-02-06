@@ -16,6 +16,18 @@ const getUserById = async (id) => {
   }
 };
 
+const getUserByEmail = async (email) => {
+  try {
+    return await Usuario.findAll({
+      where: {
+        email: email,
+      },
+    });
+  } catch (error) {
+    throw new Error("Error al pedir un usuario por correo: " + error.message);
+  }
+};
+
 const createUser = async (userData) => {
   try {
     return await Usuario.create(userData);
@@ -68,6 +80,7 @@ const deleteAllUsers = async () => {
 module.exports = {
   getAllUsers,
   getUserById,
+  getUserByEmail,
   createUser,
   updateUser,
   deleteUser,

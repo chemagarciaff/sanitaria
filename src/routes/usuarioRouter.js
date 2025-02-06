@@ -8,6 +8,9 @@ usuarioRouter.get("/", usuarioController.getAllUsers);
 usuarioRouter.get("/:id", usuarioController.getUserById);
 
 
+usuarioRouter.get("/:email", usuarioController.getUserByEmail);
+
+
 usuarioRouter.post("/", usuarioController.createUser);
 
 

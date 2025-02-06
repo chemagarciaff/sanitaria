@@ -25,6 +25,21 @@ const getUserById = async (req, res) => {
   }
 };
 
+// Obtener un cliente por ID
+const getUserByEmail = async (req, res) => {
+  try {
+    const { email } = req.params;
+    const user = await usuarioService.getUserByEmail(email);
+    if (user) {
+      res.status(200).json(user);
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Crear un nuevo cliente
 const createUser = async (req, res) => {
   try {
@@ -90,6 +105,7 @@ const deleteAllUsers = async (req, res) => {
 module.exports = {
   getAllUsers,
   getUserById,
+  getUserByEmail,
   createUser,
   updateUser,
   deleteUser,
