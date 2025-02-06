@@ -17,7 +17,7 @@ const getCassettesById = async (id) => {
   }
 };
 
-const getCassetesByUser = async (id_user) => {
+const getCassettesByUser = async (id_user) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -28,7 +28,7 @@ const getCassetesByUser = async (id_user) => {
     }
   };
 
-  const getCassetesByOrgano = async (id_organo) => {
+  const getCassettesByOrgano = async (id_organo) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -39,7 +39,7 @@ const getCassetesByUser = async (id_user) => {
     }
   };
 
-  const getCassetesByFecha = async (startDate) => {
+  const getCassettesByFecha = async (startDate) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -52,7 +52,7 @@ const getCassetesByUser = async (id_user) => {
     }
   };
 
-  const getCassetesBetweenFecha = async (startDate, endDate) => {
+  const getCassettesBetweenFecha = async (startDate, endDate) => {
     try {
       return await Cassette.findAll({
         where:{
@@ -101,10 +101,10 @@ const deleteCassette = async (id) => {
 module.exports = {
   getAllCassettes,
   getCassettesById,
-  getCassetesByUser,
-  getCassetesByOrgano,
-  getCassetesByFecha,
-  getCassetesBetweenFecha,
+  getCassettesByUser,
+  getCassettesByOrgano,
+  getCassettesByFecha,
+  getCassettesBetweenFecha,
   createCassette,
   updateCassette,
   deleteCassette,
