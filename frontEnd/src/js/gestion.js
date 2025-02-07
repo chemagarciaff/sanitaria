@@ -51,6 +51,16 @@ const eliminarCassetteBtn = document.getElementById("btnEliminarCassette");
 const modalEliminar = document.getElementById("modalEliminarCassette");
 const modalEditar = document.getElementById("modalEditarCassette");
 
+// Modal de añadir muestra
+const modalMuestra = document.getElementById("modalMuestra");
+const modalMuestraContent = document.getElementById("modalMuestraContent");
+
+// Modal de muestras
+const openModalMuestraBtn = document.getElementById("openModalMuestraBtn");
+const closeModalMuestraBtn = document.getElementById("closeModalMuestra");
+const muestraForm = document.getElementById("muestraForm");
+const errorMuestra = document.getElementById("errorMuestra");
+
 
 let ordenAscendente = true;
 let cassetteSeleccionado = null;
@@ -212,7 +222,6 @@ const mostrarDetallesCassette = (fila) => {
     detalleOrgano.textContent = fila.cells[2].textContent;
     detalleCaracteristicas.innerText = fila.getAttribute("data-caracteristicas") || "Información no disponible";
     detalleObservaciones.innerText = fila.getAttribute("data-observaciones") || "Sin observaciones";
-    
 
     // Resaltar la fila seleccionada
     document.querySelectorAll("#cassetteTableBody tr").forEach(row => row.classList.remove("bg-teal-100"));
@@ -305,6 +314,53 @@ const guardarEdicionCassette = (event) => {
 };
 
 
+/* ###############################################
+   ###   Funciones del Modal Añadir Muestras   ###
+   #############################################*/
+
+// Función para abrir el modal de muestras
+const abrirModalMuestra = () => {
+    modalOverlay.classList.remove("hidden");
+    modalMuestra.classList.remove("hidden");
+    setTimeout(() => {
+        modalMuestraContent.classList.remove("scale-95");
+    }, 10);
+};
+
+// Función para cerrar el modal de muestras
+const cerrarModalMuestra = () => {
+    modalMuestraContent.classList.add("scale-95");
+    setTimeout(() => {
+        modalOverlay.classList.add("hidden");
+        modalMuestra.classList.add("hidden");
+        errorMuestra.textContent = "";
+    }, 300);
+};
+
+// Función para validar y enviar el formulario de la muestra
+const enviarFormularioMuestra = (event) => {
+    event.preventDefault();
+
+    const descripcion = document.getElementById("descripcionMuestra").value.trim();
+    const fecha = document.getElementById("fechaMuestra").value.trim();
+    const tincion = document.getElementById("tincionMuestra").value.trim();
+    const imagen = document.getElementById("imagenMuestra").files[0];
+
+    if (!descripcion || !fecha || !tincion) {
+        errorMuestra.textContent = "Rellena los campos obligatorios";
+        return;
+    }
+
+    // Procesar la imagen si se ha seleccionado
+    if (imagen) {
+        console.log("Imagen seleccionada:", imagen.name);
+    }
+
+    cerrarModalMuestra();
+    muestraForm.reset();
+};
+
+
 /* ###########################
    ###   Event Listeners   ###
    #########################*/
@@ -339,3 +395,8 @@ document.getElementById("cancelarEliminar").addEventListener("click", cerrarModa
 document.getElementById("cerrarEliminarModal").addEventListener("click", cerrarModalEliminar);
 document.getElementById("cerrarEditarModal").addEventListener("click", cerrarModalEditar);
 document.getElementById("formEditarCassette").addEventListener("submit", guardarEdicionCassette);
+
+// Event Listeners modal muestras
+openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
+closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
+muestraForm.addEventListener("submit", enviarFormularioMuestra);
