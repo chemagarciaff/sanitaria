@@ -72,4 +72,3 @@ btnShowPassReg2.addEventListener('click', () => {
     changeIconEye(btnShowPassReg2);
 });
 btn_login.addEventListener('click', loginUser);
-btn_register.addEventListener('click',createUser)

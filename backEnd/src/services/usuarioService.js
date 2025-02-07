@@ -32,7 +32,7 @@ const createUser = async (userData) => {
   try {
     return await Usuario.create(userData);
   } catch (error) {
-    throw new Error("Error al crear el cliente: " + error.message);
+    throw new Error("Error al crear el usuario: " + error.message);
   }
 };
 
