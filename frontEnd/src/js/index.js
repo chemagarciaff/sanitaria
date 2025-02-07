@@ -8,7 +8,7 @@ let btn_recuperar = document.getElementById('btn_recuperar')
 let btnShowPass = document.getElementById('login_show-pass')
 let btnShowPassReg = document.getElementById('register_show-pass')
 let btnShowPassReg2 = document.getElementById('register_show-pass2');
-const importToke = require('jsonwebtoken');
+// const importToke = require('jsonwebtoken');
 //FUNCIONES
 
 //Cambiar de modal
