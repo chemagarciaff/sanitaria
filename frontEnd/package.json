@@ -1,0 +1,36 @@
+{
+
+  "scripts": {
+
+    "dev": "npx tailwindcss -i ./src/input.css -o ./src/output.css --watch"
+
+  },
+
+  "dependencies": {
+
+    "@tailwindcss/cli": "^4.0.3",
+
+    "jsonwebtoken": "^9.0.2",
+
+    "tailwindcss": "^4.0.3"
+
+  },
+
+  "devDependencies": {
+
+    "prettier": "^3.4.2",
+
+    "prettier-plugin-tailwindcss": "^0.6.11",
+
+    "standard": "^17.1.2"
+
+  },
+
+  "eslintConfig": {
+
+    "extends": "standard"
+
+  }
+
+}
+

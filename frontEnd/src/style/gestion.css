@@ -1,0 +1,21 @@
+/*
+    Estilos de gestion.html concretos sin TailwindCSS
+
+*/
+
+/* Iconos */
+.icono {
+    transition: transform 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+.icono:hover {
+    transform: scale(1.1);
+}
+.icono:active {
+    transform: scale(1);
+}
+
+/* Dejar espacio en Detalles Cassettes para los datos a añadir*/
+.detalle-texto {
+    min-height: 25px;
+    display: block;
+}

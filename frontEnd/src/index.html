@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Sanitaria</title>
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="./style/index.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+</head>
+<body>
+    <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">
+        <!-- MODAL LOGIN -->
+        <div id="login" class="w-[500px] h-[450px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center">
+            <h1 class="mt-12 text-2xl">Inicia Sesion</h1>
+            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
+                <!-- DATOS A RELLENAR -->
+                <!-- MAIL -->
+                <input type="email" class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                id="login_correo"
+                required    
+                placeholder="Correo">
+                <p id="error_log-mail" class="hidden error"></p>
+                <!-- PASSWORD -->
+                <div class="flex items-center">
+                    <input type="password"
+                    id="login_password"
+                        class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$"
+                        required
+                        placeholder="Contraseña">
+                    <!-- ICON EYE -->
+                    <button id="login_show-pass"><span class="mdi mdi-eye-outline"></span></button>
+                </div>
+                <p id="error_log-pass" class="hidden error"></p>
+                <!-- INFORMACION -->
+                <span class="text-[0.65rem] mt-[-10px]">8-16 caracteres, mayusculas, minusculas, numeros y simbolos.</span>
+                <!-- BUTTON LOGIN -->
+                <button id="btn_login" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Login</button>
+                <!-- LINK CONTRASEÑA OLVIDADA -->
+                <p class="text-sm">¿Olvidaste la <a href="#" class="font-medium text-teal-200">contraseña</a>?</p>
+                <!-- USUARIO REGISTRADO -->
+                <p class="text-sm mt-[-5px]">¿No tienes cuenta? <a href="#" class="font-medium text-teal-200">Registrate</a></p>
+            </form>
+        </div>
+        <!-- MODAL REGISTRO -->
+        <div id="registro" class="w-[500px] h-[700px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center hidden">
+            <h1 class="mt-12 text-2xl">Registrate</h1>
+            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
+                <!-- DATOS A RELLENAR -->
+                <!-- NAME -->
+                <input type="text" id="register_nomb"
+                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                    min="3"
+                    required
+                    placeholder="Nombre">
+                <p id="error_reg-nomb" class="hidden error"></p>
+                <!-- APELLIDOS -->
+                <input type="text" id="register_ape"
+                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                    pattern="^[A-Z][a-zA-Z]{4,}$"
+                    required
+                    placeholder="Apellidos">
+                <p id="error_reg-ape" class="hidden error"></p>
+                <!-- CENTRO -->
+                <select name="" id=""
+                class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                required    
+                placeholder="Centro">
+                    <option value="" disabled selected>Centro</option>
+                </select>
+                <!-- MAIL -->
+                <input type="email"
+                    id="register_correo"
+                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                    required
+                    placeholder="Correo">
+                <p id="error_reg-mail" class="hidden error"></p>
+                <!-- PASSWORD 1 -->
+                <div class="flex items-center">
+                    <input type="password" id="register_password"
+                        class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$"
+                        required
+                        placeholder="Contraseña">
+                    <!-- OJO ABIERTO -->
+                    <button id="register_show-pass"><span class="mdi mdi-eye-outline"></span></button>
+                </div>
+                <p id="error_reg-pass" class="hidden error"></p>
+                <span class="text-[0.65rem] mt-[-10px]">8-16 caracteres, mayusculas, minusculas, numeros y simbolos.</span>
+                <!-- PASSWORD 2 -->
+                <div class="flex items-center">
+                    <input type="password" id="register_password2"
+                        class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                        required
+                        placeholder="Contraseña">
+                    <!-- OJO ABIERTO -->
+                    <button id="register_show-pass2"><span class="mdi mdi-eye-outline"></span></button>
+                </div>
+                <p id="error_reg-pass2" class="hidden error"></p>
+                <!-- INFORMACION -->
+                <span class="text-[0.65rem] mt-[-10px]">8-16 caracteres, mayusculas, minusculas, numeros y simbolos.</span>
+                <!-- BUTTON LOGIN -->
+                <button id="btn_registro" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Registrate</button>
+                <!-- USUARIO REGISTRADO -->
+                <p class="text-sm mt-[-5px] mb-6">¿Tienes cuenta? <a href="#" class="font-medium text-teal-200">Login</a></p>
+            </form>
+        </div>
+        <!-- MODAL RECUPERAR CONTRASEÑA -->
+        <!-- MODAL LOGIN -->
+        <div id="recuperar" class="w-[500px] h-[300px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center hidden">
+            <h1 class="mt-12 text-2xl">Recupera tu contraseña</h1>
+            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
+                <!-- DATOS A RELLENAR -->
+                <input type="email" id="recu_correo"
+                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                    required
+                    placeholder="Correo">
+                <p id="error_recu-mail" class="hidden error"></p>
+                <!-- BUTTON LOGIN -->
+                <button id="btn_recuperar" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Enviar</button>
+                <!-- LINK CONTRASEÑA OLVIDADA -->
+                <p class="text-sm">Volver a <a href="#" class="font-medium text-teal-200">Login</a></p>
+            </form>
+        </div>
+    </div>
+    <script src="./js/index.js"></script>
+    <script src="./js/validacion.js"></script>
+</body>
+</html>

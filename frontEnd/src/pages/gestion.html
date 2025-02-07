@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>App Sanitaria - Gestión</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/style/gestion.css">
+</head>
+
+<body class="bg-teal-50 p-4">
+    <div id="container" class="max-w-screen-xl mx-auto bg-white shadow-lg rounded-lg p-4 h-auto">
+
+        <!-- Header -->
+        <header class="flex flex-wrap justify-between items-center gap-2 mb-6">
+            <!-- Select de Organos -->
+             <!-- ! Habrá que añadir organos o listarlos de la bd -->
+            <select id="filtrarOrgano" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
+                <option value="">Seleccionar un Órgano</option>
+                <option value="Bazo">Bazo</option>
+                <option value="Hígado">Hígado</option>
+            </select>
+            <!-- Input de Escaner QR (no funcional)-->
+             <!--! Input de escaner qr no funcional, se le podría poner opacity-0 -->      
+            <input type="text" placeholder="Escanear QR" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
+            <!-- Input para seleccionar fecha única o rango -->
+            <input type="date" id="fechaInicio" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
+            <input type="date" id="fechaFin" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
+
+        </header>
+
+        <!-- Main -->
+        <div class="grid md:grid-cols-3 gap-4">
+            <!-- Cassettes -->
+            <div class="md:col-span-2 p-4 rounded-lg shadow-lg border border-gray-200">
+                <!-- Cassettes header-->
+                <div class="flex justify-between">
+                    <h2 class="text-xl font-semibold text-teal-700">Cassettes</h2>
+                    <div class="flex">
+                        <!-- Ícono de agregar archivo -->
+                        <div id="openModalBtn" class="relative w-8 h-8 text-teal-600 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path>
+                            </svg>
+                            <div class="absolute bottom-0 right-0 bg-white border-2 border-teal-600 rounded-full p-0.5">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-teal-600" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <!--! Botón de duplica no funcional -->
+                        <!-- Ícono de duplicar -->
+                        <div class="w-8 h-8 text-teal-600 icono hover:text-teal-400 active:text-teal-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                                <rect x="6" y="6" width="12" height="12" rx="2"></rect>
+                                <rect x="9" y="9" width="12" height="12" rx="2" opacity="0.5"></rect>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cassettes main -->
+                <div class="overflow-y-auto h-64 mt-2">
+                    <table class="w-full border border-teal-300">
+                        <thead>
+                            <tr class="bg-teal-200">
+                                <th id="ordenarFecha" class="p-2 border-b hover:bg-teal-300 text-start cursor-pointer">
+                                    Fecha
+                                </th>
+                                <th id="ordenarDescripcion" class="p-2 border-b hover:bg-teal-300 text-start cursor-pointer">
+                                    Descripción
+                                </th>
+                                <th id="ordenarOrgano" class="p-2 border-b hover:bg-teal-300 text-start cursor-pointer">
+                                    Órgano
+                                </th>
+                                <th class="p-2 border-b"></th>
+                            </tr>
+                        </thead>
+                        <tbody id="cassetteTableBody">
+                            <!-- Filas generadas dinámicamente -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Detalles Cassette -->
+            <div class="p-4 rounded-lg shadow-lg border border-gray-200">
+                <!-- Detalles Cassette header-->
+                <div class="flex justify-between items-center">
+                    <h2 class="text-xl font-semibold text-teal-700">Detalle Cassette</h2>
+                    <div class="flex space-x-2">
+                        <!-- Ícono de eliminar -->
+                        <div id="btnEliminarCassette" class="w-8 h-8 text-teal-600 hover:text-teal-400 icono active:text-teal-700 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 7H18M9 7V5H15V7M10 11V17M14 11V17M4 7H20L19 20H5L4 7Z"></path>
+                            </svg>
+                        </div>
+                        <!-- Ícono de editar-->
+                        <div id="btnEditarCassette" class="w-8 h-8 text-teal-600 hover:text-teal-400 icono active:text-teal-700 cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M4 20H8L18 10L14 6L4 16V20Z"></path>
+                                <path d="M14 6L16 4L20 8L18 10L14 6Z"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido del Detalle Cassette -->
+                <div class="bg-white p-6 rounded-lg shadow-sm space-y-4 text-gray-700">
+                    
+                    <div class="border-b border-gray-300 pb-3">
+                        <p class="font-bold uppercase text-sm">Descripción:</p>
+                        <p id="descripcion" class="text-gray-600 break-words detalle-texto"></p>
+                    </div>
+
+                    <!-- Contenedor de Órgano y Fecha con flex -->
+                    <div class="border-b border-gray-300 pb-3 flex justify-between items-center flex-wrap">
+                        <div class="flex-1 min-w-0">
+                            <p class="font-bold uppercase text-sm">Órgano:</p>
+                            <p id="organo" class="text-gray-600 truncate detalle-texto"></p>
+                        </div>
+                        <div class="flex-1 min-w-0 text-right">
+                            <p class="font-bold uppercase text-sm">Fecha:</p>
+                            <p id="fecha" class="text-gray-600 truncate detalle-texto"></p>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-300 pb-3">
+                        <p class="font-bold uppercase text-sm">Características:</p>
+                        <p id="caracteristicas" class="text-gray-600 break-words detalle-texto"></p>
+                    </div>
+
+                    <div>
+                        <p class="font-bold uppercase text-sm">Observaciones:</p>
+                        <p id="observaciones" class="text-gray-600 break-words detalle-texto"></p>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Muestras -->
+        <div class="p-4 rounded-lg mt-4 shadow-lg border border-gray-200">
+            <!-- Muestras header-->
+            <div class="flex flex-wrap justify-between">
+                <h2 class="text-xl font-semibold text-teal-700">Muestras</h2>
+                    
+                <!-- Ícono de agregar archivo -->
+                <div class="relative w-8 h-8 text-teal-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-teal-600 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path>
+                    </svg>
+                    <div class="absolute bottom-0 right-0 bg-white border-2 border-teal-600 rounded-full p-0.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 text-teal-600" viewBox="0 0 24 24" fill="currentColor">                                    <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Muestras body -->
+            <div class="overflow-x-auto mt-2 h-auto">
+                <table class="w-full border border-teal-300">
+                    <thead>
+                        <tr class="bg-teal-200">
+                            <th class="p-2 border-b hover:bg-teal-300">Fecha</th>
+                            <th class="p-2 border-b hover:bg-teal-300">Descripción</th>
+                            <th class="p-2 border-b hover:bg-teal-300">Tinción</th>
+                            <th class="p-2 border-b"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!--? Filas provisionales, cambiar a js-->
+                        <tr class="border-b text-center">
+                            <td class="p-2">15-02-2025</td>
+                            <td class="p-2">Muestra1 Biopsia</td>
+                            <td class="p-2">Giemsa</td>
+                            <td class="p-2">
+                                <!-- Ícono de agregar archivo -->
+                                <div class="relative w-8 h-8 text-teal-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path>
+                                    </svg>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+
+
+        <!-- Modal Formulario de añadir Cassettes -->
+        <!-- Fondo grisacio -->
+        <div id="modal-overlay" class="fixed inset-0 bg-gray-900 bg-opacity-50 hidden"></div>
+        <!-- Modal de añadir cassette -->
+        <div id="modal" class="fixed inset-0 flex items-center justify-center hidden">
+            <div id="modal-content" class="bg-white p-6 rounded-lg shadow-lg w-[500px] max-w-full transform scale-95 opacity-0 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-teal-700">Nuevo Cassette</h2>
+                    <button id="closeModalBtn" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <form id="cassetteForm">
+                    <input type="text" id="descripcionInput" placeholder="Descripción Corta *" class="w-full p-2 border rounded-md mb-4">
+                    <div class="flex gap-4 mb-3">
+                        <input type="date" id="fechaInput" class="w-1/2 p-2 border rounded-md">
+                        <select id="organoInput" class="w-1/2 p-2 border rounded-md">
+                            <option value="" disabled selected>Seleccionar Órgano *</option>
+                            <option>Bazo</option>
+                            <option>Hígado</option>
+                        </select>
+                    </div>
+                    <textarea id="caracteristicasInput" placeholder="Características" class="w-full p-2 border rounded-md"></textarea>
+                    <textarea id="observacionesInput" placeholder="Observaciones" class="w-full p-2 border rounded-md"></textarea>
+                    
+                    <!-- Mensaje de error -->
+                    <p id="error-message" class="text-red-500 text-sm mt-2"></p>
+                    
+                    <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-md hover:bg-teal-700 mt-4">Crear Cassette</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de eliminar cassette -->
+        <div id="modalEliminarCassette" class="fixed inset-0 flex items-center justify-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-[400px] max-w-full transform scale-95 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-red-600">Eliminar Cassette</h2>
+                    <button id="cerrarEliminarModal" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <p class="text-gray-700 mb-4 text-center">
+                    ¿Desea eliminar el Cassette? <br>
+                    <span class="text-sm text-gray-500">Esta acción no se puede deshacer.</span>
+                </p>
+                <div class="flex justify-between">
+                    <button id="cancelarEliminar" class="w-1/2 bg-gray-400 text-white p-2 rounded-md hover:bg-gray-500">Cancelar</button>
+                    <button id="confirmarEliminar" class="w-1/2 bg-red-500 text-white p-2 rounded-md hover:bg-red-700">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de modificar cassette -->
+        <div id="modalEditarCassette" class="fixed inset-0 flex items-center justify-center hidden">
+            <div id="modalEditarContent" class="bg-white p-6 rounded-lg shadow-lg w-[500px] max-w-full transform scale-95 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 id="tituloEditarModal" class="text-xl font-semibold text-teal-700">Modificar Cassette</h2>
+                    <button id="cerrarEditarModal" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <form id="formEditarCassette">
+                    <input type="text" id="editarDescripcion" placeholder="Descripción Corta *" class="w-full p-2 border rounded-md mb-4">
+                    <div class="flex gap-4 mb-3">
+                        <input type="date" id="editarFecha" class="w-1/2 p-2 border rounded-md">
+                        <select id="editarOrgano" class="w-1/2 p-2 border rounded-md">
+                            <option value="Bazo">Bazo</option>
+                            <option value="Hígado">Hígado</option>
+                        </select>
+                    </div>
+                    <textarea id="editarCaracteristicas" placeholder="Características" class="w-full p-2 border rounded-md"></textarea>
+                    <textarea id="editarObservaciones" placeholder="Observaciones" class="w-full p-2 border rounded-md"></textarea>
+                    
+                    <p id="errorEditar" class="text-red-500 text-sm mt-2"></p>
+                    
+                    <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-md hover:bg-teal-700 mt-4">Guardar Cambios</button>
+                </form>
+            </div>
+        </div>
+
+        
+    </div>
+    <script src="../js/gestion.js"></script>
+</body>
+
+</html>
