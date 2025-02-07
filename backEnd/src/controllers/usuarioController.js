@@ -69,15 +69,13 @@ const logUser = async (req, res) => {
 
     const user = await usuarioService.getUserByEmail(email_usu);
 
-    console.log("Usuario encontrado:", user);
-
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
 
     if (contraseñaCorrecta) {
 
-      return res.json({ message: 'Loggin correcto' });
+      return res.status(200).json({ message: 'Loggin correcto' });
 
     } else {
 
