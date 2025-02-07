@@ -69,24 +69,24 @@ const logUser = async (req, res) => {
 
     const user = await usuarioService.getUserByEmail(email_usu);
 
-    console.log("Usuario encontrado:", user[0]);
+    console.log("Usuario encontrado:", user);
 
-    if(!user[0]) return res.status(404).json({ message: "Usuario no encontrado"});
+    if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
-    const contraseñaCorrecta = await argon2.verify(user[0].dataValues.password_usu, password_usu);
+    const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
 
     if (contraseñaCorrecta) {
 
-      res.json({ message: 'Loggin correcto' });
+      return res.json({ message: 'Loggin correcto' });
 
     } else {
 
-      res.status(401).json({ message: 'Contraseña incorrecta' });
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
 
     }
   } catch (error) {
 
-    res.status(500).json({ message: 'Error al iniciar sesión', error: error.message});
+    return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message});
 
   }
 };
@@ -117,7 +117,7 @@ const deleteUser = async (req, res) => {
     const deletedUser = await usuarioService.deleteUser(id);
     
     if (deletedUser) {
-      res.status(204).json({ message: "Usuario eliminado" });
+      res.status(200).json({ message: "Usuario eliminado" });
     } else {
       res.status(404).json({ message: "Usuario no encontrado" });
     }
@@ -130,7 +130,7 @@ const deleteUser = async (req, res) => {
 const deleteAllUsers = async (req, res) => {
   try {
 
-    const deletedUsers = await usuarioService.deleteAllUser();
+    const deletedUsers = await usuarioService.deleteAllUsers();
 
     if (deletedUsers) {
       res.status(204).json({ message: "Usuarios eliminados" });

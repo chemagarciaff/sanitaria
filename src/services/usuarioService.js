@@ -18,7 +18,7 @@ const getUserById = async (id) => {
 
 const getUserByEmail = async (email) => {
   try {
-    return await Usuario.findAll({
+    return await Usuario.findOne({
       where: {
         email_usu: email,
       },
@@ -62,7 +62,7 @@ const deleteUser = async (id) => {
     if (!usuario) {
       throw new Error("El usuario no existe");
     }
-    return await cliente.destroy();
+    return await usuario.destroy();
   } catch (error) {
     throw new Error("Error al borrar el usuario: " + error.message);
   }

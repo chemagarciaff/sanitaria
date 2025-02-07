@@ -64,14 +64,14 @@ Usuario.init({
         }
     },
     password_usu: {
-        type: DataTypes.STRING(100),
+        type: DataTypes.STRING(200),
         allowNull: false,
         validate: {
             notNull: {
                 msg: "La contraseña del usuario no puede ser nullo"
             },
             len: {
-                args: [1, 100],
+                args: [1, 200],
                 msg: "La contraseña del usuario debe tener entre 1 y 100 caracteres"
             },
         }

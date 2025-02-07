@@ -73,7 +73,7 @@ const deleteMuestra = async (req, res) => {
     const { id } = req.params;
     const deletedMuestra = await muestraService.deleteMuestra(id);
     if (deletedMuestra) {
-      res.status(204).json({ message: "Muestra eliminada" });
+      res.status(200).json({ message: "Muestra eliminada" });
     } else {  
       res.status(404).json({ message: "Muestra no encontrada" });
     }
