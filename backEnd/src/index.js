@@ -1,4 +1,5 @@
 const bodyParser = require("body-parser");
+const cookieParser = require('cookie-parser')
 const express = require("express");
 const app = express();
 
@@ -9,6 +10,7 @@ require("./database/associations.js")
 // Conversión a json datos que nos envían para post, put, patch...
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 const apiroutes = require("./routes/apiRouter.js");
 app.use("/sanitaria", apiroutes);
