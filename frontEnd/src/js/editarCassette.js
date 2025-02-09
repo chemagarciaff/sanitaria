@@ -1,12 +1,12 @@
-const modalEditar = document.getElementById("modalEditarCassette");
-const editarCassetteBtn = document.getElementById("btnEditarCassette");
-const cerrarEditarModalBtn = document.getElementById("cerrarEditarModal");
-const formEditarCassette = document.getElementById("formEditarCassette");
+/*
+    Funcionalidad para editar cassettes
+*/
 
-// Función para abrir el modal de editar
+// Función para abrir el modal de edición con los datos actuales
 const abrirModalEditar = () => {
     if (!cassetteSeleccionado || !modalEditar) return;
 
+    // Rellenar los campos del modal con los datos del cassette seleccionado
     document.getElementById("editarDescripcion").value = cassetteSeleccionado.cells[1].textContent;
     document.getElementById("editarFecha").value = cassetteSeleccionado.cells[0].textContent;
     document.getElementById("editarOrgano").value = cassetteSeleccionado.cells[2].textContent;
@@ -17,7 +17,7 @@ const abrirModalEditar = () => {
     modalOverlay.classList.remove("hidden");
 };
 
-// Función para cerrar el modal de editar
+// Función para cerrar el modal de edición
 const cerrarModalEditar = () => {
     modalEditar.classList.add("hidden");
     modalOverlay.classList.add("hidden");
@@ -28,17 +28,19 @@ const guardarEdicionCassette = (event) => {
     event.preventDefault();
     if (!cassetteSeleccionado) return;
 
+    // Actualiza los nuevos valores en la fila
     cassetteSeleccionado.cells[1].textContent = document.getElementById("editarDescripcion").value;
     cassetteSeleccionado.cells[0].textContent = document.getElementById("editarFecha").value;
     cassetteSeleccionado.cells[2].textContent = document.getElementById("editarOrgano").value;
     cassetteSeleccionado.setAttribute("data-caracteristicas", document.getElementById("editarCaracteristicas").value);
     cassetteSeleccionado.setAttribute("data-observaciones", document.getElementById("editarObservaciones").value);
 
+    // Actualizar la sección de detalles
     mostrarDetallesCassette(cassetteSeleccionado);
+
     cerrarModalEditar();
 };
 
-// Event Listeners
-editarCassetteBtn.addEventListener("click", abrirModalEditar);
-cerrarEditarModalBtn.addEventListener("click", cerrarModalEditar);
-formEditarCassette.addEventListener("submit", guardarEdicionCassette);
+// Asignar eventos a los botones del modal de edición
+document.getElementById("cerrarEditarModal").addEventListener("click", cerrarModalEditar);
+document.getElementById("formEditarCassette").addEventListener("submit", guardarEdicionCassette);

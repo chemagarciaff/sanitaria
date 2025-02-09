@@ -1,20 +1,8 @@
-// Elementos del DOM
-const modal = document.getElementById("modal");
-const modalContent = document.getElementById("modal-content");
-const openModalBtn = document.getElementById("openModalBtn");
-const closeModalBtn = document.getElementById("closeModalBtn");
-const modalOverlay = document.getElementById("modal-overlay");
+/*
+    Funciones del Modal Añadir Cassettes
+*/
 
-const descripcionInput = document.getElementById("descripcionInput");
-const fechaInput = document.getElementById("fechaInput");
-const organoInput = document.getElementById("organoInput");
-const caracteristicasInput = document.getElementById("caracteristicasInput");
-const observacionesInput = document.getElementById("observacionesInput");
-const cassetteForm = document.getElementById("cassetteForm");
-const cassetteTableBody = document.getElementById("cassetteTableBody");
-const errorMessage = document.getElementById("error-message");
-
-// Función para abrir el modal
+// Función para abrir el modal de añadir cassettes
 const abrirModal = () => {
     modalOverlay.classList.remove("hidden");
     modal.classList.remove("hidden");
@@ -33,6 +21,15 @@ const cerrarModal = () => {
     }, 300);
 };
 
+// Event listeners
+openModalBtn.addEventListener("click", abrirModal);
+closeModalBtn.addEventListener("click", cerrarModal);
+
+/*
+    Funciones para añadir cassettes
+*/
+
+// Función para validar y enviar el formulario de añadir cassettes
 const enviarFormulario = (event) => {
     event.preventDefault();
 
@@ -73,8 +70,5 @@ const enviarFormulario = (event) => {
     agregarEventosDetalle();
 };
 
-
-// Event Listeners
-openModalBtn.addEventListener("click", abrirModal);
-closeModalBtn.addEventListener("click", cerrarModal);
+// Event listener para envío del formulario de cassettes
 cassetteForm.addEventListener("submit", enviarFormulario);
