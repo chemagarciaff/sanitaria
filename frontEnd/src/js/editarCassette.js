@@ -44,3 +44,19 @@ const guardarEdicionCassette = (event) => {
 // Asignar eventos a los botones del modal de edición
 document.getElementById("cerrarEditarModal").addEventListener("click", cerrarModalEditar);
 document.getElementById("formEditarCassette").addEventListener("submit", guardarEdicionCassette);
+
+/* ###############################################
+   ###   Restricción de fecha en edición     ###
+   #############################################*/
+
+// Seleccionar el input de fecha en el formulario de edición
+const fechaInputEditar = document.getElementById("editarFecha");
+
+// Función para establecer la fecha mínima como la actual
+const restringirFechaMinimaEdicion = () => {
+    const hoy = new Date().toISOString().split("T")[0];
+    fechaInputEditar.setAttribute("min", hoy);
+};
+
+// Aplicar la restricción al cargar el modal de edición
+document.addEventListener("DOMContentLoaded", restringirFechaMinimaEdicion);

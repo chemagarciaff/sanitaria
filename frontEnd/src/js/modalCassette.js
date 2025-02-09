@@ -21,8 +21,11 @@ const cerrarModal = () => {
     }, 300);
 };
 
-// Event listeners
-openModalBtn.addEventListener("click", abrirModal);
+// Event listeners para abrir y cerrar el modal
+openModalBtn.addEventListener("click", () => {
+    restringirFechaMinima(); // Aplicar restricción de fecha al abrir el modal
+    abrirModal();
+});
 closeModalBtn.addEventListener("click", cerrarModal);
 
 /*
@@ -72,3 +75,19 @@ const enviarFormulario = (event) => {
 
 // Event listener para envío del formulario de cassettes
 cassetteForm.addEventListener("submit", enviarFormulario);
+
+/* ###############################################
+   ###   Restricción de fecha en formulario   ###
+   #############################################*/
+
+// Función para establecer la fecha mínima como la actual
+const restringirFechaMinima = () => {
+    const fechaInputCrear = document.getElementById("fechaInput"); // Obtener elemento dentro de la función
+    if (fechaInputCrear) {
+        const hoy = new Date().toISOString().split("T")[0];
+        fechaInputCrear.setAttribute("min", hoy);
+    }
+};
+
+// Aplicar la restricción cuando se cargue la página
+document.addEventListener("DOMContentLoaded", restringirFechaMinima);
