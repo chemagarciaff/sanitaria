@@ -1,10 +1,11 @@
 /*
     Funciones del Filtro y Ordenación de Cassettes
+    Filtrar por organos, fechas y ordenar los cassettes
 */
 
-/* ################################
+/* #################################
    ###   Función de Ordenación   ###
-   ##############################*/
+   ###############################*/
 
    const ordenarTabla = (columna) => {
     let filas = Array.from(cassetteTableBody.children);

@@ -1,5 +1,6 @@
 /*
     Funcionalidad para eliminar cassettes
+    Abrir y cerrar modal, eliminar el cassette seleccionado
 */
 
 // Función para abrir el modal de confirmación de eliminación

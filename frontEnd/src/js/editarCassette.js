@@ -1,5 +1,6 @@
 /*
     Funcionalidad para editar cassettes
+    Abrir modal con la info del cassette seleccionado, cerrar modal y guardar cambios 
 */
 
 // Función para abrir el modal de edición con los datos actuales
