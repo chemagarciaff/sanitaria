@@ -71,7 +71,7 @@ const agregarMuestra = (event) => {
     const observaciones = document.getElementById("observacionesMuestra").value.trim();
     const imagen = document.getElementById("imagenMuestra").files[0];
 
-    if (!descripcion || !fecha || !tincion) {
+    if (!descripcion || !fecha || !tincion || !observaciones) {
         errorMuestra.textContent = "Rellena los campos obligatorios";
         return;
     }
