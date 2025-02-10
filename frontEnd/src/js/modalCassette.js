@@ -1,5 +1,6 @@
 /*
     Funciones del Modal Añadir Cassettes
+    Abrir y cerrar modal, enviar form del modal y crear cassettes en la lista de cassettes
 */
 
 // Función para abrir el modal de añadir cassettes

@@ -2,7 +2,7 @@
     JavaScript general de gestion.html
 
 */
-
+// ! Versión antigua del js de gestion.html con todo en un fichero
 // ! ELIMINAR ARCHIVO (ya se han dividido el js en varios js)
 
 /* #############################

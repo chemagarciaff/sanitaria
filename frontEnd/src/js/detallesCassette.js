@@ -1,5 +1,6 @@
 /*
     Funcionalidades de detalle de cassette
+    Mostrar la información del cassette seleccionado y eventos de editar o borrar
 */
 
 // Función para actualizar el detalle del cassette seleccionado

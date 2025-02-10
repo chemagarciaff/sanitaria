@@ -1,5 +1,6 @@
 /*
     Funciones para la Gestión de Muestras
+    Listar muestras de cada cassette, añadir nuevas muestras y botón detalles muestra
 */
 
 // Almacenamiento temporal de muestras por cassette

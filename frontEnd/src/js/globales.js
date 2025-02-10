@@ -1,5 +1,6 @@
 /*
     Variables globales utilizadas en gestion.html
+    Cargar elementos del DOM y variables de control
 */
 
 /* #############################

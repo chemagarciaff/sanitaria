@@ -1,5 +1,7 @@
 /* 
     Funciones del Modal Añadir Muestras
+    Abrir, cerrar modal y validar form del modal
+
 */
 
 // Función para abrir el modal de muestras
