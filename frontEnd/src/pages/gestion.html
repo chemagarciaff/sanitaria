@@ -353,6 +353,52 @@
             </div>
         </div>
 
+        <!-- Modal para modificar muestra -->
+        <div id="modalEditarMuestra" class="fixed inset-0 flex items-center justify-center hidden">
+            <div id="modalEditarMuestraContent" class="bg-white p-6 rounded-lg shadow-lg w-[500px] max-w-full transform scale-95 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-teal-700">Modificar Muestra</h2>
+                    <button id="cerrarEditarMuestra" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <form id="formEditarMuestra">
+                    <input type="text" id="editarDescripcionMuestra" placeholder="Descripción" class="w-full p-2 border rounded-md mb-4">
+                    
+                    <input type="date" id="editarFechaMuestra" class="w-full p-2 border rounded-md mb-4" disabled>
+                    
+                    <select id="editarTincionMuestra" class="w-full p-2 border rounded-md mb-4">
+                        <option value="Hematoxilina">Hematoxilina</option>
+                        <option value="Eosina">Eosina</option>
+                        <option value="Giemsa">Giemsa</option>
+                    </select>
+                    
+                    <textarea id="editarObservacionesMuestra" placeholder="Observaciones" class="w-full p-2 border rounded-md mb-4"></textarea>
+                    
+                    <!-- Mensaje de error -->
+                    <p id="errorEditarMuestra" class="text-red-500 text-sm mt-2 text-center"></p>
+                    
+                    <button type="submit" class="w-full bg-teal-500 text-white p-2 rounded-md hover:bg-teal-700 mt-4">Modificar Muestra</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación para eliminar muestra -->
+        <div id="modalEliminarMuestra" class="fixed inset-0 flex items-center justify-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-[400px] max-w-full transform scale-95 transition-all duration-300">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-red-600">Eliminar Muestra</h2>
+                    <button id="cerrarEliminarMuestra" class="text-gray-600 hover:text-gray-800">&times;</button>
+                </div>
+                <p class="text-gray-700 mb-4 text-center">
+                    ¿Desea eliminar esta muestra? <br>
+                    <span class="text-sm text-gray-500">Esta acción no se puede deshacer.</span>
+                </p>
+                <div class="flex justify-between">
+                    <button id="cancelarEliminarMuestra" class="w-1/2 bg-gray-400 text-white p-2 rounded-md hover:bg-gray-500">Cancelar</button>
+                    <button id="confirmarEliminarMuestra" class="w-1/2 bg-red-500 text-white p-2 rounded-md hover:bg-red-700">Eliminar</button>
+                </div>
+            </div>
+        </div>
+
 
     </div>
     <!-- <script src="../js/gestion.js"></script> -->

@@ -59,7 +59,7 @@ const validarYEnviarMuestra = (event) => {
             fecha,
             tincion,
             observaciones,
-            imagen: imagen ? URL.createObjectURL(imagen) : null, // Guardar referencia de imagen
+            imagen: imagen ? URL.createObjectURL(imagen) : null,
         }
     }));
 
@@ -76,3 +76,4 @@ document.addEventListener("DOMContentLoaded", () => {
     const fechaMuestraInput = document.getElementById("fechaMuestra");
     fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
 });
+
