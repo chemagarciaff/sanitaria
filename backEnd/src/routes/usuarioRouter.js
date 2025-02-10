@@ -1,5 +1,6 @@
 const usuarioRouter = require("express").Router();
 const usuarioController = require("../controllers/usuarioController");
+const userToken = require('./middlewares')
 
 
 usuarioRouter.get("/", usuarioController.getAllUsers);
@@ -14,7 +15,7 @@ usuarioRouter.get("/email/:email", usuarioController.getUserByEmail);
 usuarioRouter.post("/", usuarioController.createUser);
 
 
-usuarioRouter.post("/logUser", usuarioController.logUser);
+usuarioRouter.post("/logUser", userToken.checkToken ,usuarioController.logUser);
 
 
 usuarioRouter.put("/:id", usuarioController.updateUser);

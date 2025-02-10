@@ -13,14 +13,19 @@
   "dependencies": {
     "argon2": "^0.41.1",
     "body-parser": "1.20.3",
+<<<<<<< HEAD
     "cors": "^2.8.5",
+=======
+    "cookie-parser": "^1.4.7",
+>>>>>>> 00a43b2cc0f12028bcfbeda33f26ae396b8e264d
     "express": "4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "jwt-simple": "0.5.6",
     "moment": "2.30.1",
     "mysql2": "3.12.0",
     "sequelize": "6.37.5"
   },
   "devDependencies": {
-    "nodemon": "3.1.9"
+    "nodemon": "^3.1.9"
   }
 }

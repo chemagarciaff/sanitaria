@@ -1,5 +1,7 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
+const generarToken = require("../utils/token");
+const createToken = require("../utils/token");
 
 // Obtener todos los clientes
 const getAllUsers = async (req, res) => {
@@ -62,20 +64,36 @@ const createUser = async (req, res) => {
   }
 };
 
-// Crear un nuevo cliente
+// Logear cliente 
 const logUser = async (req, res) => {
   try {
     const { email_usu, password_usu } = req.body;
 
     const user = await usuarioService.getUserByEmail(email_usu);
 
+<<<<<<< HEAD
+=======
+    const token = createToken()
+
+    console.log("Usuario encontrado:", user);
+
+>>>>>>> 00a43b2cc0f12028bcfbeda33f26ae396b8e264d
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
 
     if (contraseñaCorrecta) {
 
+<<<<<<< HEAD
       return res.status(200).json({ message: 'Loggin correcto' });
+=======
+      res.cookie('access_token',token, {
+        httpOnly: true,
+        maxAge: 86400000,
+        sameSite: 'strict'
+      })
+      return res.json({ message: 'Loggin correcto' });
+>>>>>>> 00a43b2cc0f12028bcfbeda33f26ae396b8e264d
 
     } else {
 
