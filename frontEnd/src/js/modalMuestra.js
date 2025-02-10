@@ -2,10 +2,19 @@
     Funciones del Modal Añadir Muestras
 */
 
-// Función para abrir el modal de muestras
+// Función para abrir el modal de añadir muestras
 const abrirModalMuestra = () => {
+    if (!cassetteSeleccionado) {
+        errorCrearMuestra.textContent = "Debes seleccionar un cassette antes de añadir una muestra.";
+        return;
+    }
+
+    errorCrearMuestra.textContent = "";
+    errorMuestra.textContent = "";
+
     modalOverlay.classList.remove("hidden");
     modalMuestra.classList.remove("hidden");
+
     setTimeout(() => {
         modalMuestraContent.classList.remove("scale-95");
     }, 10);
@@ -53,3 +62,17 @@ const enviarFormularioMuestra = (event) => {
 
 // Event listener para envío del formulario de muestras
 muestraForm.addEventListener("submit", enviarFormularioMuestra);
+
+
+// Limitar fecha input
+
+const fechaMuestraInput = document.getElementById("fechaMuestra");
+
+// Función para establecer la fecha mínima como la actual
+const restringirFechaMinimaMuestra = () => {
+    const hoy = new Date().toISOString().split("T")[0];
+    fechaMuestraInput.setAttribute("min", hoy);
+};
+
+// Aplicar la restricción al cargar la página
+document.addEventListener("DOMContentLoaded", restringirFechaMinimaMuestra);

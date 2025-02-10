@@ -3,6 +3,7 @@
 
 */
 
+// ! ELIMINAR ARCHIVO (ya se han dividido el js en varios js)
 
 /* #############################
    ###   Elementos del DOM   ###

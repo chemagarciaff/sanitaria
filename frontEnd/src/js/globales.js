@@ -56,6 +56,8 @@ const openModalMuestraBtn = document.getElementById("openModalMuestraBtn");
 const closeModalMuestraBtn = document.getElementById("closeModalMuestra");
 const muestraForm = document.getElementById("muestraForm");
 const errorMuestra = document.getElementById("errorMuestra");
+const errorCrearMuestra = document.getElementById("errorCrearMuestra");
+const muestraTableBody = document.getElementById("muestraTableBody");
 
 // Variables de control
 let ordenAscendente = true;
