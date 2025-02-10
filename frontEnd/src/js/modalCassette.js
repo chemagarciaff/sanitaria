@@ -91,4 +91,3 @@ const restringirFechaMinima = () => {
 
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
-

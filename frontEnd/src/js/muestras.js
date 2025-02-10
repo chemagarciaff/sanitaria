@@ -12,21 +12,18 @@ let muestrasPorCassette = {};
 // Función que renderiza las muestras asociadas al cassette seleccionado
 const actualizarListaMuestras = () => {
     // Verificar si hay un cassette seleccionado
-    if (!cassetteSeleccionado) {
+    if (!cassetteSeleccionado || !cassetteSeleccionado.dataset.id) {
+        console.warn("⚠️ No hay un cassette seleccionado o falta el ID.");
         return;
     }
 
-    // Obtener el ID del cassette seleccionado
     const idCassette = cassetteSeleccionado.dataset.id;
 
-    // Limpiar el cuerpo de la tabla de muestras
-    const muestraTableBody = document.getElementById("muestraTableBody");
+    // Limpiar el contenido previo
     muestraTableBody.innerHTML = "";
 
-    // Obtener las muestras del cassette seleccionado
     const muestras = muestrasPorCassette[idCassette] || [];
 
-    // Renderizar cada muestra en la tabla
     muestras.forEach((muestra, index) => {
         const newRow = document.createElement("tr");
         newRow.classList.add("border-b");
@@ -47,9 +44,13 @@ const actualizarListaMuestras = () => {
         muestraTableBody.appendChild(newRow);
     });
 
-    // Agregar eventos a los botones de detalle de muestra
+    // Asegurar que los eventos se agregan a los detalles de muestra
     agregarEventosDetalleMuestra();
 };
+
+
+document.addEventListener("cassetteSeleccionado", actualizarListaMuestras);
+
 
 /* ##################################################
    ###   Función para agregar muestra al cassette  ###
@@ -89,10 +90,10 @@ const agregarMuestra = (event) => {
         imagen: imagen ? URL.createObjectURL(imagen) : null, // Almacena la referencia de la imagen
     };
 
-    // Agregar muestra a la estructura
+    // Agregar muestra a la estructura de datos
     muestrasPorCassette[idCassette].push(nuevaMuestra);
 
-    // Actualizar lista de muestras en el UI
+    // Llamar a la función para actualizar la tabla de muestras inmediatamente
     actualizarListaMuestras();
 
     // Cerrar el modal de creación
@@ -101,6 +102,7 @@ const agregarMuestra = (event) => {
     // Resetear el formulario
     muestraForm.reset();
 };
+
 
 /* ##################################################
    ###   Función para manejar los detalles de la muestra  ###
@@ -132,3 +134,5 @@ document.addEventListener("DOMContentLoaded", () => {
         setTimeout(actualizarListaMuestras, 100);
     });
 });
+
+document.addEventListener("cassetteSeleccionado", actualizarListaMuestras);

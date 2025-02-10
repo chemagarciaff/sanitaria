@@ -27,12 +27,6 @@ const mostrarDetallesCassette = (fila) => {
     // Enlazar los botones de edición y eliminación al cassette seleccionado
     editarCassetteBtn.onclick = () => abrirModalEditar();
     eliminarCassetteBtn.onclick = () => abrirModalEliminar();
-
-    cassetteSeleccionado = fila;
-    cassetteSeleccionado.dataset.id = fila.dataset.id;
-
-    //! Disparar evento para actualizar las muestras del cassette seleccionado
-    document.dispatchEvent(new Event("cassetteSeleccionado"));
 };
 
 // Función para agregar el evento de clic en el ícono de cada fila
@@ -47,4 +41,3 @@ const agregarEventosDetalle = () => {
 
 // Asegurar que los eventos de detalle se cargan al inicio
 document.addEventListener("DOMContentLoaded", agregarEventosDetalle);
-
