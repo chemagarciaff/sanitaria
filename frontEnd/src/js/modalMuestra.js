@@ -30,16 +30,14 @@ const cerrarModalMuestra = () => {
     }, 300);
 };
 
-// Event listeners
+// Event listeners para abrir/cerrar modal
 openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
 closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
 
 /*
-    Funciones para añadir muestras
+    Función para validar formulario y enviar evento de creación
 */
-
-// Función para validar y enviar el formulario de la muestra
-const enviarFormularioMuestra = (event) => {
+const validarYEnviarMuestra = (event) => {
     event.preventDefault();
 
     const descripcion = document.getElementById("descripcionMuestra").value.trim();
@@ -48,31 +46,33 @@ const enviarFormularioMuestra = (event) => {
     const observaciones = document.getElementById("observacionesMuestra").value.trim();
     const imagen = document.getElementById("imagenMuestra").files[0];
 
+    // Validar que todos los campos obligatorios están llenos
     if (!descripcion || !fecha || !tincion || !observaciones) {
         errorMuestra.textContent = "Rellena los campos obligatorios";
         return;
     }
 
-    if (imagen) {
-        console.log("Imagen seleccionada:", imagen.name);
-    }
+    //! Disparar evento para que muestras.js gestione la creación
+    document.dispatchEvent(new CustomEvent("muestraCreada", {
+        detail: {
+            descripcion,
+            fecha,
+            tincion,
+            observaciones,
+            imagen: imagen ? URL.createObjectURL(imagen) : null, // Guardar referencia de imagen
+        }
+    }));
 
+    // Cerrar el modal y limpiar el formulario
     cerrarModalMuestra();
     muestraForm.reset();
 };
 
-// Event listener para envío del formulario de muestras
-muestraForm.addEventListener("submit", enviarFormularioMuestra);
+// Event listener para validar y enviar formulario
+muestraForm.addEventListener("submit", validarYEnviarMuestra);
 
 // Limitar fecha input
-
-const fechaMuestraInput = document.getElementById("fechaMuestra");
-
-// Función para establecer la fecha mínima como la actual
-const restringirFechaMinimaMuestra = () => {
-    const hoy = new Date().toISOString().split("T")[0];
-    fechaMuestraInput.setAttribute("min", hoy);
-};
-
-// Aplicar la restricción al cargar la página
-document.addEventListener("DOMContentLoaded", restringirFechaMinimaMuestra);
+document.addEventListener("DOMContentLoaded", () => {
+    const fechaMuestraInput = document.getElementById("fechaMuestra");
+    fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
+});
