@@ -1,5 +1,7 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
+const { Usuario } = require('./../database/models/Usuario');
+
 
 // Obtener todos los clientes
 const getAllUsers = async (req, res) => {
@@ -142,6 +144,31 @@ const deleteAllUsers = async (req, res) => {
   }
 };
 
+// Recuperar contraseña de usuario existente
+const recuperarPassword = async (req, res) => {
+  try {
+      console.log("Solicitud recibida en /recuperar");
+      console.log("Cuerpo de la petición:", req.body);
+
+      const { email } = req.body;
+      console.log("Email recibido:", email);
+
+      const usuario = await Usuario.findOne({ where: { email_usu: email } });
+
+      if (!usuario) {
+          console.log("Cliente no encontrado");
+          return res.status(404).json({ message: "Cliente no encontrado" });
+      }
+
+      console.log("Usuario encontrado:", usuario);
+      res.json({ message: "Usuario encontrado", usuario });
+  } catch (error) {
+      console.error("Error en el servidor:", error);
+      res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -151,5 +178,6 @@ module.exports = {
   updateUser,
   deleteUser,
   deleteAllUsers,
+  recuperarPassword,
 };
 
