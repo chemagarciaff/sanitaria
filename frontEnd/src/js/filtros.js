@@ -26,7 +26,7 @@
 
     ordenAscendente = !ordenAscendente;
 
-    // 🔥 No reemplazar `innerHTML`, solo reordenar las filas
+    // No reemplazar `innerHTML`, solo reordenar las filas
     cassetteTableBody.replaceChildren(...filas);
 };
 
