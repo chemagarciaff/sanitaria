@@ -288,6 +288,71 @@
             </div>
         </div>
 
+        <!-- Modal de Detalle Muestra -->
+        <div id="modalDetalleMuestra" class="fixed inset-0 flex items-center justify-center hidden">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-[800px] max-w-full transform scale-95 transition-all duration-300">
+                <!-- Header del modal -->
+                <div class="flex justify-between items-center border-b pb-3 mb-4">
+                    <h2 class="text-2xl font-semibold text-teal-700">Detalle Muestra</h2>
+                    <button id="cerrarDetalleMuestra" class="text-gray-600 hover:text-gray-800 text-xl">&times;</button>
+                </div>
+
+                <!-- Contenido del modal -->
+                <div class="grid grid-cols-3 gap-4">
+                    <!-- Información de la muestra -->
+                    <div class="col-span-1">
+                        <div class="space-y-3 text-gray-700">
+                            <p class="font-bold text-lg"> <span class="text-teal-700">Descripción:</span> <span id="detalleDescripcionMuestra"></span></p>
+                            <p class="font-bold"> <span class="text-teal-700">Fecha:</span> <span id="detalleFechaMuestra"></span></p>
+                            <p class="font-bold"> <span class="text-teal-700">Tinción:</span> <span id="detalleTincionMuestra"></span></p>
+                            <p class="font-bold"> <span class="text-teal-700">Observaciones:</span> <span id="detalleObservacionesMuestra"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Imagen principal de la muestra -->
+                    <div class="col-span-2">
+                        <div class="border rounded-lg overflow-hidden">
+                            <img id="imagenPrincipalMuestra" class="w-full h-64 object-cover" src="" alt="Imagen de muestra">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Galería de miniaturas -->
+                <div class="mt-4 border-t pt-4">
+                    <div class="flex items-center gap-2 overflow-x-auto">
+                        <div id="contenedorMiniaturasMuestra" class="flex gap-2">
+                            <!-- Miniaturas generadas dinámicamente -->
+                        </div>
+
+                        <!-- Botón de añadir imagen -->
+                        <button id="btnAgregarImagenMuestra" class="w-10 h-10 flex items-center justify-center bg-teal-500 text-white rounded-full hover:bg-teal-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Botones de acción -->
+                <div class="mt-6 flex justify-between">
+                    <button id="btnEliminarMuestra" class="bg-red-500 text-white p-2 rounded-md hover:bg-red-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M6 7H18M9 7V5H15V7M10 11V17M14 11V17M4 7H20L19 20H5L4 7Z"></path>
+                        </svg>
+                        Eliminar Muestra
+                    </button>
+                    <button id="btnEditarMuestra" class="bg-teal-500 text-white p-2 rounded-md hover:bg-teal-700 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M4 20H8L18 10L14 6L4 16V20Z"></path>
+                            <path d="M14 6L16 4L20 8L18 10L14 6Z"></path>
+                        </svg>
+                        Editar Muestra
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
     </div>
     <!-- <script src="../js/gestion.js"></script> -->
 
