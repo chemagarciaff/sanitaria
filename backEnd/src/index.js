@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const express = require("express");
+const cors = require('cors');
 const app = express();
 
 // conexión con mysql y relaciones
@@ -9,6 +10,7 @@ require("./database/associations.js")
 // Conversión a json datos que nos envían para post, put, patch...
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 
 const apiroutes = require("./routes/apiRouter.js");
 app.use("/sanitaria", apiroutes);

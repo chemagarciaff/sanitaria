@@ -1,3 +1,6 @@
+//VARIABLES
+const contIcon = '<div class="relative w-8 h-8 text-teal-500 detalle-cassette cursor-pointer"><svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path></svg></div>'
+let contAddCassettes = document.getElementById('cassetteTableBody');
 /*
     Funciones del Modal Añadir Cassettes
 */
@@ -28,6 +31,44 @@ openModalBtn.addEventListener("click", () => {
 });
 closeModalBtn.addEventListener("click", cerrarModal);
 
+//Peticion todos los cassettes que existen 
+const loadCassettes = async () =>{
+    const reponse = await fetch('http://localhost:3000/sanitaria/cassettes/')
+    const data = await reponse.json();
+    showCassettes(data)
+}
+//Mostrar por pantalla los cassettes
+const showCassettes = (cassettes) =>{
+    let fragment = document.createDocumentFragment();
+    cassettes.forEach((cassete) => {
+        let fila = document.createElement('tr');
+        //Columna fecha
+        let fecha = document.createElement('td');
+        fecha.textContent = cassete.fecha_cassette;
+        fila.appendChild(fecha)
+        //Columna descripcion
+        let descripcion = document.createElement('td');
+        descripcion.textContent = cassete.descripcion_cassette;
+        fila.appendChild(descripcion)
+        //Columna organo
+        let organo = document.createElement('td');
+        organo.textContent = cassete.descripcion_cassette;
+        fila.appendChild(organo)
+        //Columna icono
+        let columIcono = document.createElement('td')
+        //Icono
+        let icono = document.createElement('i');
+        icono.classList.add('fa-solid')
+        icono.classList.add('fa-file')
+        icono.id = cassete.id_cassette
+        //Añadir icono
+        columIcono.appendChild(icono);
+        fila.appendChild(columIcono);
+        //Fragment
+        fragment.appendChild(fila)
+    })
+    contAddCassettes.appendChild(fragment)
+}
 /*
     Funciones para añadir cassettes
 */
@@ -92,3 +133,4 @@ const restringirFechaMinima = () => {
 
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
+document.addEventListener('DOMContentLoaded', loadCassettes)
