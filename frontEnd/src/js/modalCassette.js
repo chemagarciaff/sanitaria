@@ -54,6 +54,7 @@ const enviarFormulario = (event) => {
     newRow.setAttribute("data-caracteristicas", caracteristicas);
     newRow.setAttribute("data-observaciones", observaciones);
 
+    // Se usará "detalles-cassette" para identificar cada cassette para evitar crear ids únicos para cada cassette
     newRow.innerHTML = `
         <td class="p-2">${fecha}</td>
         <td class="p-2">${descripcion}</td>
