@@ -12,7 +12,7 @@ const obtenerDetallesCassette = async (id, fila) => {
         if (!response.ok) throw new Error("Error al obtener detalles del cassette.");
         
         const cassette = await response.json();
-        cassetteSeleccionado = cassette;  // Asigna el cassette seleccionado correctamente
+        cassetteSeleccionado = cassette; 
 
         // Actualizar la UI con los detalles
         detalleDescripcion.textContent = cassette.descripcion_cassette;
@@ -35,8 +35,10 @@ const obtenerDetallesCassette = async (id, fila) => {
 const agregarEventosDetalle = () => {
     document.querySelectorAll(".detalle-cassette").forEach(icono => {
         icono.addEventListener("click", (event) => {
-            const idCassette = icono.getAttribute("data-id"); // Obtener el ID del cassette
-            const filaSeleccionada = icono.closest("tr"); // Obtener la fila del cassette
+            // Obtener el ID del cassette
+            const idCassette = icono.getAttribute("data-id");
+            // Obtener la fila del cassette
+            const filaSeleccionada = icono.closest("tr");
             obtenerDetallesCassette(idCassette, filaSeleccionada);
         });
     });

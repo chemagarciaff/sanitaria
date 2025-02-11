@@ -26,6 +26,7 @@ const observacionesInput = document.getElementById("observacionesInput");
 const cassetteForm = document.getElementById("cassetteForm");
 const cassetteTableBody = document.getElementById("cassetteTableBody");
 const errorMessage = document.getElementById("error-message");
+const modalEditarCassette = document.getElementById("modalEditarCassette");
 
 // Botones de ordenación
 const ordenarFechaBtn = document.getElementById("ordenarFecha");

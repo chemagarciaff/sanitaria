@@ -4,67 +4,54 @@
 */
 
 // Evitar la doble declaración de variables globales
-if (!window.modalOverlay) {
-    window.modalOverlay = document.getElementById("modal-overlay");
-}
-if (!window.modalEditar) {
-    window.modalEditar = document.getElementById("modalEditarCassette");
-}
-if (!window.editarCassetteBtn) {
-    window.editarCassetteBtn = document.getElementById("btnEditarCassette");
-}
-if (!window.cassetteSeleccionado) {
-    window.cassetteSeleccionado = null;
-}
-
-const formEditarCassette = document.getElementById("formEditarCassette");
+window.modalOverlay = window.modalOverlay || document.getElementById("modalOverlay");
+window.modalEditarCassette = window.modalEditarCassette || document.getElementById("modalEditarCassette");
+window.editarCassetteBtn = window.editarCassetteBtn || document.getElementById("btnEditarCassette");
+window.formEditarCassette = window.formEditarCassette || document.getElementById("formEditarCassette");
 
 // Función para abrir el modal de edición con los datos actuales del cassette seleccionado
 const abrirModalEditar = () => {
-    if (!window.cassetteSeleccionado || !window.cassetteSeleccionado.id_cassette) {
+    if (!cassetteSeleccionado || !cassetteSeleccionado.id_cassette) {
         console.error("No hay cassette seleccionado para editar.");
         return;
     }
 
-    console.log("Abriendo modal de edición para:", window.cassetteSeleccionado.id_cassette);
+    console.log("Abriendo modal de edición para el cassette ID:", cassetteSeleccionado.id_cassette);
 
     // Rellenar los campos del modal con los datos del cassette seleccionado
-    document.getElementById("editarDescripcion").value = window.cassetteSeleccionado.descripcion_cassette || "";
-    document.getElementById("editarFecha").value = window.cassetteSeleccionado.fecha_cassette || "";
-    document.getElementById("editarOrgano").value = window.cassetteSeleccionado.organo_cassette || "";
-    document.getElementById("editarCaracteristicas").value = window.cassetteSeleccionado.caracteristicas_cassette || "Sin características";
-    document.getElementById("editarObservaciones").value = window.cassetteSeleccionado.observaciones_cassette || "Sin observaciones";
+    document.getElementById("editarDescripcion").value = cassetteSeleccionado.descripcion_cassette;
+    document.getElementById("editarFecha").value = cassetteSeleccionado.fecha_cassette;
+    document.getElementById("editarOrgano").value = cassetteSeleccionado.organo_cassette;
+    document.getElementById("editarCaracteristicas").value = cassetteSeleccionado.caracteristicas_cassette || "Sin características";
+    document.getElementById("editarObservaciones").value = cassetteSeleccionado.observaciones_cassette || "Sin observaciones";
 
     // Mostrar el modal
-    window.modalEditar.classList.remove("hidden");
-    window.modalOverlay.classList.remove("hidden");
+    modalOverlay.classList.remove("hidden");
+    modalEditarCassette.classList.remove("hidden");
 };
 
 // Asegurar que el botón de edición funciona
-document.getElementById("btnEditarCassette").addEventListener("click", abrirModalEditar);
-
+editarCassetteBtn.removeEventListener("click", abrirModalEditar);
+editarCassetteBtn.addEventListener("click", abrirModalEditar);
 
 // Función para cerrar el modal de edición
-const cerrarModalEditar = () => {
-    window.modalEditar.classList.add("hidden");
-    window.modalOverlay.classList.add("hidden");
-    //! ELIMINAR
-    document.getElementById("modalEditarCassette").classList.add("hidden");
-    document.getElementById("modalOverlay").classList.add("hidden");
+const cerrarModalEdicion = () => {
+    modalEditarCassette.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
 };
 
-// Función para guardar los cambios del cassette editado en la API
+// Función para guardar los cambios al editar un cassette
 const guardarEdicionCassette = async (event) => {
     event.preventDefault();
 
-    if (!window.cassetteSeleccionado || !window.cassetteSeleccionado.id_cassette) {
+    if (!cassetteSeleccionado || !cassetteSeleccionado.id_cassette) {
         console.error("No hay un cassette válido seleccionado para editar.");
         return;
     }
 
-    console.log("Editando cassette con ID:", window.cassetteSeleccionado.id_cassette);
+    console.log("Editando cassette con ID:", cassetteSeleccionado.id_cassette);
 
-    const idCassette = window.cassetteSeleccionado.id_cassette;
+    const idCassette = cassetteSeleccionado.id_cassette;
 
     const descripcion = document.getElementById("editarDescripcion").value.trim();
     const fecha = document.getElementById("editarFecha").value.trim();
@@ -98,24 +85,24 @@ const guardarEdicionCassette = async (event) => {
 
         console.log("Cassette actualizado correctamente.");
 
+        // Actualizar el DOM con los nuevos datos en la lista y en los detalles
+        actualizarFilaCassette(idCassette, cassetteActualizado);
+        actualizarDetalleCassette(cassetteActualizado);
+
         // Cerrar el modal después de actualizar
         cerrarModalEdicion();
-
-        // Recargar la lista de cassettes para reflejar el cambio
-        await loadCassettes();
 
     } catch (error) {
         console.error("Error al actualizar el cassette:", error);
     }
 };
 
-// Asignar evento al botón de guardar
-document.getElementById("formEditarCassette").addEventListener("submit", guardarEdicionCassette);
-
-// Asegurar que al hacer click en cerrar el modal, también se oculta el overlay
+// Asignar eventos a los botones
+formEditarCassette.removeEventListener("submit", guardarEdicionCassette);
+formEditarCassette.addEventListener("submit", guardarEdicionCassette);
 document.getElementById("cerrarEditarModal").addEventListener("click", cerrarModalEdicion);
 
-// Función para actualizar visualmente la fila del cassette editado
+// Función para actualizar visualmente la fila del cassette editado en la tabla
 const actualizarFilaCassette = (idCassette, cassetteEditado) => {
     const filas = document.querySelectorAll("#cassetteTableBody tr");
     filas.forEach(fila => {
@@ -134,12 +121,14 @@ const actualizarFilaCassette = (idCassette, cassetteEditado) => {
     });
 };
 
-// Asignar eventos a los botones del modal de edición
-document.getElementById("cerrarEditarModal").addEventListener("click", cerrarModalEditar);
-formEditarCassette.addEventListener("submit", guardarEdicionCassette);
-
-// Asignar evento al botón de edición
-editarCassetteBtn.addEventListener("click", abrirModalEditar);
+// Función para actualizar visualmente el detalle del cassette editado
+const actualizarDetalleCassette = (cassetteEditado) => {
+    document.getElementById("detalleDescripcion").textContent = cassetteEditado.descripcion_cassette;
+    document.getElementById("detalleFecha").textContent = cassetteEditado.fecha_cassette;
+    document.getElementById("detalleOrgano").textContent = cassetteEditado.organo_cassette;
+    document.getElementById("detalleCaracteristicas").textContent = cassetteEditado.caracteristicas_cassette;
+    document.getElementById("detalleObservaciones").textContent = cassetteEditado.observaciones_cassette;
+};
 
 /* ###############################################
    ###   Restricción de fecha en edición     ###
