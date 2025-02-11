@@ -9,7 +9,7 @@ const abrirModalEliminar = () => {
         console.error("No hay cassette seleccionado para eliminar.");
         return;
     }
-    
+
     modalEliminar.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
 };
@@ -23,43 +23,43 @@ const cerrarModalEliminar = () => {
 
 // Función para eliminar el cassette seleccionado de la API y de la tabla
 const eliminarCassette = async () => {
-    if (!cassetteSeleccionado || !cassetteSeleccionado.dataset.id) {
-        console.error("No se encontró un cassette válido para eliminar.");
+    if (!cassetteSeleccionado || !cassetteSeleccionado.id_cassette) {
+        console.error("Error: No hay cassette seleccionado para eliminar.");
         return;
     }
 
-    const cassetteId = cassetteSeleccionado.dataset.id;
-
     try {
         const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${cassetteSeleccionado.id_cassette}`, {
-            method: "DELETE",
+            method: "DELETE"
         });
 
-        if (!response.ok) {
-            throw new Error(`Error en la API al eliminar el cassette.`);
-        }
+        if (!response.ok) throw new Error("Error al eliminar el cassette.");
 
-        // Eliminar visualmente la fila del cassette de la tabla
-        cassetteSeleccionado.remove();
+        console.log("Cassette eliminado correctamente.");
+
+        // Resetear la selección
         cassetteSeleccionado = null;
 
-        // Limpiar los detalles del cassette
+        // Limpiar detalles del cassette eliminado
         detalleDescripcion.textContent = "";
         detalleFecha.textContent = "";
         detalleOrgano.textContent = "";
         detalleCaracteristicas.textContent = "";
         detalleObservaciones.textContent = "";
-        cassetteSeleccionado = null;
 
-        // Cerrar Modal
+        // Cerrar el modal de eliminación
         cerrarModalEliminar();
 
-        // Mostrar en caso de error o de funcionamiento 
-        console.log("Cassette eliminado correctamente.");
+        // Recargar la lista de cassettes para actualizar la tabla
+        loadCassettes();
+
     } catch (error) {
         console.error("Error al eliminar el cassette:", error);
     }
 };
+
+// Asegurar que el botón está enlazado correctamente
+document.getElementById("confirmarEliminar").addEventListener("click", eliminarCassette);
 
 // Verificar que el cassette tiene un ID antes de seleccionarlo
 const seleccionarCassette = (fila) => {
@@ -74,3 +74,5 @@ const seleccionarCassette = (fila) => {
 document.getElementById("confirmarEliminar").addEventListener("click", eliminarCassette);
 document.getElementById("cancelarEliminar").addEventListener("click", cerrarModalEliminar);
 document.getElementById("cerrarEliminarModal").addEventListener("click", cerrarModalEliminar);
+eliminarCassetteBtn.addEventListener("click", abrirModalEliminar);
+
