@@ -38,18 +38,39 @@ const loadCassettes = async () =>{
     const data = await reponse.json();
     showCassettes(data)
 }
- 
-// Mostrar por pantalla los cassettes
-const showCassettes = (cassettes) => {
-    contAddCassettes.innerHTML = ""; // Limpiar tabla antes de añadir los nuevos cassettes
+
+//Mostrar por pantalla los cassettes
+const showCassettes = (cassettes) =>{
     let fragment = document.createDocumentFragment();
-
-    cassettes.forEach((cassette) => {
-        fragment.appendChild(crearFilaCassette(cassette)); // Reutilizamos la función
-    });
-
-    contAddCassettes.appendChild(fragment);
-};
+    cassettes.forEach((cassete) => {
+        let fila = document.createElement('tr');
+        //Columna fecha
+        let fecha = document.createElement('td');
+        fecha.textContent = cassete.fecha_cassette;
+        fila.appendChild(fecha)
+        //Columna descripcion
+        let descripcion = document.createElement('td');
+        descripcion.textContent = cassete.descripcion_cassette;
+        fila.appendChild(descripcion)
+        //Columna organo
+        let organo = document.createElement('td');
+        organo.textContent = cassete.descripcion_cassette;
+        fila.appendChild(organo)
+        //Columna icono
+        let columIcono = document.createElement('td')
+        //Icono
+        let icono = document.createElement('i');
+        icono.classList.add('fa-solid')
+        icono.classList.add('fa-file')
+        icono.id = cassete.id_cassette
+        //Añadir icono
+        columIcono.appendChild(icono);
+        fila.appendChild(columIcono);
+        //Fragment
+        fragment.appendChild(fila)
+    })
+    contAddCassettes.appendChild(fragment)
+}
 
 
 /*
@@ -183,7 +204,7 @@ const crearFilaCassette = (cassette) => {
 
     let icono = document.createElement('div');
     icono.classList.add("relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer");
-    icono.setAttribute("data-id", cassette.id_cassette);
+    icono.id = cassette.id_cassette;
 
     icono.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" 
@@ -201,6 +222,15 @@ const crearFilaCassette = (cassette) => {
     return fila;
 };
 
+//Devolver id del cassette donde se hace click
+const returnIdOfCassette = (event) =>{
+    let aux = event.target;
+    if (aux.tagName === "I") {
+        return aux.id;
+    }else{
+        return null;
+    }
+}
 
 /* ###############################################
    ###   Restricción de fecha en formulario   ###

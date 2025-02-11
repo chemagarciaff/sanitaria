@@ -1,9 +1,74 @@
+//VARIABLES
+let containerMuestra = document.getElementById('muestraTableBody');
+
 /* 
     Funciones del Modal Añadir Muestras
     Abrir, cerrar modal y validar form del modal
 
 */
 
+//Mostrar muestras y detalles del cassette seleccionado
+const showMuestrasAndDetalles = async (event) =>{
+    let idCassette = returnIdOfCassette(event);
+    if (idCassette) {
+        loadMuestras(idCassette);
+        loadOneCassette(idCassette);
+    }
+}
+//Cargar las muestras que pertenecen al cassette
+const loadMuestras = async (idCassette) =>{
+    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
+    const data = await response.json();
+    createMuestras(data);
+}
+//Crear muestras
+const createMuestras = (muestras) =>{
+    //Dejamos el contenedor a blanco
+    containerMuestra.innerHTML = "";
+    //Creamos el framgent 
+    let fragment = document.createDocumentFragment();
+    //Recorremos el array de objetos
+    muestras.forEach((muestra) => {
+        //Crear fila
+        let fila = document.createElement('tr');
+        //Columna fecha
+        let fecha = document.createElement('td');
+        fecha.textContent = muestra.fecha_muestra;
+        fila.appendChild(fecha);
+        //Columna descripcion
+        let descripcion = document.createElement('td');
+        descripcion.textContent = muestra.descripcion_muestra;
+        fila.appendChild(descripcion);
+        //Columna tincion
+        let tincion = document.createElement('td');
+        tincion.textContent = muestra.tincion_muestra;
+        fila.appendChild(tincion);
+        //Añadimos la fila al fragment
+        fragment.appendChild(fila);
+    });
+    containerMuestra.appendChild(fragment)
+}
+//Cargar los cassetes
+const loadOneCassette = async (idCassette) =>{
+    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassette}`)
+    const data = await response.json();
+    createDetailOfCassette(data);
+}
+//Crear los datos de los detalles
+const createDetailOfCassette = (cassette) =>{
+    //Dejar el contenido vacio 
+    detalleDescripcion.textContent = "";
+    detalleOrgano.textContent = "";
+    detalleFecha.textContent = "";
+    detalleObservaciones.textContent = "";
+    detalleCaracteristicas.textContent = "";
+    //Añadimos los datos del objeto
+    detalleDescripcion.textContent = cassette.descripcion_cassette;
+    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
+    detalleFecha.textContent = cassette.fecha_cassette;
+    detalleObservaciones.textContent = cassette.observaciones_cassette;
+    detalleOrgano.textContent = cassette.organo_cassette;
+}
 // Función para abrir el modal de muestras
 const abrirModalMuestra = () => {
     if (!cassetteSeleccionado) {
@@ -79,3 +144,4 @@ document.addEventListener("DOMContentLoaded", () => {
     fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
 });
 
+contAddCassettes.addEventListener('click',showMuestrasAndDetalles);
