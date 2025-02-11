@@ -2,9 +2,10 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io", // o el servidor que estés utilizando
+    host: "smtp.gmail.com", // o el servidor que estés utilizando
     port: 587,  // Usar el puerto 587 en lugar del 25
     secure: false, // Desactiva SSL/TLS, si el servidor no lo soporta
+    type: 'OAuth2',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS

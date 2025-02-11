@@ -40,11 +40,12 @@ const validateLogin = (event) =>{
         errorLogPass.classList.remove('hidden');
         validacion = false;
         return validacion;
-    }else if (logPass.validity.patternMismatch) {
-        errorLogPass.textContent = "La contraseña no tiene el formato correcto";
-        errorLogPass.classList.remove('hidden');
-        validacion = false;
-        return validacion;
+    
+    // else if (logPass.validity.patternMismatch) {
+    //     errorLogPass.textContent = "La contraseña no tiene el formato correcto";
+    //     errorLogPass.classList.remove('hidden');
+    //     validacion = false;
+    //     return validacion;
     }else if (logPass.validity.valid){
         errorLogPass.textContent = "";
         errorLogPass.classList.add('hidden');
