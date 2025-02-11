@@ -48,6 +48,7 @@ const updateImage = async (id, imgData) => {
   }
 };
 
+
 const deleteImage = async (id) => {
   try {
     const imagen = await Imagen.findByPk(id);

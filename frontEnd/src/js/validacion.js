@@ -276,8 +276,6 @@ const createUser = async (event) => {
         console.error("Validación o contraseñas no son correctas.");
         // Si las validaciones fallan, podrías mostrar un mensaje de error
     }
-
-
 }
 
 //Validar formulario controlar pass

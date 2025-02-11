@@ -77,7 +77,15 @@ const getImagesByMuestra = async (req, res) => {
  */
 const createImage = async (req, res) => {
   try {
-    const body = req.body;
+    const file = req.file;
+    console.log(file);
+    const imageBuffer = file.buffer;
+    console.log(imageBuffer);
+
+    const body = {
+      imagen: imageBuffer,
+      muestraIdMuestra: req.body.muestraIdMuestra
+    }
 
     const createdImage = await imagenService.createImage(body);
     res.status(201).json(createdImage);
