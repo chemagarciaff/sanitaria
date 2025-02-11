@@ -29,22 +29,6 @@ usuarioRouter.delete("/:id", usuarioController.deleteUser);
 usuarioRouter.delete("/", usuarioController.deleteAllUsers);
 
 //Ruta de recuperacion de contraseña
-//usuarioRouter.post("/recuperar", usuarioController.recuperarPassword);
-usuarioRouter.post("/recuperar", async (req, res) => {
-    const { email } = req.body;
-    console.log("Correo recibido:", email);
-
-    try {
-        const usuario = await Usuario.findOne({ where: { email_usu: email } });
-        if (!usuario) {
-            return res.status(404).json({ message: "Cliente no encontrado" });
-        }
-        res.json({ message: "Usuario encontrado", usuario });
-    } catch (error) {
-        console.error("Error al recuperar usuario:", error);
-        res.status(500).json({ message: "Error en el servidor" });
-    }
-});
-
+usuarioRouter.post("/recuperar", usuarioController.recuperarPassword);
 
 module.exports = usuarioRouter;

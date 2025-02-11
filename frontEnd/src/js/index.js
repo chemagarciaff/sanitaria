@@ -63,26 +63,21 @@ const loginUser = (event) =>{
 
 ////ENVIAR CORREO DE RECUPERACION
 document.getElementById("btn_recuperar").addEventListener("click", async () => {
-    const email = document.getElementById("emailInput").value; 
-
-    console.log("Enviando email:", email); 
-
+    const email_usu = emailInput.value.trim(); 
+    console.log("Enviando email:", email_usu); 
     try {
-        const response = await fetch('/sanitaria/recuperar', { 
+        const response = await fetch('http://localhost:3000/sanitaria/usuarios/recuperar', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ email_usu: email_usu })
         });
-
         console.log("Código de estado:", response.status); 
-
         if (!response.ok) {
             const errorMessage = await response.text();
             throw new Error(`HTTP error! status: ${response.status}, mensaje: ${errorMessage}`);
         }
-
         const data = await response.json();
         console.log("Respuesta del servidor:", data);
     } catch (error) {

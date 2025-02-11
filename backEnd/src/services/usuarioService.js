@@ -89,27 +89,22 @@ const deleteAllUsers = async () => {
 };
 
 //manejar la recuperacion de la contraseña
-const recuperarPassword = async (email) => {
+const recuperarPassword = async (usuario) => {
   try {
     // 1. Buscar si el email existe
-    const usuario = await Usuario.findOne({ where: { email_usu: email } });
     if (!usuario) {
       return { success: false, message: "El correo no está registrado" };
     }
-
     // 2. Generar una nueva contraseña random
     const nuevaPassword = crypto.randomBytes(4).toString('hex');
     const contraseñaHasheada = await argon2.hash(nuevaPassword);
-
     // 3. Actualizar la BD con la nueva contraseña
-    await usuario.update({ password_usu: contraseñaHasheada });
-
+    const userActualizado = await updateUser(usuario.id_usu, { password_usu: contraseñaHasheada });
     // 4. Enviar el correo con la nueva contraseña
-    const emailEnviado = await enviarCorreo(email, nuevaPassword);
+    const emailEnviado = await enviarCorreo(usuario.email_usu, nuevaPassword);
     if (!emailEnviado) {
       return { success: false, message: "No se pudo enviar el correo" };
     }
-
     return { success: true, message: "Contraseña restablecida. Revisa tu correo." };
   } catch (error) {
     console.error("Error en el proceso de recuperación:", error);
