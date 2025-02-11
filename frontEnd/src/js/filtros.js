@@ -55,14 +55,14 @@
    ###   Función de Filtrado por Fecha ###
    #####################################*/
 
-   const filtrarPorFecha = () => {
-    let fechaInicial = fechaInicio.value ? new Date(fechaInicio.value).setHours(0,0,0,0) : null;
-    let fechaFinal = fechaFin.value ? new Date(fechaFin.value).setHours(23,59,59,999) : null;
+const filtrarPorFecha = () => {
+    let fechaInicial = fechaInicio.value ? new Date(fechaInicio.value).toISOString().split("T")[0] : null;
+    let fechaFinal = fechaFin.value ? new Date(fechaFin.value).toISOString().split("T")[0] : null;
     
     let filas = Array.from(cassetteTableBody.children);
 
     filas.forEach(fila => {
-        let fechaCassette = new Date(fila.cells[0].textContent).setHours(12,0,0,0);
+        let fechaCassette = new Date(fila.cells[0].textContent).toISOString().split("T")[0]; // Convierte la fecha de la tabla al mismo formato
 
         if (fechaInicial && !fechaFinal) {
             // Si solo se usa el primer input, mostrar solo los cassettes con esa fecha exacta

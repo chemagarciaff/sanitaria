@@ -39,36 +39,39 @@ const loadCassettes = async () =>{
     showCassettes(data)
 }
  
-//Mostrar por pantalla los cassettes
-const showCassettes = (cassettes) =>{
+// Mostrar por pantalla los cassettes
+const showCassettes = (cassettes) => {
+    // Limpiar la lista de cassettes cada vez que haya cambios
+    contAddCassettes.innerHTML = "";
+
     let fragment = document.createDocumentFragment();
-                    //! Cassete =/= Cassette
-    cassettes.forEach((cassete) => {
+
+    cassettes.forEach((cassette) => {
         let fila = document.createElement('tr');
         fila.classList.add("border-b", "hover:bg-gray-100");
 
-        //Columna fecha
+        // Columna fecha
         let fecha = document.createElement('td');
-        fecha.textContent = cassete.fecha_cassette;
-        fecha.classList.add("p-2", "text-gray-700", "text-center"); 
-        fila.appendChild(fecha)
+        fecha.textContent = cassette.fecha_cassette;
+        fecha.classList.add("p-2", "text-gray-700", "text-center");
+        fila.appendChild(fecha);
 
-        //Columna descripcion
+        // Columna descripción
         let descripcion = document.createElement('td');
-        descripcion.textContent = cassete.descripcion_cassette;
+        descripcion.textContent = cassette.descripcion_cassette;
         descripcion.classList.add("p-2", "text-gray-700", "text-center");
-        fila.appendChild(descripcion)
+        fila.appendChild(descripcion);
 
-        //Columna organo
+        // Columna órgano
         let organo = document.createElement('td');
-        organo.textContent = cassete.organo_cassette;
+        organo.textContent = cassette.organo_cassette;
         organo.classList.add("p-2", "text-gray-700", "text-center");
-        fila.appendChild(organo)
+        fila.appendChild(organo);
 
-        //Columna icono
-        let columIcono = document.createElement('td')
+        // Columna icono
+        let columIcono = document.createElement('td');
         columIcono.classList.add("p-2", "text-center");
-        
+
         //Icono
         // let icono = document.createElement('i');
         // icono.classList.add('fa-solid')
@@ -76,9 +79,10 @@ const showCassettes = (cassettes) =>{
         // icono.id = cassete.id_cassette
 
         //! Cambiar Icono por Icono SVG
-        
+        // Icono con ID del cassette
         let icono = document.createElement('div');
         icono.classList.add("relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer");
+        icono.setAttribute("data-id", cassette.id_cassette);
 
         icono.innerHTML = `
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" 
@@ -87,17 +91,21 @@ const showCassettes = (cassettes) =>{
             </svg>
         `;
 
-        
+        // Agregar evento para mostrar detalles del cassette
+        icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
 
-        //Añadir icono
+        // Añadir icono a la columna y la fila
         columIcono.appendChild(icono);
         fila.appendChild(columIcono);
-        
-        //Fragment
+
+        // Añadir la fila al fragmento
         fragment.appendChild(fila);
-    })
+    });
+
+    // Agregar todas las filas a la tabla
     contAddCassettes.appendChild(fragment);
 };
+
 
 /*
     Funciones para añadir cassettes
@@ -149,10 +157,11 @@ const enviarFormulario = async (event) => {
         const data = await response.json();
         console.log("Cassette agregado correctamente:", data);
 
+        agregarCassetteATabla(data);
+
         // Cerrar modal, resetear formulario y actualizar la lista
         cerrarModal();
         cassetteForm.reset();
-        loadCassettes();
 
     // En caso de error: 
     } catch (error) {
@@ -164,6 +173,47 @@ const enviarFormulario = async (event) => {
 // Event listener para envío del formulario de cassettes
 cassetteForm.addEventListener("submit", enviarFormulario);
 
+// Función para añadir un nuevo cassette a la tabla sin duplicar
+const agregarCassetteATabla = (cassette) => {
+    let fila = document.createElement('tr');
+    fila.classList.add("border-b", "hover:bg-gray-100");
+
+    let fecha = document.createElement('td');
+    fecha.textContent = cassette.fecha_cassette;
+    fecha.classList.add("p-2", "text-gray-700", "text-center");
+    fila.appendChild(fecha);
+
+    let descripcion = document.createElement('td');
+    descripcion.textContent = cassette.descripcion_cassette;
+    descripcion.classList.add("p-2", "text-gray-700", "text-center");
+    fila.appendChild(descripcion);
+
+    let organo = document.createElement('td');
+    organo.textContent = cassette.organo_cassette;
+    organo.classList.add("p-2", "text-gray-700", "text-center");
+    fila.appendChild(organo);
+
+    let columIcono = document.createElement('td');
+    columIcono.classList.add("p-2", "text-center");
+
+    let icono = document.createElement('div');
+    icono.classList.add("relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer");
+    icono.setAttribute("data-id", cassette.id_cassette);
+
+    icono.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" 
+             viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path>
+        </svg>
+    `;
+
+    icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
+
+    columIcono.appendChild(icono);
+    fila.appendChild(columIcono);
+
+    contAddCassettes.appendChild(fila);
+};
 
 /* ###############################################
    ###   Restricción de fecha en formulario   ###
@@ -181,3 +231,4 @@ const restringirFechaMinima = () => {
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
 document.addEventListener("DOMContentLoaded", loadCassettes);
+

@@ -1,42 +1,55 @@
 /*
     Funcionalidades de detalle de cassette
-    Mostrar la información del cassette seleccionado y eventos de editar o borrar
+    Mostrar la información del cassette seleccionado
 */
 
-// Función para actualizar el detalle del cassette seleccionado
-const mostrarDetallesCassette = (fila) => {
-    if (!fila) return;
+//? GET http://localhost:3000/sanitaria/cassettes/{id}
 
-    // Guardar el cassette seleccionado globalmente
-    cassetteSeleccionado = fila;
+// Función para obtener los detalles de un cassette
+const obtenerDetallesCassette = async (idCassette, filaSeleccionada) => {
+    try {
+        const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassette}`);
 
-    // Actualizar la sección de detalles
-    detalleDescripcion.textContent = fila.cells[1].textContent;
-    detalleFecha.textContent = fila.cells[0].textContent;
-    detalleOrgano.textContent = fila.cells[2].textContent;
-    detalleCaracteristicas.textContent = fila.getAttribute("data-caracteristicas") || "Información no disponible";
-    detalleObservaciones.textContent = fila.getAttribute("data-observaciones") || "Sin observaciones";
+        if (!response.ok) {
+            throw new Error(`Error en la API: ${response.status} ${response.statusText}`);
+        }
 
-    // Resaltar la fila seleccionada en color teal
-    document.querySelectorAll("#cassetteTableBody tr").forEach(row => row.classList.remove("bg-teal-100"));
-    fila.classList.add("bg-teal-100");
+        const cassette = await response.json();
 
-    // Habilitar botones de editar y eliminar
-    editarCassetteBtn.classList.remove("opacity-50", "cursor-not-allowed");
-    eliminarCassetteBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        // Mostrar la información en el panel de "Detalle Cassette"
+        detalleDescripcion.textContent = cassette.descripcion_cassette || "Sin descripción";
+        detalleFecha.textContent = cassette.fecha_cassette || "Sin fecha";
+        detalleOrgano.textContent = cassette.organo_cassette || "Sin órgano";
+        detalleCaracteristicas.textContent = cassette.caracteristicas_cassette || "Sin características";
+        detalleObservaciones.textContent = cassette.observaciones_cassette || "Sin observaciones";
 
-    // Enlazar los botones de edición y eliminación al cassette seleccionado
-    editarCassetteBtn.onclick = () => abrirModalEditar();
-    eliminarCassetteBtn.onclick = () => abrirModalEliminar();
+        // Guardar el cassette seleccionado globalmente
+        cassetteSeleccionado = cassette;
+
+        // Resaltar el cassette seleccionado
+        document.querySelectorAll("#cassetteTableBody tr").forEach(row => row.classList.remove("bg-teal-100"));
+        filaSeleccionada.classList.add("bg-teal-100");
+
+        // Habilitar botones de editar y eliminar
+        editarCassetteBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        eliminarCassetteBtn.classList.remove("opacity-50", "cursor-not-allowed");
+
+        // Enlazar los botones de edición y eliminación al cassette seleccionado
+        editarCassetteBtn.onclick = () => abrirModalEditar(idCassette);
+        eliminarCassetteBtn.onclick = () => abrirModalEliminar(idCassette);
+    } catch (error) {
+        console.error("Error al obtener detalles del cassette:", error);
+    }
 };
 
-// Función para agregar el evento de clic en el ícono de cada fila
+// Función para agregar el evento de clic en el icono de cada fila
 const agregarEventosDetalle = () => {
-    document.querySelectorAll("#cassetteTableBody tr").forEach(fila => {
-        const botonDetalle = fila.querySelector(".detalle-cassette");
-        if (botonDetalle) {
-            botonDetalle.addEventListener("click", () => mostrarDetallesCassette(fila));
-        }
+    document.querySelectorAll(".detalle-cassette").forEach(icono => {
+        icono.addEventListener("click", (event) => {
+            const idCassette = icono.getAttribute("data-id"); // Obtener el ID del cassette
+            const filaSeleccionada = icono.closest("tr"); // Obtener la fila del cassette
+            obtenerDetallesCassette(idCassette, filaSeleccionada);
+        });
     });
 };
 
