@@ -70,13 +70,13 @@ const showCassettes = (cassettes) =>{
         columIcono.classList.add("p-2", "text-center");
         
         //Icono
-        let icono = document.createElement('i');
-        icono.classList.add('fa-solid')
-        icono.classList.add('fa-file')
-        icono.id = cassete.id_cassette
+        // let icono = document.createElement('i');
+        // icono.classList.add('fa-solid')
+        // icono.classList.add('fa-file')
+        // icono.id = cassete.id_cassette
 
         //! Cambiar Icono por Icono SVG
-        /*
+        
         let icono = document.createElement('div');
         icono.classList.add("relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer");
 
@@ -87,7 +87,7 @@ const showCassettes = (cassettes) =>{
             </svg>
         `;
 
-        */
+        
 
         //Añadir icono
         columIcono.appendChild(icono);
@@ -103,50 +103,67 @@ const showCassettes = (cassettes) =>{
     Funciones para añadir cassettes
 */
 
-// Función para validar y enviar el formulario de añadir cassettes
-const enviarFormulario = (event) => {
+// Función para validar y enviar el formulario de añadir cassettes al backend
+const enviarFormulario = async (event) => {
     event.preventDefault();
 
+    // Capturar valores del formulario
     const descripcion = descripcionInput.value.trim();
     const fecha = fechaInput.value.trim();
     const organo = organoInput.value.trim();
+    const caracteristicas = caracteristicasInput.value.trim() || "Sin características";
+    const observaciones = observacionesInput.value.trim() || "Sin observaciones";
 
+    // Validación de campos obligatorios
     if (!descripcion || !fecha || !organo) {
-        errorMessage.textContent = "Rellena los campos obligatorios";
+        errorMessage.textContent = "Los campos Descripción, Fecha y Órgano son obligatorios.";
         return;
     }
 
-    const newRow = document.createElement("tr");
-    newRow.classList.add("border-b");
+    // Crear objeto para enviar a la API
+    const nuevoCassette = {
+        fecha_cassette: fecha,  
+        descripcion_cassette: descripcion,
+        organo_cassette: organo,
+        caracteristicas_cassette: caracteristicas,
+        observaciones_cassette: observaciones,
+    };
 
-    const caracteristicas = caracteristicasInput.value.trim() || "Información no disponible";
-    const observaciones = observacionesInput.value.trim() || "Sin observaciones";
+    // Comprobación cassettes
+    console.log("Enviando cassette:", nuevoCassette);
 
-    newRow.setAttribute("data-caracteristicas", caracteristicas);
-    newRow.setAttribute("data-observaciones", observaciones);
+    try {
+        const response = await fetch('http://localhost:3000/sanitaria/cassettes/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(nuevoCassette)
+        });
 
-    // Se usará "detalles-cassette" para identificar cada cassette para evitar crear ids únicos para cada cassette
-    newRow.innerHTML = `
-        <td class="p-2">${fecha}</td>
-        <td class="p-2">${descripcion}</td>
-        <td class="p-2">${organo}</td>
-        <td class="p-2">
-            <div class="relative w-8 h-8 text-teal-500 detalle-cassette cursor-pointer">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-teal-600 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M14 2H6C4.9 2 4 2.9 4 4V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V8L14 2Z"></path>
-                </svg>
-            </div>
-        </td>
-    `;
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(`Error en la API: ${response.status} ${response.statusText} - ${errorData.error || 'Sin detalles'}`);
+        }
 
-    cassetteTableBody.appendChild(newRow);
-    cerrarModal();
-    cassetteForm.reset();
-    agregarEventosDetalle();
+        const data = await response.json();
+        console.log("Cassette agregado correctamente:", data);
+
+        // Cerrar modal, resetear formulario y actualizar la lista
+        cerrarModal();
+        cassetteForm.reset();
+        loadCassettes();
+
+    // En caso de error: 
+    } catch (error) {
+        console.error("Error al enviar el cassette:", error);
+        errorMessage.textContent = "Error al añadir el cassette, verifica los datos e intenta de nuevo.";
+    }
 };
 
 // Event listener para envío del formulario de cassettes
 cassetteForm.addEventListener("submit", enviarFormulario);
+
 
 /* ###############################################
    ###   Restricción de fecha en formulario   ###
@@ -163,4 +180,4 @@ const restringirFechaMinima = () => {
 
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
-document.addEventListener('DOMContentLoaded', loadCassettes)
+document.addEventListener("DOMContentLoaded", loadCassettes);

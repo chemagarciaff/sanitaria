@@ -35,13 +35,19 @@
    ###   Función de Filtrado   ###
    ##############################*/
 
-const filtrarPorOrgano = () => {
+   const filtrarPorOrgano = () => {
     let filtro = filtrarOrgano.value.trim().toLowerCase();
     let filas = Array.from(cassetteTableBody.children);
 
     filas.forEach(fila => {
         let organo = fila.cells[2].textContent.trim().toLowerCase();
-        fila.style.display = (filtro === "" || organo.includes(filtro)) ? "" : "none";
+        
+        // Si se selecciona "Todos", mostrar todas las filas
+        if (filtro === "*" || filtro === "") {
+            fila.style.display = "";
+        } else {
+            fila.style.display = organo.includes(filtro) ? "" : "none";
+        }
     });
 };
 
@@ -49,7 +55,7 @@ const filtrarPorOrgano = () => {
    ###   Función de Filtrado por Fecha ###
    #####################################*/
 
-const filtrarPorFecha = () => {
+   const filtrarPorFecha = () => {
     let fechaInicial = fechaInicio.value ? new Date(fechaInicio.value).setHours(0,0,0,0) : null;
     let fechaFinal = fechaFin.value ? new Date(fechaFin.value).setHours(23,59,59,999) : null;
     
@@ -58,11 +64,14 @@ const filtrarPorFecha = () => {
     filas.forEach(fila => {
         let fechaCassette = new Date(fila.cells[0].textContent).setHours(12,0,0,0);
 
-        if (fechaInicial && !fechaFinal && fechaCassette !== fechaInicial) {
-            fila.style.display = "none";
-        } else if (fechaInicial && fechaFinal && (fechaCassette < fechaInicial || fechaCassette > fechaFinal)) {
-            fila.style.display = "none";
+        if (fechaInicial && !fechaFinal) {
+            // Si solo se usa el primer input, mostrar solo los cassettes con esa fecha exacta
+            fila.style.display = (fechaCassette === fechaInicial) ? "" : "none";
+        } else if (fechaInicial && fechaFinal) {
+            // Si ambos inputs tienen valor, filtrar en el rango de fechas
+            fila.style.display = (fechaCassette >= fechaInicial && fechaCassette <= fechaFinal) ? "" : "none";
         } else {
+            // Si no hay filtros de fecha, mostrar todo
             fila.style.display = "";
         }
     });

@@ -50,7 +50,7 @@ Cassette.init(
       },
     qr_casette : {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
     organo_cassette: {
         type: DataTypes.STRING(30),
