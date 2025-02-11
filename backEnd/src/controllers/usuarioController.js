@@ -58,7 +58,7 @@ const createUser = async (req, res) => {
     const createdUser = await usuarioService.createUser(userData);
 
     res.status(200).json(createdUser);
-  
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
