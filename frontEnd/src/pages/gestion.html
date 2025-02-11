@@ -451,12 +451,15 @@
                     
                     <input type="date" id="fechaMuestra" class="w-full p-2 border rounded-md mb-4">
                     
-                    <!--! Select de tinciones, ACTUALIZAR A UNO COMPLETO -->
-                    <select id="tincionMuestra" class="w-full p-2 border rounded-md mb-4">
-                        <option value="" disabled selected>Seleccionar Tinción</option>
-                        <option>Hematoxilina</option>
-                        <option>Eosina</option>
-                        <option>Giemsa</option>
+                    <!-- Select de tinción-->
+                    <select id="editarTincionMuestra" class="w-full p-2 border rounded-md mb-4">
+                        <option value="Seleccionar">Seleccionar Tinción</option>
+                        <option value="Hematoxilina">Hematoxilina</option>
+                        <option value="Eosina">Eosina</option>
+                        <option value="Giemsa">Giemsa</option>
+                        <option value="Gram">Gram</option>
+                        <option value="AzuldeMetileno">Azul de Metileno</option>
+                        <option value="Papanicolau">Papanicolau</option>
                     </select>
                     
                     <textarea id="observacionesMuestra" placeholder="Observaciones" class="w-full p-2 border rounded-md mb-4"></textarea>
@@ -547,12 +550,15 @@
                     <input type="text" id="editarDescripcionMuestra" placeholder="Descripción" class="w-full p-2 border rounded-md mb-4">
                     
                     <input type="date" id="editarFechaMuestra" class="w-full p-2 border rounded-md mb-4" disabled>
-
-                    <!--! Select de tinciones, ACTUALIZAR A UNO COMPLETO -->
+                    <!-- Select de tinción-->
                     <select id="editarTincionMuestra" class="w-full p-2 border rounded-md mb-4">
+                        <option value="Seleccionar">Seleccionar Tinción</option>
                         <option value="Hematoxilina">Hematoxilina</option>
                         <option value="Eosina">Eosina</option>
                         <option value="Giemsa">Giemsa</option>
+                        <option value="Gram">Gram</option>
+                        <option value="AzuldeMetileno">Azul de Metileno</option>
+                        <option value="Papanicolau">Papanicolau</option>
                     </select>
                     
                     <textarea id="editarObservacionesMuestra" placeholder="Observaciones" class="w-full p-2 border rounded-md mb-4"></textarea>
