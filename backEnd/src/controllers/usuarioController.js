@@ -1,5 +1,7 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
+const { Usuario } = require('./../database/models/Usuario');
+
 
 // Obtener todos los clientes
 const getAllUsers = async (req, res) => {
@@ -84,7 +86,7 @@ const logUser = async (req, res) => {
     }
   } catch (error) {
 
-    return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message});
+    return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
 
   }
 };
@@ -113,7 +115,7 @@ const deleteUser = async (req, res) => {
     const { id } = req.params;
 
     const deletedUser = await usuarioService.deleteUser(id);
-    
+
     if (deletedUser) {
       res.status(200).json({ message: "Usuario eliminado" });
     } else {
@@ -140,6 +142,32 @@ const deleteAllUsers = async (req, res) => {
   }
 };
 
+// Recuperar contraseña de usuario existente
+const recuperarPassword = async (req, res) => {
+  try {
+    console.log("Solicitud recibida en /recuperar");
+    console.log("Cuerpo de la petición:", req.body);
+
+const email_usu = req.body.email_usu; // Extrae el email correctamente
+console.log("Email recibido:", email_usu);
+
+    const user = await usuarioService.getUserByEmail(email_usu);
+    if (user) {
+      console.log(user.email_usu);
+      console.log(user.id_usu);
+      const result = await usuarioService.recuperarPassword(user);
+      console.log(result.message);
+      res.json(result); // Esto devuelve la respuesta al frontend
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    console.error("Error en el servidor:", error);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+};
+
+
 module.exports = {
   getAllUsers,
   getUserById,
@@ -149,5 +177,6 @@ module.exports = {
   updateUser,
   deleteUser,
   deleteAllUsers,
+  recuperarPassword,
 };
 
