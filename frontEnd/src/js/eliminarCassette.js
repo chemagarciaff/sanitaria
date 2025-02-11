@@ -1,14 +1,19 @@
 /*
-    Funcionalidad para eliminar cassettes
-    Abrir y cerrar modal, eliminar el cassette seleccionado
+    Funcionalidad para eliminar cassettes desde la API
+    Abre y cierra el modal, elimina el cassette seleccionado
 */
 
-// Función para abrir el modal de confirmación de eliminación
+// Función para abrir el modal de eliminación
 const abrirModalEliminar = () => {
-    if (!cassetteSeleccionado || !modalEliminar) return;
+    if (!cassetteSeleccionado || !cassetteSeleccionado.id_cassette) {
+        console.error("No hay cassette seleccionado para eliminar.");
+        return;
+    }
+    
     modalEliminar.classList.remove("hidden");
     modalOverlay.classList.remove("hidden");
 };
+
 
 // Función para cerrar el modal de eliminación
 const cerrarModalEliminar = () => {
@@ -16,26 +21,53 @@ const cerrarModalEliminar = () => {
     modalOverlay.classList.add("hidden");
 };
 
-// Función para eliminar cassette seleccionado
-const eliminarCassette = () => {
-    if (!cassetteSeleccionado) return;
+// Función para eliminar el cassette seleccionado de la API y de la tabla
+const eliminarCassette = async () => {
+    if (!cassetteSeleccionado || !cassetteSeleccionado.dataset.id) {
+        console.error("No se encontró un cassette válido para eliminar.");
+        return;
+    }
 
-    // Eliminar la fila seleccionada
-    cassetteSeleccionado.remove();
-    cassetteSeleccionado = null;
+    const cassetteId = cassetteSeleccionado.dataset.id;
 
-    // Limpiar la información del detalle
-    detalleDescripcion.textContent = "";
-    detalleFecha.textContent = "";
-    detalleOrgano.textContent = "";
-    detalleCaracteristicas.textContent = "";
-    detalleObservaciones.textContent = "";
+    try {
+        const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${cassetteSeleccionado.id_cassette}`, {
+            method: "DELETE",
+        });
 
-    // Deshabilitar botones
-    editarCassetteBtn.classList.add("opacity-50", "cursor-not-allowed");
-    eliminarCassetteBtn.classList.add("opacity-50", "cursor-not-allowed");
+        if (!response.ok) {
+            throw new Error(`Error en la API al eliminar el cassette.`);
+        }
 
-    cerrarModalEliminar();
+        // Eliminar visualmente la fila del cassette de la tabla
+        cassetteSeleccionado.remove();
+        cassetteSeleccionado = null;
+
+        // Limpiar los detalles del cassette
+        detalleDescripcion.textContent = "";
+        detalleFecha.textContent = "";
+        detalleOrgano.textContent = "";
+        detalleCaracteristicas.textContent = "";
+        detalleObservaciones.textContent = "";
+        cassetteSeleccionado = null;
+
+        // Cerrar Modal
+        cerrarModalEliminar();
+
+        // Mostrar en caso de error o de funcionamiento 
+        console.log("Cassette eliminado correctamente.");
+    } catch (error) {
+        console.error("Error al eliminar el cassette:", error);
+    }
+};
+
+// Verificar que el cassette tiene un ID antes de seleccionarlo
+const seleccionarCassette = (fila) => {
+    if (!fila || !fila.dataset.id) {
+        console.error("La fila seleccionada no tiene un ID válido.");
+        return;
+    }
+    cassetteSeleccionado = fila;
 };
 
 // Asignar eventos a los botones del modal de eliminación

@@ -114,25 +114,30 @@ cassetteForm.addEventListener("submit", enviarFormulario);
 const agregarCassetteATabla = (cassette) => {
     let fila = document.createElement('tr');
     fila.classList.add("border-b", "hover:bg-gray-100");
+    // Añadir ID del cassette a la fila
+    fila.dataset.id = cassette.id_cassette;
 
+    // Añadir fecha cassette
     let fecha = document.createElement('td');
     fecha.textContent = cassette.fecha_cassette;
     fecha.classList.add("p-2", "text-gray-700", "text-center");
     fila.appendChild(fecha);
 
+    // Añadir descripción cassette
     let descripcion = document.createElement('td');
     descripcion.textContent = cassette.descripcion_cassette;
     descripcion.classList.add("p-2", "text-gray-700", "text-center");
     fila.appendChild(descripcion);
 
+    // Añadir organo cassette
     let organo = document.createElement('td');
     organo.textContent = cassette.organo_cassette;
     organo.classList.add("p-2", "text-gray-700", "text-center");
     fila.appendChild(organo);
 
+    // Añadir Icono cassette
     let columIcono = document.createElement('td');
     columIcono.classList.add("p-2", "text-center");
-
     let icono = document.createElement('div');
     icono.classList.add("relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer");
     icono.setAttribute("data-id", cassette.id_cassette);
@@ -144,6 +149,7 @@ const agregarCassetteATabla = (cassette) => {
         </svg>
     `;
 
+    // Añadir un listener al icono
     icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
 
     columIcono.appendChild(icono);
