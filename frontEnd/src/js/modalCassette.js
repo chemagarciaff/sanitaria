@@ -30,6 +30,7 @@ openModalBtn.addEventListener("click", () => {
     restringirFechaMinima(); // Aplicar restricción de fecha al abrir el modal
     abrirModal();
 });
+
 closeModalBtn.addEventListener("click", cerrarModal);
 
 // Petición para obtener todos los cassettes que existen 
@@ -176,3 +177,4 @@ const restringirFechaMinima = () => {
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
 document.addEventListener("DOMContentLoaded", loadCassettes);
+
