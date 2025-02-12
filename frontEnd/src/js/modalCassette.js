@@ -141,7 +141,7 @@ const crearFilaCassette = (cassette) => {
     icono.setAttribute("data-id", cassette.id_cassette);
 
     // Evento para obtener detalles al hacer clic en el icono
-    icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
+    // icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
 
     // Añadir icono a la fila
     columIcono.appendChild(icono);
