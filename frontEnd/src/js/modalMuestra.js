@@ -26,6 +26,7 @@ const loadMuestras = async (idCassette) =>{
     const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
     const data = await response.json();
     createMuestras(data);
+    muestrasFromCassette = data;
 }
 //Crear muestras
 const createMuestras = (muestras) =>{

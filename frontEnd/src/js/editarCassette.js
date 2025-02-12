@@ -1,8 +1,6 @@
 /*
-    PARTE DE CARLOS PARA EDITAR Y BORRAR CASSETTES
-
+    PARTE DE CARLOS PARA EDITAR CASSETTES
 */
-
 const btnEditCassette = document.getElementById('btnEditarCassette');
 const modalEditCassette = document.getElementById('modalEditarCassette');
 const cerrarModalEdicion = document.getElementById('cerrarEditarModal');
@@ -11,8 +9,14 @@ const editarFecha = document.getElementById('editarFecha');
 const editarOrgano = document.getElementById('editarOrgano');
 const editarCaracteristicas = document.getElementById('editarCaracteristicas');
 const editarObservaciones = document.getElementById('editarObservaciones');
-const formEditarCassette = document.getElementById('formEditarCassette')
+const formEditarCassette = document.getElementById('formEditarCassette');
+const fechaInputEditar = document.getElementById("editarFecha");
 /* FUNCIONES */
+// Función para establecer la fecha mínima como la actual
+const restringirFechaMinimaEdicion = () => {
+    const hoy = new Date().toISOString().split("T")[0];
+    fechaInputEditar.setAttribute("min", hoy);
+};
 //Abrir modal
 const openModalEdition = (event) =>{
     let aux = event.target;
@@ -66,13 +70,14 @@ const postNewDetailsCassette = async (event) =>{
         //Cerramos modal
         modalEditCassette.classList.add('hidden');
         //Volvemos a cargar los cassettes
-        loadCassettes(idCassetteGlobal);
+        loadCassettes();
     }
 }
 /*EVENTOS*/
 btnEditCassette.addEventListener('click',openModalEdition);
 cerrarModalEdicion.addEventListener('click',closeModalEdition);
-formEditarCassette.addEventListener('submit',postNewDetailsCassette)
+formEditarCassette.addEventListener('submit',postNewDetailsCassette);
+document.addEventListener("DOMContentLoaded", restringirFechaMinimaEdicion);
 // /*
 //     Funcionalidad para editar cassettes
 //     Abrir modal con la info del cassette seleccionado, cerrar modal y guardar cambios en la API
@@ -230,5 +235,5 @@ formEditarCassette.addEventListener('submit',postNewDetailsCassette)
 // };
 
 // // Aplicar la restricción al cargar el modal de edición
-// document.addEventListener("DOMContentLoaded", restringirFechaMinimaEdicion);
+
 
