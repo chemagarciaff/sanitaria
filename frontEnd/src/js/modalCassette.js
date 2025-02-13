@@ -30,7 +30,6 @@ openModalBtn.addEventListener("click", () => {
     restringirFechaMinima(); // Aplicar restricción de fecha al abrir el modal
     abrirModal();
 });
-
 closeModalBtn.addEventListener("click", cerrarModal);
 
 // Petición para obtener todos los cassettes que existen 
@@ -142,7 +141,7 @@ const crearFilaCassette = (cassette) => {
     icono.setAttribute("data-id", cassette.id_cassette);
 
     // Evento para obtener detalles al hacer clic en el icono
-    icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
+    // icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
 
     // Añadir icono a la fila
     columIcono.appendChild(icono);
@@ -177,4 +176,3 @@ const restringirFechaMinima = () => {
 // Aplicar la restricción cuando se cargue la página
 document.addEventListener("DOMContentLoaded", restringirFechaMinima);
 document.addEventListener("DOMContentLoaded", loadCassettes);
-
