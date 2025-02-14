@@ -1,5 +1,7 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
+const generarToken = require("../utils/token");
+const createToken = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
 
 
@@ -64,12 +66,17 @@ const createUser = async (req, res) => {
   }
 };
 
-// Crear un nuevo cliente
+// Logear cliente 
 const logUser = async (req, res) => {
   try {
     const { email_usu, password_usu } = req.body;
 
     const user = await usuarioService.getUserByEmail(email_usu);
+
+    const token = createToken()
+
+    console.log("Usuario encontrado:", user);
+
 
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
@@ -77,7 +84,16 @@ const logUser = async (req, res) => {
 
     if (contraseñaCorrecta) {
 
+
       return res.status(200).json({ message: 'Loggin correcto' });
+
+      res.cookie('access_token',token, {
+        httpOnly: true,
+        maxAge: 86400000,
+        sameSite: 'strict'
+      })
+      return res.json({ message: 'Loggin correcto' });
+
 
     } else {
 
