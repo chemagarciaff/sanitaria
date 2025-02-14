@@ -19,6 +19,8 @@ const showMuestrasAndDetalles = async (event) =>{
     if (idCassette) {
         loadMuestras(idCassette);
         loadOneCassette(idCassette);
+        errorCrearMuestra.textContent = "";
+        errorMuestra.textContent = "";
     }
 }
 
