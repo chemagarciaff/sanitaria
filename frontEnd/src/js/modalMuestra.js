@@ -19,8 +19,6 @@ const showMuestrasAndDetalles = async (event) =>{
     if (idCassette) {
         loadMuestras(idCassette);
         loadOneCassette(idCassette);
-        errorCrearMuestra.textContent = "";
-        errorMuestra.textContent = "";
     }
 }
 
@@ -40,26 +38,48 @@ const createMuestras = (muestras) =>{
     let fragment = document.createDocumentFragment();
     //Recorremos el array de objetos
     muestras.forEach((muestra) => {
+
         //Crear fila
         let fila = document.createElement('tr');
+        fila.classList.add("border-b", "hover:bg-gray-100");
+
         //Columna fecha
         let fecha = document.createElement('td');
+
         //Objeto Date
         const fechaDate = new Date(muestra.fecha_muestra);
         const fechaFormateada = fechaDate.toISOString().split('T')[0];
         fecha.textContent = fechaFormateada;
+        fecha.classList.add("p-2", "text-gray-700", "text-center");
         fila.appendChild(fecha);
+
         //Columna descripcion
         let descripcion = document.createElement('td');
         descripcion.textContent = muestra.descripcion_muestra;
+        descripcion.classList.add("p-2", "text-gray-700", "text-center");
         fila.appendChild(descripcion);
+
         //Columna tincion
         let tincion = document.createElement('td');
         tincion.textContent = muestra.tincion_muestra;
+        tincion.classList.add("p-2", "text-gray-700", "text-center");
         fila.appendChild(tincion);
+
+        //Columna icono
+        let columIcono = document.createElement('td');
+        columIcono.classList.add("p-2", "text-center");
+
+        // Icono del cassette
+        let icono = document.createElement('i');
+        icono.classList.add("p-none", "mt-4", "icono", "fa-solid", "fa-file", "relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer", "hover:text-teal-400", "active:text-teal-700");
+        icono.setAttribute("data-id", muestra.id_muestra);
+        columIcono.appendChild(icono);
+        fila.appendChild(columIcono);
+
         //Añadimos la fila al fragment
         fragment.appendChild(fila);
     });
+
     containerMuestra.appendChild(fragment)
 }
 
@@ -69,7 +89,6 @@ const loadOneCassette = async (idCassette) =>{
     const data = await response.json();
     createDetailOfCassette(data);
 }
-
 //Crear los datos de los detalles
 const createDetailOfCassette = (cassette) =>{
     //Dejar el contenido vacio 
@@ -85,13 +104,15 @@ const createDetailOfCassette = (cassette) =>{
     detalleObservaciones.textContent = cassette.observaciones_cassette;
     detalleOrgano.textContent = cassette.organo_cassette;
 }
-
 // Función para abrir el modal de muestras
 const abrirModalMuestra = (event) => {
     if (!idCassetteGlobal) {
         errorCrearMuestra.textContent = "Debes seleccionar un cassette antes de añadir una muestra.";
         return;
     }
+
+    errorCrearMuestra.textContent = "";
+    errorMuestra.textContent = "";
 
     modalOverlay.classList.remove("hidden");
     modalMuestra.classList.remove("hidden");
@@ -100,7 +121,6 @@ const abrirModalMuestra = (event) => {
         modalMuestraContent.classList.remove("scale-95");
     }, 10);
 };
-
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) =>{
     event.preventDefault();
@@ -130,7 +150,6 @@ const postMuestra = async (event) =>{
         loadMuestras(idCassetteGlobal)
     }
 }
-
 // Función para cerrar el modal de muestras
 const cerrarModalMuestra = () => {
     modalMuestraContent.classList.add("scale-95");
