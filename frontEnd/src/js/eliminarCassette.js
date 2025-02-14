@@ -14,6 +14,14 @@ let arrayIdMuestras = [];
 const showModalDelete = (event) =>{
     let aux = event.target;
 
+    if (!idCassetteGlobal) {
+        errorCrearMuestra.textContent = "Debes seleccionar un cassette antes de eliminarlo.";
+        return;
+    }
+
+    errorCrearMuestra.textContent = "";
+    errorMuestra.textContent = "";
+
     modalOverlay.classList.remove("hidden");
     modalEliminarCassette.classList.remove("hidden");
     

@@ -21,6 +21,7 @@ const showMuestrasAndDetalles = async (event) =>{
         loadOneCassette(idCassette);
     }
 }
+
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) =>{
     const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
@@ -28,6 +29,7 @@ const loadMuestras = async (idCassette) =>{
     createMuestras(data);
     muestrasFromCassette = data;
 }
+
 //Crear muestras
 const createMuestras = (muestras) =>{
     //Dejamos el contenedor a blanco
@@ -58,12 +60,14 @@ const createMuestras = (muestras) =>{
     });
     containerMuestra.appendChild(fragment)
 }
+
 //Cargar los cassetes
 const loadOneCassette = async (idCassette) =>{
     const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassette}`)
     const data = await response.json();
     createDetailOfCassette(data);
 }
+
 //Crear los datos de los detalles
 const createDetailOfCassette = (cassette) =>{
     //Dejar el contenido vacio 
@@ -79,6 +83,7 @@ const createDetailOfCassette = (cassette) =>{
     detalleObservaciones.textContent = cassette.observaciones_cassette;
     detalleOrgano.textContent = cassette.organo_cassette;
 }
+
 // Función para abrir el modal de muestras
 const abrirModalMuestra = (event) => {
     if (!idCassetteGlobal) {
@@ -96,6 +101,7 @@ const abrirModalMuestra = (event) => {
         modalMuestraContent.classList.remove("scale-95");
     }, 10);
 };
+
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) =>{
     event.preventDefault();
@@ -125,6 +131,7 @@ const postMuestra = async (event) =>{
         loadMuestras(idCassetteGlobal)
     }
 }
+
 // Función para cerrar el modal de muestras
 const cerrarModalMuestra = () => {
     modalMuestraContent.classList.add("scale-95");
