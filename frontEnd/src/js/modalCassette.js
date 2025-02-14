@@ -123,19 +123,19 @@ const crearFilaCassette = (cassette) => {
     // Columna fecha
     let fecha = document.createElement('td');
     fecha.textContent = cassette.fecha_cassette;
-    fecha.classList.add("p-2", "text-gray-700", "text-center");
+    fecha.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(fecha);
 
     // Columna descripción
     let descripcion = document.createElement('td');
     descripcion.textContent = cassette.descripcion_cassette;
-    descripcion.classList.add("p-2", "text-gray-700", "text-center");
+    descripcion.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(descripcion);
 
     // Columna órgano
     let organo = document.createElement('td');
     organo.textContent = cassette.organo_cassette;
-    organo.classList.add("p-2", "text-gray-700", "text-center");
+    organo.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(organo);
 
     // Columna icono

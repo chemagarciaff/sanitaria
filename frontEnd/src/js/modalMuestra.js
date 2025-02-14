@@ -50,19 +50,19 @@ const createMuestras = (muestras) =>{
         const fechaDate = new Date(muestra.fecha_muestra);
         const fechaFormateada = fechaDate.toISOString().split('T')[0];
         fecha.textContent = fechaFormateada;
-        fecha.classList.add("p-2", "text-gray-700", "text-center");
+        fecha.classList.add("p-2", "text-gray-700", "text-left");
         fila.appendChild(fecha);
 
         //Columna descripcion
         let descripcion = document.createElement('td');
         descripcion.textContent = muestra.descripcion_muestra;
-        descripcion.classList.add("p-2", "text-gray-700", "text-center");
+        descripcion.classList.add("p-2", "text-gray-700", "text-left");
         fila.appendChild(descripcion);
 
         //Columna tincion
         let tincion = document.createElement('td');
         tincion.textContent = muestra.tincion_muestra;
-        tincion.classList.add("p-2", "text-gray-700", "text-center");
+        tincion.classList.add("p-2", "text-gray-700", "text-left");
         fila.appendChild(tincion);
 
         //Columna icono
@@ -89,6 +89,7 @@ const loadOneCassette = async (idCassette) =>{
     const data = await response.json();
     createDetailOfCassette(data);
 }
+
 //Crear los datos de los detalles
 const createDetailOfCassette = (cassette) =>{
     //Dejar el contenido vacio 
@@ -104,6 +105,7 @@ const createDetailOfCassette = (cassette) =>{
     detalleObservaciones.textContent = cassette.observaciones_cassette;
     detalleOrgano.textContent = cassette.organo_cassette;
 }
+
 // Función para abrir el modal de muestras
 const abrirModalMuestra = (event) => {
     if (!idCassetteGlobal) {
@@ -121,6 +123,7 @@ const abrirModalMuestra = (event) => {
         modalMuestraContent.classList.remove("scale-95");
     }, 10);
 };
+
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) =>{
     event.preventDefault();
@@ -163,43 +166,6 @@ const cerrarModalMuestra = () => {
 // Event listeners para abrir/cerrar modal
 openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
 closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
-
-/*
-    Función para validar formulario y enviar evento de creación
-*/
-// const validarYEnviarMuestra = (event) => {
-//     event.preventDefault();
-
-//     const descripcion = document.getElementById("descripcionMuestra").value.trim();
-//     const fecha = document.getElementById("fechaMuestra").value.trim();
-//     const tincion = document.getElementById("tincionMuestra").value.trim();
-//     const observaciones = document.getElementById("observacionesMuestra").value.trim();
-//     const imagen = document.getElementById("imagenMuestra").files[0];
-
-//     // Validar que todos los campos obligatorios están llenos
-//     if (!descripcion || !fecha || !tincion || !observaciones) {
-//         errorMuestra.textContent = "Rellena los campos obligatorios";
-//         return;
-//     }
-
-//     //! Disparar evento para que muestras.js gestione la creación
-//     document.dispatchEvent(new CustomEvent("muestraCreada", {
-//         detail: {
-//             descripcion,
-//             fecha,
-//             tincion,
-//             observaciones,
-//             imagen: imagen ? URL.createObjectURL(imagen) : null,
-//         }
-//     }));
-
-//     // Cerrar el modal y limpiar el formulario
-//     cerrarModalMuestra();
-//     muestraForm.reset();
-// };
-
-// Event listener para validar y enviar formulario
-
 
 // Limitar fecha input
 document.addEventListener("DOMContentLoaded", () => {
