@@ -3,6 +3,9 @@ const cookieParser = require('cookie-parser')
 const express = require("express");
 const cors = require('cors');
 const app = express();
+const cors = require("cors");
+require('dotenv').config();
+
 
 // conexión con mysql y relaciones
 const sequelize = require("./database/db.js");
