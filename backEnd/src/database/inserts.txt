@@ -1,7 +1,7 @@
 
 INSERT INTO usuarios (nombre_usu, apellidos_usu, email_usu, password_usu, centro_usu, rol)
 VALUES 
-('Sergi', 'Pérez', 'sruedaglez@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 1', 'A'),
+('Miguel', 'Pérez', 'miguel.perez@gmail.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 1', 'A'),
 ('Ana', 'Gómez', 'ana.gomez@email.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 2', 'T'),
 ('Luis', 'Martínez', 'luis.martinez@email.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 3', 'T');
 
