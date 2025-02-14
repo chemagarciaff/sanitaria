@@ -11,6 +11,7 @@ const editarCaracteristicas = document.getElementById('editarCaracteristicas');
 const editarObservaciones = document.getElementById('editarObservaciones');
 const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
+
 /* FUNCIONES */
 // Función para establecer la fecha mínima como la actual
 const restringirFechaMinimaEdicion = () => {
@@ -19,6 +20,14 @@ const restringirFechaMinimaEdicion = () => {
 };
 //Abrir modal
 const openModalEdition = (event) =>{
+
+    modalOverlay.classList.remove("hidden");
+    modalEditCassette.classList.remove("hidden");
+    
+    setTimeout(() => {
+        modalContent.classList.remove("scale-95", "opacity-0");
+    }, 10);
+
     let aux = event.target;
     //Comporbamos si clicka en el logo
     if (aux.tagName === "path" || aux.tagName === "svg") {
@@ -28,6 +37,14 @@ const openModalEdition = (event) =>{
 }
 //Cerrar modal
 const closeModalEdition = (event) =>{
+
+    modalContent.classList.add("scale-95");
+    setTimeout(() => {
+        modalOverlay.classList.add("hidden");
+        modalEditCassette.classList.add("hidden");
+        errorMessage.textContent = "";
+    }, 300);
+
     let aux = event.target;
     if (aux === cerrarModalEdicion) {
         modalEditCassette.classList.add('hidden');
@@ -73,11 +90,15 @@ const postNewDetailsCassette = async (event) =>{
         loadCassettes();
     }
 }
+
 /*EVENTOS*/
 btnEditCassette.addEventListener('click',openModalEdition);
 cerrarModalEdicion.addEventListener('click',closeModalEdition);
 formEditarCassette.addEventListener('submit',postNewDetailsCassette);
 document.addEventListener("DOMContentLoaded", restringirFechaMinimaEdicion);
+closeModalBtn.addEventListener("click", cerrarModal);
+modalOverlay.addEventListener("click", cerrarModal);
+
 // /*
 //     Funcionalidad para editar cassettes
 //     Abrir modal con la info del cassette seleccionado, cerrar modal y guardar cambios en la API

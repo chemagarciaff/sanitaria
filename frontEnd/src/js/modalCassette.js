@@ -10,6 +10,7 @@ const contAddCassettes = document.getElementById('cassetteTableBody');
 const abrirModal = () => {
     modalOverlay.classList.remove("hidden");
     modal.classList.remove("hidden");
+    
     setTimeout(() => {
         modalContent.classList.remove("scale-95", "opacity-0");
     }, 10);
@@ -27,10 +28,12 @@ const cerrarModal = () => {
 
 // Event listeners para abrir y cerrar el modal
 openModalBtn.addEventListener("click", () => {
-    restringirFechaMinima(); // Aplicar restricción de fecha al abrir el modal
+    restringirFechaMinima();
     abrirModal();
 });
+
 closeModalBtn.addEventListener("click", cerrarModal);
+modalOverlay.addEventListener("click", cerrarModal);
 
 // Petición para obtener todos los cassettes que existen 
 const loadCassettes = async () => {
@@ -41,11 +44,11 @@ const loadCassettes = async () => {
 
 // Mostrar por pantalla los cassettes
 const showCassettes = (cassettes) => {
-    contAddCassettes.innerHTML = ""; // Limpiar la tabla antes de añadir los nuevos cassettes
+    contAddCassettes.innerHTML = "";
     let fragment = document.createDocumentFragment();
 
     cassettes.forEach(cassette => {
-        fragment.appendChild(crearFilaCassette(cassette)); // Reutilizamos la función para mantener consistencia
+        fragment.appendChild(crearFilaCassette(cassette));
     });
 
     contAddCassettes.appendChild(fragment);

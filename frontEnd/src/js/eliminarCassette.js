@@ -8,15 +8,42 @@ const cancelarEliminar = document.getElementById('cancelarEliminar');
 const confirmarEliminar = document.getElementById('confirmarEliminar');
 let muestrasFromCassette = [];
 let arrayIdMuestras = [];
+
 /*FUNCIONES*/
 //Mostrar modal delete cassette
 const showModalDelete = (event) =>{
     let aux = event.target;
+
+    modalOverlay.classList.remove("hidden");
+    modalEliminarCassette.classList.remove("hidden");
+    
+    setTimeout(() => {
+        modalContent.classList.remove("scale-95", "opacity-0");
+    }, 10);
+
     //Comprobar si pulsa al boton eliminar
     if (aux.tagName === "svg" || aux.tagName === "path") {
         modalEliminarCassette.classList.remove('hidden');
     }
 }
+
+//Cerrar modal
+const closeModalDelete = (event) =>{
+    let aux = event.target;
+
+    modalOverlay.classList.add("hidden");
+    modalEliminarCassette.classList.add("hidden");
+    
+    setTimeout(() => {
+        modalContent.classList.remove("scale-95", "opacity-0");
+    }, 10);
+
+    //Comprobar que boton pulsa
+    if (aux === cerrarEliminarModal || aux === cancelarEliminar) {
+        modalEliminarCassette.classList.add('hidden');
+    }
+}
+
 //Accion que elige el usuario en el modal
 const actionUserChange = async (event) =>{
     let aux = event.target;
@@ -62,14 +89,7 @@ const deleteOneMuestraFromId = async () =>{
         await deleteMuestrasFromOneCassette(id);
     }
 }
-//Cerrar modal
-const closeModalDelete = (event) =>{
-    let aux = event.target;
-    //Comprobar que boton pulsa
-    if (aux === cerrarEliminarModal || aux === cancelarEliminar) {
-        modalEliminarCassette.classList.add('hidden');
-    }
-}
+
 /*EVENTOS*/
 btnEliminarCassette.addEventListener('click',showModalDelete);
 modalEliminarCassette.addEventListener('click',actionUserChange);

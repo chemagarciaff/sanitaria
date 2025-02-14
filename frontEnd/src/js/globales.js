@@ -13,7 +13,7 @@ const modalContent = document.getElementById("modal-content");
 
 const openModalBtn = document.getElementById("openModalBtn");
 const closeModalBtn = document.getElementById("closeModalBtn");
-const modalOverlay = document.getElementById("modal-overlay");
+const modalOverlay = document.getElementById("modalOverlay");
 
 // Inputs de Cassette
 const descripcionInput = document.getElementById("descripcionInput");
@@ -61,6 +61,4 @@ const errorMuestra = document.getElementById("errorMuestra");
 // Variables de control
 let ordenAscendente = true;
 let cassetteSeleccionado = null;
-
-
 
