@@ -6,6 +6,7 @@ const tincion = document.getElementById("editarTincionMuestra");
 const observaciones = document.getElementById("observacionesMuestra");
 const imagen = document.getElementById("imagenMuestra").files[0];
 let idCassetteGlobal = null;
+
 /* 
     Funciones del Modal Añadir Muestras
     Abrir, cerrar modal y validar form del modal
