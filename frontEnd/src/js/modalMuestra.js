@@ -91,9 +91,6 @@ const abrirModalMuestra = (event) => {
         return;
     }
 
-    errorCrearMuestra.textContent = "";
-    errorMuestra.textContent = "";
-
     modalOverlay.classList.remove("hidden");
     modalMuestra.classList.remove("hidden");
 

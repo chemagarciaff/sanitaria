@@ -45,6 +45,10 @@ const loadCassettes = async () => {
 // Mostrar por pantalla los cassettes
 const showCassettes = (cassettes) => {
     contAddCassettes.innerHTML = "";
+
+    errorCrearMuestra.textContent = "";
+    errorMuestra.textContent = "";
+
     let fragment = document.createDocumentFragment();
 
     cassettes.forEach(cassette => {

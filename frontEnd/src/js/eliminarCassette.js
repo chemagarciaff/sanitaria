@@ -19,9 +19,6 @@ const showModalDelete = (event) =>{
         return;
     }
 
-    errorCrearMuestra.textContent = "";
-    errorMuestra.textContent = "";
-
     modalOverlay.classList.remove("hidden");
     modalEliminarCassette.classList.remove("hidden");
     

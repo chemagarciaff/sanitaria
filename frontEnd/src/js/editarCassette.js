@@ -26,9 +26,6 @@ const openModalEdition = (event) =>{
         return;
     }
 
-    errorCrearMuestra.textContent = "";
-    errorMuestra.textContent = "";
-
     modalOverlay.classList.remove("hidden");
     modalEditCassette.classList.remove("hidden");
     
