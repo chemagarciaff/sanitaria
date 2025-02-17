@@ -2,6 +2,7 @@ const usuarioRouter = require("express").Router();
 const usuarioController = require("../controllers/usuarioController");
 const userToken = require('./middlewares')
 const Usuario = require('./../database/models/Usuario');
+const checkToken = require("./middlewares");
 
 
 usuarioRouter.get("/", usuarioController.getAllUsers);
@@ -16,8 +17,8 @@ usuarioRouter.get("/email/:email", usuarioController.getUserByEmail);
 usuarioRouter.post("/", usuarioController.createUser);
 
 
-usuarioRouter.post("/logUser", userToken.checkToken ,usuarioController.logUser);
-
+usuarioRouter.post("/logUser", checkToken ,usuarioController.logUser);
+// usuarioRouter.post("/logUser", checkToken);
 
 usuarioRouter.put("/:id", usuarioController.updateUser);
 

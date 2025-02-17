@@ -3,25 +3,27 @@ const moment = require("moment");
 const token = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
-  const userToken = req.cookies.access_token;
-  let payload = {};
-
-  if (!userToken) {
-    return res.json({ error: "Falta Token" });
-  }
-
   try {
-    payload = jwt.verify(userToken,token.secretKey);
-  } catch (error) {
-    return res.json({ error: "Token incorrecto" });
-  }
+    const userToken = req.header;
+    let payload = {};
 
-  if (payload.expiredAt < moment().unix()) {
-    return res.json({
-      error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
-    });
+    //Controlamos que existen toke
+    if (!userToken) {
+      return res.satus(401).json({ error: "Falta Token" });
+    }
+    //Comprobamos si el token es correcto
+    payload = jwt.verify(userToken,token.secretKey);
+    
+    req.user = jwt.decode.user;
+    next();
+    if (payload.expiredAt < moment().unix()) {
+      return res.json({
+        error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
+      });
+    }
+  } catch (error) {
+    // res.satus(401).json({message: "Token incorrecto"})
   }
-  next();
 };
 
-module.exports = { checkToken };
+module.exports = checkToken ;

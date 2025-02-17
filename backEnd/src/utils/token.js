@@ -7,6 +7,8 @@ const createToken = (req,res,next) =>{
     const token = jwt.sign(payload,secretKey,{
         expiresIn: '24h'
     })
+    console.log(token);
+    
 }
 
 module.exports = {createToken,secretKey}
