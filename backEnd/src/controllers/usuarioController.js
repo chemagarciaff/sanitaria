@@ -81,7 +81,9 @@ const logUser = async (req, res) => {
 
     if (contraseñaCorrecta) {
 
+
       return res.status(200).json({ message: 'Loggin correcto' });
+
       res.cookie('access_token',token, {
         httpOnly: true,
         maxAge: 86400000,
