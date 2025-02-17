@@ -34,28 +34,14 @@ let addImagen = document.getElementById('addImagen');
 */
 
 //Mostrar muestras y detalles del cassette seleccionado
-const showMuestrasAndDetalles = async (event) =>{
+const showMuestrasAndDetalles = async (event) => {
     let idCassette = returnIdOfCassette(event);
     idCassetteGlobal = idCassette;
-
     if (idCassette) {
-        // Quitar selección anterior
-        if (filaCassetteSeleccionado) {
-            filaCassetteSeleccionado.classList.remove("bg-teal-100", "font-semibold");
-        }
-
-        // Guardar la fila seleccionada
-        filaCassetteSeleccionado = event.target.closest("tr");
-        if (filaCassetteSeleccionado) {
-            filaCassetteSeleccionado.classList.add("bg-teal-100", "font-semibold");
-        }
-
-        // Cargar los detalles y muestras del cassette seleccionado
-        await loadMuestras(idCassette);
-        await loadOneCassette(idCassette);
+        loadMuestras(idCassette);
+        loadOneCassette(idCassette);
     }
-};
-
+}
 
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) => {
