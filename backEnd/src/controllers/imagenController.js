@@ -76,10 +76,8 @@ const getImagesByMuestra = async (req, res) => {
  */
 const createImage = async (req, res) => {
   try {
-    const file = req.file;
-    console.log("archivo: " + file);
+    const {file} = req;
     const imageBuffer = file.buffer;
-    console.log("buffer: " + imageBuffer);
     const body = {
       imagen: imageBuffer,
       muestraIdMuestra: req.body.muestraIdMuestra
