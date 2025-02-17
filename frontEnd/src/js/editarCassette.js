@@ -50,7 +50,7 @@ const closeModalEdition = (event) =>{
         modalOverlay.classList.add("hidden");
         modalEditCassette.classList.add("hidden");
         errorMessage.textContent = "";
-    }, 300);
+    }, 100);
 
     let aux = event.target;
     if (aux === cerrarModalEdicion) {
@@ -60,15 +60,10 @@ const closeModalEdition = (event) =>{
 
 //Mostrar detalles en modal de edicon
 const showDetailsModalEdition = () =>{
-    //Añadir valor descripcion
     editarDescripcion.value = detalleDescripcion.textContent;
-    //Añadir valor fecha
     editarFecha.value = detalleFecha.textContent;
-    //Añadir valor organo
     editarOrgano.value = detalleOrgano.textContent;
-    //Añadir valor caracteristicas
     editarCaracteristicas.value = detalleCaracteristicas.textContent;
-    //Añadir valor observaciones
     editarObservaciones.value = detalleObservaciones.textContent;
 }
 
