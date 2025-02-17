@@ -8,6 +8,7 @@ const editarDescripcion = document.getElementById('editarDescripcion');
 const editarFecha = document.getElementById('editarFecha');
 const editarOrgano = document.getElementById('editarOrgano');
 const editarCaracteristicas = document.getElementById('editarCaracteristicas');
+const editarCodigo = document.getElementById("editarCodigo");
 const editarObservaciones = document.getElementById('editarObservaciones');
 const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");

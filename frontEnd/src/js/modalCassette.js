@@ -68,11 +68,12 @@ const enviarFormulario = async (event) => {
     const descripcion = descripcionInput.value.trim();
     const fecha = fechaInput.value.trim();
     const organo = organoInput.value.trim();
+    const codigo = codigoInput.value.trim();
     const caracteristicas = caracteristicasInput.value.trim() || "Sin características";
     const observaciones = observacionesInput.value.trim() || "Sin observaciones";
 
-    if (!descripcion || !fecha || !organo) {
-        errorMessage.textContent = "Los campos Descripción, Fecha y Órgano son obligatorios.";
+    if (!descripcion || !fecha || !organo || !codigo) {
+        errorMessage.textContent = "Los campos Descripción, Fecha, Órgano y Código son obligatorios.";
         return;
     }
 
@@ -80,6 +81,7 @@ const enviarFormulario = async (event) => {
         fecha_cassette: fecha,
         descripcion_cassette: descripcion,
         organo_cassette: organo,
+        codigo_cassette: codigo,
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };

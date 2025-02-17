@@ -21,6 +21,7 @@ const fechaInput = document.getElementById("fechaInput");
 const organoInput = document.getElementById("organoInput");
 const caracteristicasInput = document.getElementById("caracteristicasInput");
 const observacionesInput = document.getElementById("observacionesInput");
+const codigoInput = document.getElementById("codigoInput");
 
 // Formulario y tabla de cassettes
 const cassetteForm = document.getElementById("cassetteForm");
