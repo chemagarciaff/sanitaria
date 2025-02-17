@@ -33,4 +33,9 @@ usuarioRouter.delete("/", usuarioController.deleteAllUsers);
 //Ruta de recuperacion de contraseña
 usuarioRouter.post("/recuperar", usuarioController.recuperarPassword);
 
+//Ruta para que solamente el admin pueda cambiar el rol de un usuario
+usuarioRouter.put("/:id/rol", usuarioController.isAdmin, usuarioController.changeUserRole);
+
+
+
 module.exports = usuarioRouter;

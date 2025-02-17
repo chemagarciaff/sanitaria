@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administrar Roles</title>
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+</head>
+<body>
+    <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">
+        <h1 class="mt-12 text-2xl">Administrar Roles</h1>
+        <form id="form_roles" class="flex flex-col items-center gap-5 mt-6" novalidate>
+            <!-- DATOS A RELLENAR -->
+            <!-- USER ID -->
+            <input type="text" id="user_id"
+                class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                required
+                placeholder="ID de Usuario">
+            <p id="error_user_id" class="hidden error"></p>
+            <!-- ROL -->
+            <select id="user_role"
+                class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                required>
+                <option value="" disabled selected>Selecciona Rol</option>
+                <option value="A">Administrador</option>
+                <option value="T">Técnico</option>
+            </select>
+            <p id="error_user_role" class="hidden error"></p>
+            <!-- BUTTON -->
+            <button id="btn_change_role" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Cambiar Rol</button>
+        </form>
+    </div>
+    <script src="./js/roles.js"></script>
+</body>
+</html>

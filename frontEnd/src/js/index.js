@@ -49,17 +49,17 @@ const changeIconEye = (btn) =>{
     spanEye.classList.toggle('mdi-eye-off-outline');
 }
 //Coprobar si existe el user
-const compUser = (event) =>{
+// const compUser = (event) =>{
 
-    let user = validateLoginUser(event);
-    const token = importToke.j
+//     let user = validateLoginUser(event);
+//     const token = importToke.j
 
     
-}
-//Validacion de inicio de sesion
-const loginUser = (event) =>{
-    validateLoginUser(event)
-}
+// }
+// //Validacion de inicio de sesion
+// const loginUser = (event) =>{
+//     validateLoginUser(event)
+// }
 
 ////ENVIAR CORREO DE RECUPERACION
 document.getElementById("btn_recuperar").addEventListener("click", async () => {
@@ -109,6 +109,49 @@ const enviarCorreo = (email) => {
         btn_recuperar.disabled = false;
         alert(`Se ha enviado un enlace de recuperación a ${email}`);
     }, 2000); //Envío de 2 segundos
+};
+
+// Añadir botón de roles solo para administradores
+const addAdminButton = (rol) => {
+    if (rol === 'A') {
+        const adminButton = document.createElement('button');
+        adminButton.textContent = 'Administrar Roles';
+        adminButton.className = 'bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200';
+        adminButton.onclick = () => {
+            window.location.href = './pages/roles.html';
+        };
+        container.appendChild(adminButton);
+    }
+};
+
+// Validación de inicio de sesión
+const loginUser = async (event) => {
+    event.preventDefault();
+
+    const email = document.getElementById('login_correo').value;
+    const password = document.getElementById('login_password').value;
+
+    try {
+        const response = await fetch('http://localhost:3000/sanitaria/usuarios/logUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email_usu: email, password_usu: password }),
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            alert('Inicio de sesión correcto');
+            addAdminButton(data.rol); // Añadir botón si el usuario es administrador
+        } else {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.message}`);
+        }
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error);
+        alert('Error al iniciar sesión');
+    }
 };
 
 //EVENTOS
