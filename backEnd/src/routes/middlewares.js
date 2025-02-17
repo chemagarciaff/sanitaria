@@ -4,7 +4,7 @@ const {verificToken} = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
   try {
-    const userToken = req.header("Authorization")?.replace("Bearer ", "");
+    const userToken = req.cookies.access_token;
     let payload = {};
 
     //Controlamos que existen toke
@@ -19,7 +19,7 @@ const checkToken = (req, res, next) => {
     }
 
     
-    req.user = jwt.decode.user;
+    req.user = comparacion;
     next();
     if (payload.expiredAt < moment().unix()) {
       return res.json({
