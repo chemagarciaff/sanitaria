@@ -5,7 +5,22 @@ const fecha = document.getElementById("fechaMuestra");
 const tincion = document.getElementById("editarTincionMuestra");
 const observaciones = document.getElementById("observacionesMuestra");
 const imagen = document.getElementById("imagenMuestra").files[0];
+
+const btnEditarMuestra = document.getElementById("btnEditarMuestra");
+const btnEliminarMuestra = document.getElementById("btnEliminarMuestra");
+
+const modalOverlayEditarMuestra = document.getElementById("modalOverlayEditarMuestra");
+
+const modalEditarMuestra = document.getElementById("modalEditarMuestra");
+const cerrarEditarMuestra = document.getElementById("cerrarEditarMuestra");
+const modalDetalleMuestra = document.getElementById("modalDetalleMuestra");
+
+const modalEliminarMuestra = document.getElementById("modalEliminarMuestra"); 
+const cerrarEliminarMuestra = document.getElementById("cerrarEliminarMuestra");
+const cancelarEliminarMuestra = document.getElementById("cancelarEliminarMuestra");
+
 let idCassetteGlobal = null;
+
 
 /* 
     Funciones del Modal Añadir Muestras
@@ -74,6 +89,8 @@ const createMuestras = (muestras) =>{
         let icono = document.createElement('i');
         icono.classList.add("p-none", "mt-4", "icono", "fa-solid", "fa-file", "relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer", "hover:text-teal-400", "active:text-teal-700");
         icono.setAttribute("data-id", muestra.id_muestra);
+
+        icono.addEventListener("click", () => abrirModalDetalleMuestra(muestra)); 
         columIcono.appendChild(icono);
         fila.appendChild(columIcono);
 
@@ -173,6 +190,78 @@ document.addEventListener("DOMContentLoaded", () => {
     const fechaMuestraInput = document.getElementById("fechaMuestra");
     fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
 });
+
+// Función para abrir el modal de detalles de muestra
+const abrirModalDetalleMuestra = (muestra) => {
+    // Asignar los valores al modal de detalle muestra
+    detalleDescripcionMuestra.textContent = muestra.descripcion_muestra;
+    detalleFechaMuestra.textContent = new Date(muestra.fecha_muestra).toISOString().split('T')[0];
+    detalleTincionMuestra.textContent = muestra.tincion_muestra;
+    detalleObservacionesMuestra.textContent = muestra.observaciones_muestra;
+    imagenPrincipalMuestra.src = muestra.imagen_muestra ? muestra.imagen_muestra : "ruta/default-image.jpg"; // Imagen por defecto si no tiene
+
+    // Mostrar el modal
+    modalOverlay.classList.remove("hidden");
+    modalDetalleMuestra.classList.remove("hidden");
+};
+
+// Función para cerrar el modal de muestras
+const cerrarModalDetalleMuestra = () => {
+    modalMuestraContent.classList.add("scale-95");
+    setTimeout(() => {
+        modalOverlay.classList.add("hidden");
+        modalDetalleMuestra.classList.add("hidden");
+        modalEditarMuestra.classList.add("hidden");
+        modalEliminarMuestra.classList.add("hidden");
+        errorDetalleMuestra.textContent = "";
+    }, 300);
+};
+
+
+// Función para abrir el modal de editar muestras
+const abrirModalEditarMuestra = () => {
+    // Obtener los valores actuales del modal de detalles
+    document.getElementById("editarDescripcionMuestra").value = detalleDescripcionMuestra.textContent;
+    document.getElementById("editarFechaMuestra").value = detalleFechaMuestra.textContent;
+    document.getElementById("editarTincionMuestra").value = detalleTincionMuestra.textContent;
+    document.getElementById("editarObservacionesMuestra").value = detalleObservacionesMuestra.textContent;
+
+    // Mostrar el modal de edición
+    modalOverlayEditarMuestra.classList.remove("hidden");
+    modalEditarMuestra.classList.remove("hidden");
+};
+
+// Función para cerrar el modal de muestras
+const cerrarModalEditarMuestra = () => {
+    setTimeout(() => {
+        modalOverlayEditarMuestra.classList.add("hidden");
+        modalEditarMuestra.classList.add("hidden");
+        errorEditarMuestra.textContent = "";
+    }, 300);
+};
+
+// Función para abrir el modal de eliminar muestras
+const abrirModalEliminarMuestra = () => {
+    modalOverlayEditarMuestra.classList.remove("hidden");
+    modalEliminarMuestra.classList.remove("hidden"); 
+};
+
+// Función para cerrar el modal de eliminar muestras
+const cerrarModalEliminarMuestra = () => {
+    setTimeout(() => {
+        modalOverlayEditarMuestra.classList.add("hidden"); 
+        modalEliminarMuestra.classList.add("hidden");
+    }, 300);
+};
+
+
+cerrarDetalleMuestra.addEventListener("click", cerrarModalDetalleMuestra);
+btnEditarMuestra.addEventListener("click", abrirModalEditarMuestra);
+cerrarEditarMuestra.addEventListener("click", cerrarModalEditarMuestra);
+
+btnEliminarMuestra.addEventListener("click", abrirModalEliminarMuestra);
+cerrarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
+cancelarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 
 contAddCassettes.addEventListener('click',showMuestrasAndDetalles);
 muestraForm.addEventListener("submit", postMuestra);
