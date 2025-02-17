@@ -45,6 +45,17 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
+
+// Obtener todos los usuarios
+const getUsersByRol = async (req, res) => {
+  try {
+    const users = await usuarioService.getUsersByRol();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Crear un nuevo usuario
 const createUser = async (req, res) => {
   try {
@@ -232,5 +243,6 @@ module.exports = {
   isAdmin,
   changeUserRole,
   deleteUserByAdmin,
+  getUsersByRol
 };
 

@@ -31,6 +31,18 @@ const getUserByEmail = async (email) => {
   }
 };
 
+const getUsersByRol = async (rol) => {
+  try {
+    return await Usuario.findAll({
+      where: {
+        rol: rol,
+      },
+    });
+  } catch (error) {
+    throw new Error("Error al pedir un usuario por correo: " + error.message);
+  }
+};
+
 const createUser = async (userData) => {
   try {
     return await Usuario.create(userData);
@@ -123,4 +135,5 @@ module.exports = {
   deleteUser,
   deleteAllUsers,
   recuperarPassword,
+  getUsersByRol
 };
