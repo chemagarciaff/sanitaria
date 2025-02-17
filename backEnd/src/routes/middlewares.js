@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 const moment = require("moment");
-const token = require('./../utils/token')
+const {verificToken} = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
   try {
-    const userToken = req.header;
+    const userToken = req.header("Authorization")?.replace("Bearer ", "");
     let payload = {};
 
     //Controlamos que existen toke
@@ -12,7 +12,12 @@ const checkToken = (req, res, next) => {
       return res.satus(401).json({ error: "Falta Token" });
     }
     //Comprobamos si el token es correcto
-    payload = jwt.verify(userToken,token.secretKey);
+    const comparacion = verificToken(userToken);
+
+    if (!comparacion) {
+      return res.status(401).json({ message: "Token no valido" });
+    }
+
     
     req.user = jwt.decode.user;
     next();

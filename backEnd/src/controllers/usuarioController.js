@@ -1,7 +1,6 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
-const generarToken = require("../utils/token");
-const createToken = require("../utils/token");
+const {createToken} = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
 
 
@@ -72,8 +71,9 @@ const logUser = async (req, res) => {
     const { email_usu, password_usu } = req.body;
 
     const user = await usuarioService.getUserByEmail(email_usu);
-    const token = createToken()
+    const token = createToken(user)
 
+    res.json({token})
     console.log("Usuario encontrado:", user);
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
