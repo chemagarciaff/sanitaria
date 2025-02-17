@@ -3,6 +3,8 @@
     Listar muestras de cada cassette, añadir nuevas muestras y botón detalles muestra
 */
 
+//!     ESTE FICHERO JS ACTUALMENTE NO SE USA
+
 // Almacenamiento temporal de muestras por cassette
 let muestrasPorCassette = {};
 
