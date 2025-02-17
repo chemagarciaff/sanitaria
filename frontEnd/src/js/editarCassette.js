@@ -67,6 +67,8 @@ const showDetailsModalEdition = () =>{
     editarFecha.value = detalleFecha.textContent;
     //Añadir valor organo
     editarOrgano.value = detalleOrgano.textContent;
+    //Añadir valor codigo
+    editarCodigo.value = detalleCodigo.textContent;
     //Añadir valor caracteristicas
     editarCaracteristicas.value = detalleCaracteristicas.textContent;
     //Añadir valor observaciones
@@ -81,6 +83,7 @@ const postNewDetailsCassette = async (event) =>{
         fecha_cassette: editarFecha.value,
         descripcion_cassette: editarDescripcion.value,
         organo_cassette: editarOrgano.value,
+        codigo_cassette: editarCodigo.value,
         caracteristicas_cassette: editarCaracteristicas.value ,
         observaciones_cassette: editarObservaciones.value,
     };
