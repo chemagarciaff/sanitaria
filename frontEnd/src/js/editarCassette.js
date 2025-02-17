@@ -1,5 +1,5 @@
 /*
-    PARTE DE CARLOS PARA EDITAR CASSETTES
+    Editar Cassette
 */
 const btnEditCassette = document.getElementById('btnEditarCassette');
 const modalEditCassette = document.getElementById('modalEditarCassette');

@@ -349,6 +349,8 @@
                             <option>Otros</option>
                         </select>
                     </div>
+                    <input type="text" id="codigoInput" placeholder="Código Único *"
+                    class="w-full p-2 border rounded-md mb-4">
                     <textarea id="caracteristicasInput" placeholder="Características"
                         class="w-full p-2 border rounded-md"></textarea>
                     <textarea id="observacionesInput" placeholder="Observaciones"
@@ -464,11 +466,13 @@
                             <option>Otros</option>
                         </select>
                     </div>
+                    <input type="text" id="editarCodigo" placeholder="Código Único *"
+                    class="w-full p-2 border rounded-md mb-4">
                     <textarea id="editarCaracteristicas" placeholder="Características"
                         class="w-full p-2 border rounded-md"></textarea>
                     <textarea id="editarObservaciones" placeholder="Observaciones"
                         class="w-full p-2 border rounded-md"></textarea>
-
+                    <!-- Mensaje de error -->
                     <p id="errorEditar" class="text-red-500 text-sm mt-2"></p>
 
                     <button type="submit"
