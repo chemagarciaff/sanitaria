@@ -95,10 +95,20 @@ const postNewDetailsCassette = async (event) =>{
         const data = await response.json();
         //Cerramos modal
         modalEditCassette.classList.add('hidden');
+        modalOverlay.classList.add('hidden');
         //Volvemos a cargar los cassettes
         loadCassettes();
     }
 }
+
+// Función para actualizar los detalles del cassette editado en la interfaz
+const updateCassetteDetails = (cassette) => {
+    document.getElementById("detalleDescripcion").textContent = cassette.descripcion_cassette;
+    document.getElementById("detalleOrgano").textContent = cassette.organo_cassette;
+    document.getElementById("detalleFecha").textContent = cassette.fecha_cassette;
+    document.getElementById("detalleObservaciones").textContent = cassette.observaciones_cassette;
+    document.getElementById("detalleCaracteristicas").textContent = cassette.caracteristicas_cassette;
+};
 
 /*EVENTOS*/
 btnEditCassette.addEventListener('click',openModalEdition);

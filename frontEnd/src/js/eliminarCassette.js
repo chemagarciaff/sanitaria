@@ -1,5 +1,5 @@
 /*
-    PARTE DE CARLOS PARA BORRAR CASSETTES
+    Modal de eliminar cassette
 */
 const btnEliminarCassette = document.getElementById('btnEliminarCassette');
 const modalEliminarCassette = document.getElementById('modalEliminarCassette');
@@ -71,12 +71,15 @@ const deleteOneCassete = async () =>{
     if (response.ok) {
         //Cerramos el modal
         modalEliminarCassette.classList.add('hidden');
+        modalOverlay.classList.add('hidden');
         //Cargamos de nuevo los cassetes
         loadCassettes();
         //Cargamos las muestras 
         loadMuestras(idCassetteGlobal);
     }
 }
+
+
 
 //Recorrer el array de objetos y sacar el id
 const loadIdMuestras = (muestras) =>{
