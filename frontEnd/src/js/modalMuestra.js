@@ -39,15 +39,37 @@ let addImagen = document.getElementById('addImagen');
 
 */
 
+// Almacena la fila seleccionada
+let filaCassetteSeleccionado = null;
+
 //Mostrar muestras y detalles del cassette seleccionado
 const showMuestrasAndDetalles = async (event) => {
+    // llama a la función de modalCassette que saca el ID del cassette seleccionado
     let idCassette = returnIdOfCassette(event);
     idCassetteGlobal = idCassette;
+
     if (idCassette) {
-        loadMuestras(idCassette);
-        loadOneCassette(idCassette);
-    }
-}
+        // Remover selección anterior
+        if (filaCassetteSeleccionado) {
+            filaCassetteSeleccionado.classList.remove("bg-teal-100", "font-semibold");
+        }
+
+        // Guardar la nueva fila seleccionada y aplicarle la clase
+        filaCassetteSeleccionado = event.target.closest("tr");
+        if (filaCassetteSeleccionado) {
+            filaCassetteSeleccionado.classList.add("bg-teal-100", "font-semibold");
+        }
+
+        // Cargar los detalles y muestras del cassette seleccionado
+        await loadMuestras(idCassette);
+        await loadOneCassette(idCassette);
+
+        //Eliminar errores
+        errorCrearMuestra.textContent = "";
+        errorMuestra.textContent = "";
+    }   
+};
+
 
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) => {
@@ -228,7 +250,7 @@ const cerrarModalMuestra = () => {
         modalOverlay.classList.add("hidden");
         modalMuestra.classList.add("hidden");
         errorMuestra.textContent = "";
-    }, 300);
+    }, 10);
 };
 
 

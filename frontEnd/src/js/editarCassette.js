@@ -1,5 +1,5 @@
 /*
-    PARTE DE CARLOS PARA EDITAR CASSETTES
+    Editar Cassette
 */
 const btnEditCassette = document.getElementById('btnEditarCassette');
 const modalEditCassette = document.getElementById('modalEditarCassette');
@@ -8,6 +8,7 @@ const editarDescripcion = document.getElementById('editarDescripcion');
 const editarFecha = document.getElementById('editarFecha');
 const editarOrgano = document.getElementById('editarOrgano');
 const editarCaracteristicas = document.getElementById('editarCaracteristicas');
+const editarCodigo = document.getElementById("editarCodigo");
 const editarObservaciones = document.getElementById('editarObservaciones');
 const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
@@ -66,6 +67,8 @@ const showDetailsModalEdition = () =>{
     editarFecha.value = detalleFecha.textContent;
     //Añadir valor organo
     editarOrgano.value = detalleOrgano.textContent;
+    //Añadir valor codigo
+    editarCodigo.value = detalleCodigo.textContent;
     //Añadir valor caracteristicas
     editarCaracteristicas.value = detalleCaracteristicas.textContent;
     //Añadir valor observaciones
@@ -80,6 +83,7 @@ const postNewDetailsCassette = async (event) =>{
         fecha_cassette: editarFecha.value,
         descripcion_cassette: editarDescripcion.value,
         organo_cassette: editarOrgano.value,
+        codigo_cassette: editarCodigo.value,
         caracteristicas_cassette: editarCaracteristicas.value ,
         observaciones_cassette: editarObservaciones.value,
     };
@@ -95,8 +99,10 @@ const postNewDetailsCassette = async (event) =>{
         const data = await response.json();
         //Cerramos modal
         modalEditCassette.classList.add('hidden');
+        modalOverlay.classList.add('hidden');
         //Volvemos a cargar los cassettes
-        loadCassettes();
+        await loadCassettes();
+        await loadOneCassette(idCassetteGlobal);
     }
 }
 

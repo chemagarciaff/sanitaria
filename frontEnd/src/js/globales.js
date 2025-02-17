@@ -21,6 +21,7 @@ const fechaInput = document.getElementById("fechaInput");
 const organoInput = document.getElementById("organoInput");
 const caracteristicasInput = document.getElementById("caracteristicasInput");
 const observacionesInput = document.getElementById("observacionesInput");
+const codigoInput = document.getElementById("codigoInput");
 
 // Formulario y tabla de cassettes
 const cassetteForm = document.getElementById("cassetteForm");
@@ -36,6 +37,7 @@ const ordenarOrganoBtn = document.getElementById("ordenarOrgano");
 const filtrarOrgano = document.getElementById("filtrarOrgano");
 const fechaInicio = document.getElementById("fechaInicio");
 const fechaFin = document.getElementById("fechaFin");
+const codigoCassette = document.getElementById("codigoCassette");
 
 // Detalle del cassette
 const detalleDescripcion = document.getElementById("descripcion");
@@ -43,6 +45,7 @@ const detalleFecha = document.getElementById("fecha");
 const detalleOrgano = document.getElementById("organo");
 const detalleCaracteristicas = document.getElementById("caracteristicas");
 const detalleObservaciones = document.getElementById("observaciones");
+const detalleCodigo = document.getElementById("codigo");
 
 // Modales de eliminar y modificar cassettes
 const editarCassetteBtn = document.getElementById("btnEditarCassette");
