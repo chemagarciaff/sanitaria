@@ -1,23 +1,29 @@
 //VARIABLES
 let containerMuestra = document.getElementById('muestraTableBody');
 const descripcion = document.getElementById("descripcionMuestra");
-const fecha = document.getElementById("fechaMuestra");
-const tincion = document.getElementById("editarTincionMuestra");
 const observaciones = document.getElementById("observacionesMuestra");
+const fecha = document.getElementById("fechaMuestra");
 const imagen = document.getElementById("imagenMuestra").files[0];
 
 const btnEditarMuestra = document.getElementById("btnEditarMuestra");
 const btnEliminarMuestra = document.getElementById("btnEliminarMuestra");
 
 const modalOverlayEditarMuestra = document.getElementById("modalOverlayEditarMuestra");
-
 const modalEditarMuestra = document.getElementById("modalEditarMuestra");
+
 const cerrarEditarMuestra = document.getElementById("cerrarEditarMuestra");
 const modalDetalleMuestra = document.getElementById("modalDetalleMuestra");
 
 const modalEliminarMuestra = document.getElementById("modalEliminarMuestra");
 const cerrarEliminarMuestra = document.getElementById("cerrarEliminarMuestra");
 const cancelarEliminarMuestra = document.getElementById("cancelarEliminarMuestra");
+const formEditarMuestra = document.getElementById("formEditarMuestra");
+
+const editarDescripcionMuestra = document.getElementById("editarDescripcionMuestra");
+const editarFechaMuestra = document.getElementById("editarFechaMuestra");
+const editarTincionMuestra = document.getElementById("editarTincionMuestra");
+const editarObservacionesMuestra = document.getElementById("editarObservacionesMuestra");
+
 
 const file = document.getElementById("imagenMuestra");
 let idCassetteGlobal = null;
@@ -306,12 +312,6 @@ const cambiarImagenPrincipal = (event) => {
 }
 
 
-////////////////////////////////////////////////
-/////  FALTA PASAR AQUI EL ID DE LA   //////////
-///// MUESTRA QUE TENGAMOS SELECIONADA  ////////
-/////////////  DONDE PONE 5  ///////////////////
-////////////////////////////////////////////////
-
 addImagen.addEventListener('change', async (event) => {
     const imagen = event.target.files[0];
 
@@ -371,7 +371,6 @@ const cerrarModalDetalleMuestra = () => {
         modalDetalleMuestra.classList.add("hidden");
         modalEditarMuestra.classList.add("hidden");
         modalEliminarMuestra.classList.add("hidden");
-        errorDetalleMuestra.textContent = "";
     }, 300);
 };
 
@@ -414,12 +413,50 @@ const cerrarModalEliminarMuestra = () => {
     }, 300);
 };
 
+const eliminarMuestra = async () => {
+    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json'
+        },
+    });
+    cerrarModalEliminarMuestra();
+    cerrarModalDetalleMuestra();
+    loadMuestras(idCassetteGlobal);
+}
+
+const editarValoresMuestra = async (event) => {
+    event.preventDefault();
+
+    let body = {
+        tincion_muestra: editarTincionMuestra.value,
+        descripcion_muestra: editarDescripcionMuestra.value,
+        fecha_muestra: editarFechaMuestra.value,
+        observaciones_muestra: editarObservacionesMuestra.value,
+    }
+    
+    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(body),
+    })
+
+    console.log(results);
+
+    cerrarModalEditarMuestra();
+    cerrarModalDetalleMuestra();
+    loadMuestras(idCassetteGlobal);
+}
+
 
 cerrarDetalleMuestra.addEventListener("click", cerrarModalDetalleMuestra);
 btnEditarMuestra.addEventListener("click", abrirModalEditarMuestra);
 cerrarEditarMuestra.addEventListener("click", cerrarModalEditarMuestra);
 
 btnEliminarMuestra.addEventListener("click", abrirModalEliminarMuestra);
+confirmarEliminarMuestra.addEventListener("click", eliminarMuestra);
 cerrarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 cancelarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 
@@ -428,3 +465,5 @@ muestraForm.addEventListener("submit", postMuestra);
 btnAgregarImagenMuestra.addEventListener('click', () => {
     addImagen.click();
 });
+
+formEditarMuestra.addEventListener('submit', editarValoresMuestra);
