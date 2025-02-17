@@ -3,6 +3,7 @@ let containerMuestra = document.getElementById('muestraTableBody');
 const descripcion = document.getElementById("descripcionMuestra");
 const observaciones = document.getElementById("observacionesMuestra");
 const fecha = document.getElementById("fechaMuestra");
+const tincion = document.getElementById("tincionMuestra");
 const imagen = document.getElementById("imagenMuestra").files[0];
 
 const btnEditarMuestra = document.getElementById("btnEditarMuestra");
@@ -24,13 +25,18 @@ const editarFechaMuestra = document.getElementById("editarFechaMuestra");
 const editarTincionMuestra = document.getElementById("editarTincionMuestra");
 const editarObservacionesMuestra = document.getElementById("editarObservacionesMuestra");
 
+const detalleDescripcionMuestra = document.getElementById("detalleDescripcionMuestra");
+const detalleFechaMuestra = document.getElementById("detalleFechaMuestra");
+const detalleTincionMuestra = document.getElementById("detalleTincionMuestra");
+const detalleObservacionesMuestra = document.getElementById("detalleObservacionesMuestra");
+
 
 const file = document.getElementById("imagenMuestra");
 let idCassetteGlobal = null;
 let imagenPrincipalMuestra = document.getElementById('imagenPrincipalMuestra');
 let contenedorMiniaturasMuestra = document.getElementById('contenedorMiniaturasMuestra');
 let btnAgregarImagenMuestra = document.getElementById('btnAgregarImagenMuestra');
-let addImagen = document.getElementById('addImagen');
+let addImagenInput = document.getElementById('addImagenInput');
 
 
 /* 
@@ -67,7 +73,7 @@ const showMuestrasAndDetalles = async (event) => {
         //Eliminar errores
         errorCrearMuestra.textContent = "";
         errorMuestra.textContent = "";
-    }   
+    }
 };
 
 
@@ -271,8 +277,6 @@ const obtenerImagenesMuestra = async (idMuestra) => {
         const imagenes = await response.json();
 
         let fragment = document.createDocumentFragment();
-        console.log('imagenes: '+ imagenes);
-
 
         imagenes.forEach(async (eachImagen, index) => {
 
@@ -301,14 +305,24 @@ const obtenerImagenesMuestra = async (idMuestra) => {
             fragment.append(contenedorMiniImagen);
         });
 
-        if(imagenes == ""){
+        if (imagenes == "") {
             imagenPrincipalMuestra.src = './../assets/images/no_photo.avif';
         }
-        
+
         contenedorMiniaturasMuestra.append(fragment);
     }
 }
 
+
+const addImagen = async (event) => {
+        const imagen = event.target.files[0];
+    
+        if (imagen) {
+            await sendImageToDB(imagen, muestraSeleccionada.id_muestra);  // Enviar el archivo Blob al servidor
+        }
+    
+        await obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
+}
 
 
 const cambiarImagenPrincipal = (event) => {
@@ -334,52 +348,61 @@ const cambiarImagenPrincipal = (event) => {
 }
 
 
-addImagen.addEventListener('change', async (event) => {
-    const imagen = event.target.files[0];
 
-    if (imagen) {
-        await sendImageToDB(imagen, muestraSeleccionada.id_muestra);  // Enviar el archivo Blob al servidor
+
+const eliminarMuestra = async () => {
+    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-type': 'application/json'
+        },
+    });
+    cerrarModalEliminarMuestra();
+    cerrarModalDetalleMuestra();
+    loadMuestras(idCassetteGlobal);
+}
+
+const editarValoresMuestra = async (event) => {
+    event.preventDefault();
+    
+    let body = {
+        tincion_muestra: editarTincionMuestra.value,
+        descripcion_muestra: editarDescripcionMuestra.value,
+        fecha_muestra: editarFechaMuestra.value,
+        observaciones_muestra: editarObservacionesMuestra.value,
     }
-
-    await obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
-
-});
-
-
-
-// Event listeners para abrir/cerrar modal
-openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
-closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
-
-
-contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
-muestraForm.addEventListener("submit", postMuestra);
-contenedorMiniaturasMuestra.addEventListener('click', cambiarImagenPrincipal);
-
-// Limitar fecha input
-document.addEventListener("DOMContentLoaded", () => {
-    const fechaMuestraInput = document.getElementById("fechaMuestra");
-    fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
-});
+    
+    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(body),
+    })
+        
+    cerrarModalEditarMuestra();
+    cerrarModalDetalleMuestra();
+    loadMuestras(idCassetteGlobal);
+}
 
 
 let muestraSeleccionada = {};
 
 // Función para abrir el modal de detalles de muestra
 const abrirModalDetalleMuestra = (muestra) => {
+    // Asignar el valor a la variable muestra global
     muestraSeleccionada = muestra;
-    console.log(muestraSeleccionada);
+    
     // Asignar los valores al modal de detalle muestra
     detalleDescripcionMuestra.textContent = muestra.descripcion_muestra;
     detalleFechaMuestra.textContent = new Date(muestra.fecha_muestra).toISOString().split('T')[0];
     detalleTincionMuestra.textContent = muestra.tincion_muestra;
     detalleObservacionesMuestra.textContent = muestra.observaciones_muestra;
     imagenPrincipalMuestra.src = muestra.imagen_muestra ? muestra.imagen_muestra : "ruta/default-image.jpg"; // Imagen por defecto si no tiene
-
-
+    
     //Cargamos las imagenes
     obtenerImagenesMuestra(muestra.id_muestra);
-
+    
     // Mostrar el modal
     modalOverlay.classList.remove("hidden");
     modalDetalleMuestra.classList.remove("hidden");
@@ -400,13 +423,13 @@ const cerrarModalDetalleMuestra = () => {
 // Función para abrir el modal de editar muestras
 const abrirModalEditarMuestra = () => {
     // Obtener los valores actuales del modal de detalles
-    document.getElementById("editarDescripcionMuestra").value = detalleDescripcionMuestra.textContent;
-    document.getElementById("editarFechaMuestra").value = detalleFechaMuestra.textContent;
-    document.getElementById("editarTincionMuestra").value = detalleTincionMuestra.textContent;
-    document.getElementById("editarObservacionesMuestra").value = detalleObservacionesMuestra.textContent;
-
-
-
+    editarDescripcionMuestra.value = muestraSeleccionada.descripcion_muestra;
+    editarFechaMuestra.value = muestraSeleccionada.fecha_muestra.split("T")[0];
+    editarTincionMuestra.value = muestraSeleccionada.tincion_muestra;
+    editarObservacionesMuestra.value = muestraSeleccionada.observaciones_muestra;
+    
+    
+    
     // Mostrar el modal de edición
     modalOverlayEditarMuestra.classList.remove("hidden");
     modalEditarMuestra.classList.remove("hidden");
@@ -435,43 +458,23 @@ const cerrarModalEliminarMuestra = () => {
     }, 300);
 };
 
-const eliminarMuestra = async () => {
-    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-type': 'application/json'
-        },
-    });
-    cerrarModalEliminarMuestra();
-    cerrarModalDetalleMuestra();
-    loadMuestras(idCassetteGlobal);
-}
+addImagenInput.addEventListener('change', addImagen);
 
-const editarValoresMuestra = async (event) => {
-    event.preventDefault();
 
-    let body = {
-        tincion_muestra: editarTincionMuestra.value,
-        descripcion_muestra: editarDescripcionMuestra.value,
-        fecha_muestra: editarFechaMuestra.value,
-        observaciones_muestra: editarObservacionesMuestra.value,
-    }
-    
-    const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
-        method: 'PATCH',
-        headers: {
-            'Content-type': 'application/json'
-        },
-        body: JSON.stringify(body),
-    })
+// Event listeners para abrir/cerrar modal
+openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
+closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
 
-    console.log(results);
 
-    cerrarModalEditarMuestra();
-    cerrarModalDetalleMuestra();
-    loadMuestras(idCassetteGlobal);
-}
+contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
+muestraForm.addEventListener("submit", postMuestra);
+contenedorMiniaturasMuestra.addEventListener('click', cambiarImagenPrincipal);
 
+// Limitar fecha input
+document.addEventListener("DOMContentLoaded", () => {
+    const fechaMuestraInput = document.getElementById("fechaMuestra");
+    fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
+});
 
 cerrarDetalleMuestra.addEventListener("click", cerrarModalDetalleMuestra);
 btnEditarMuestra.addEventListener("click", abrirModalEditarMuestra);
@@ -485,7 +488,7 @@ cancelarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
 muestraForm.addEventListener("submit", postMuestra);
 btnAgregarImagenMuestra.addEventListener('click', () => {
-    addImagen.click();
+    addImagenInput.click();
 });
 
 formEditarMuestra.addEventListener('submit', editarValoresMuestra);
