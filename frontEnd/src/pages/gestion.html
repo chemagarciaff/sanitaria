@@ -82,10 +82,11 @@
                 </optgroup>
                 <option>Otros</option>
             </select>
+            <!-- Input para buscar cassettes según su clave -->
+            <input type="text" id="codigoCassette" placeholder="Clave del Cassette" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
             <!-- Input de Escaner QR (no funcional)-->
             <!--! Input de escaner qr no funcional, se le podría poner opacity-0 -->
-            <input type="text" placeholder="Escanear QR"
-                class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
+            <input type="text" id="qrCassette" placeholder="Escanear QR" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
             <!-- Input para seleccionar fecha única o rango -->
             <input type="date" id="fechaInicio" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
             <input type="date" id="fechaFin" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
@@ -207,11 +208,15 @@
                         <p id="caracteristicas" class="text-gray-600 break-words detalle-texto"></p>
                     </div>
 
-                    <div>
+                    <div class="border-b border-gray-300 pb-3">
                         <p class="font-bold uppercase text-sm">Observaciones:</p>
                         <p id="observaciones" class="text-gray-600 break-words detalle-texto"></p>
                     </div>
 
+                    <div>
+                        <p class="font-bold uppercase text-sm"> Código:</p>
+                        <p id="codigo" class="text-gray-600 break-words detalle-texto"></p>
+                    </div>
                 </div>
             </div>
 
