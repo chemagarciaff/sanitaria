@@ -76,6 +76,9 @@ const deleteOneCassete = async () =>{
         loadCassettes();
         //Cargamos las muestras 
         loadMuestras(idCassetteGlobal);
+        //Volvemos a cargar los cassettes
+        await loadCassettes();
+        await loadOneCassette(idCassetteGlobal);
     }
 }
 
