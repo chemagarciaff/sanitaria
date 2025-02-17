@@ -10,37 +10,24 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
 </head>
 <body>
-    <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">
-        <h1 class="mt-12 text-2xl">Gestión del Sistema</h1>
+    <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">   
+        <h1 class="mt-12 text-3xl text-teal-400">Gestión del Sistema</h1>
          <!-- BOTONES DE ACCIONES -->
          <div class="grid grid-cols-2 gap-5 mt-6">
-            <div class="flex flex-col gap-5 mr-6">
-                <form id="form_roles" class="flex flex-col items-center gap-5 mt-6" novalidate>
-                    <!-- DATOS A RELLENAR -->
-                    <!-- USER ID -->
-                    <input type="text" id="user_id"
-                        class="w-[300px] p-2 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white"
-                        placeholder="ID de Usuario">
-                    <p id="error_user_id" class="hidden error"></p>
-                    <p id="error_user_role" class="hidden error"></p>
-                </form>
-                
+            <div class="flex flex-col gap-5 mr-6">                
                 <!-- SELECT USUARIOS -->
                 <select id="user_list" class="w-[300px] p-2 mt-0 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white">
-                    <option value="" disabled selected>Selecciona Usuario</option>
+                    <option value="" disabled selected>Seleccionar Usuario</option>
                     <!-- Opciones generadas desde JS -->
                 </select>
-        
-                <button id="btn_edit_user" class="w-[300px] p-2 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
-                >Editar Usuario</button>
-                <button id="btn_delete_user" class="w-[300px] p-2 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
-                >Promocionar Usuario</button>
-            </div>
-            <div class="flex flex-col gap-5 mt-6 ml-6">
-                <button id="btn_promote_user" class="w-[300px] p-2 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
-                >Borrar Usuario</button>
                 <button id="btn_delete_all_cassettes" class="w-[300px] p-2 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
                 >Eliminar Todos los Cassettes</button>
+                <button id="btn_delete_user" class="w-[300px] p-2 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
+                >Eliminar Usuario</button>
+            </div>
+            <div class="flex flex-col gap-5 ml-6">
+                <button id="btn_edit_user" class="w-[300px] p-2 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
+                >Editar-Promocionar Usuario</button>
                 <button id="btn_delete_all_samples" class="w-[300px] p-2 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
                 >Eliminar Todas las Muestras</button>
                 <button id="btn_delete_all_images" class="w-[300px] p-2 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-left"
@@ -54,9 +41,11 @@
         <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
             <h2 class="text-2xl mb-4">Editar Usuario</h2>
             <form id="edit_user_form" class="flex flex-col gap-4">
-                <input type="text" id="edit_user_id" class="p-2 border-2 border-teal-300 rounded-md" placeholder="ID de Usuario" readonly>
+                <input type="hidden" id="edit_user_id">
                 <input type="text" id="edit_user_email" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Correo Electrónico">
                 <input type="text" id="edit_user_name" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Nombre">
+                <input type="text" id="edit_user_apellidos" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Apellidos">
+                <input type="text" id="edit_user_centro" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Centro">
                 <input type="text" id="edit_user_role" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Rol">
                 <div class="flex justify-end gap-4">
                     <button type="button" id="cancel_edit" class="p-2 bg-red-400 text-white rounded-md">Cancelar</button>
