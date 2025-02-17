@@ -82,8 +82,6 @@ const deleteOneCassete = async () =>{
     }
 }
 
-
-
 //Recorrer el array de objetos y sacar el id
 const loadIdMuestras = (muestras) =>{
     muestras.forEach((muestra) => {
