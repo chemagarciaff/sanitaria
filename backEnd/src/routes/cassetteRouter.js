@@ -8,6 +8,9 @@ cassetteRouter.get("/", cassetteController.getAllCassettes);
 cassetteRouter.get("/:id", cassetteController.getCassettesById);
 
 
+cassetteRouter.get("/:clave", cassetteController.getCassettesByClave);
+
+
 cassetteRouter.get("/user/:id", cassetteController.getCassettesByUser);
 
 
