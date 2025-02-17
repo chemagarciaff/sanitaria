@@ -41,7 +41,6 @@ const loadCassettes = async () => {
     const data = await response.json();
     showCassettes(data);
 }
-
 // Mostrar por pantalla los cassettes
 const showCassettes = (cassettes) => {
     contAddCassettes.innerHTML = "";

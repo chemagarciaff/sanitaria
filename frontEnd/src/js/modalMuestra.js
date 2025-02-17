@@ -57,7 +57,11 @@ const showMuestrasAndDetalles = async (event) => {
         // Cargar los detalles y muestras del cassette seleccionado
         await loadMuestras(idCassette);
         await loadOneCassette(idCassette);
-    }
+
+        //Eliminar errores
+        errorCrearMuestra.textContent = "";
+        errorMuestra.textContent = "";
+    }   
 };
 
 
