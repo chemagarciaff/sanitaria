@@ -16,9 +16,3 @@ VALUES
 ('2025-02-05', 'Observación muestra 1', 'Descripción muestra 1', 'Tinción 1', 'QR001M', 1),
 ('2025-02-06', 'Observación muestra 2', 'Descripción muestra 2', 'Tinción 2', 'QR002M', 2),
 ('2025-02-07', 'Observación muestra 3', 'Descripción muestra 3', 'Tinción 3', 'QR003M', 3);
-
-INSERT INTO imagenes (muestraIdMuestra)
-VALUES
-(1),
-(2),
-(3);

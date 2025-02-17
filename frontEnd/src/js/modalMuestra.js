@@ -15,7 +15,7 @@ const modalEditarMuestra = document.getElementById("modalEditarMuestra");
 const cerrarEditarMuestra = document.getElementById("cerrarEditarMuestra");
 const modalDetalleMuestra = document.getElementById("modalDetalleMuestra");
 
-const modalEliminarMuestra = document.getElementById("modalEliminarMuestra"); 
+const modalEliminarMuestra = document.getElementById("modalEliminarMuestra");
 const cerrarEliminarMuestra = document.getElementById("cerrarEliminarMuestra");
 const cancelarEliminarMuestra = document.getElementById("cancelarEliminarMuestra");
 
@@ -95,7 +95,7 @@ const createMuestras = (muestras) => {
         icono.classList.add("p-none", "mt-4", "icono", "fa-solid", "fa-file", "relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer", "hover:text-teal-400", "active:text-teal-700");
         icono.setAttribute("data-id", muestra.id_muestra);
 
-        icono.addEventListener("click", () => abrirModalDetalleMuestra(muestra)); 
+        icono.addEventListener("click", () => abrirModalDetalleMuestra(muestra));
         columIcono.appendChild(icono);
         fila.appendChild(columIcono);
 
@@ -229,7 +229,6 @@ const cerrarModalMuestra = () => {
 
 //Cuando se abra el modal de detalle de muestra se cargaran las imagenes de la muestra seleccionada
 
-const idMuestraSeleccionada = 5;
 
 const obtenerImagenesMuestra = async (idMuestra) => {
 
@@ -244,6 +243,8 @@ const obtenerImagenesMuestra = async (idMuestra) => {
         const imagenes = await response.json();
 
         let fragment = document.createDocumentFragment();
+        console.log('imagenes: '+ imagenes);
+
 
         imagenes.forEach(async (eachImagen, index) => {
 
@@ -272,11 +273,14 @@ const obtenerImagenesMuestra = async (idMuestra) => {
             fragment.append(contenedorMiniImagen);
         });
 
+        if(imagenes == ""){
+            imagenPrincipalMuestra.src = './../assets/images/no_photo.avif';
+        }
+        
         contenedorMiniaturasMuestra.append(fragment);
     }
 }
 
-obtenerImagenesMuestra(idMuestraSeleccionada)
 
 
 const cambiarImagenPrincipal = (event) => {
@@ -312,10 +316,10 @@ addImagen.addEventListener('change', async (event) => {
     const imagen = event.target.files[0];
 
     if (imagen) {
-        await sendImageToDB(imagen, 5);  // Enviar el archivo Blob al servidor
+        await sendImageToDB(imagen, muestraSeleccionada.id_muestra);  // Enviar el archivo Blob al servidor
     }
 
-    await obtenerImagenesMuestra(idMuestraSeleccionada);
+    await obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
 
 });
 
@@ -336,14 +340,23 @@ document.addEventListener("DOMContentLoaded", () => {
     fechaMuestraInput.setAttribute("min", new Date().toISOString().split("T")[0]);
 });
 
+
+let muestraSeleccionada = {};
+
 // Función para abrir el modal de detalles de muestra
 const abrirModalDetalleMuestra = (muestra) => {
+    muestraSeleccionada = muestra;
+    console.log(muestraSeleccionada);
     // Asignar los valores al modal de detalle muestra
     detalleDescripcionMuestra.textContent = muestra.descripcion_muestra;
     detalleFechaMuestra.textContent = new Date(muestra.fecha_muestra).toISOString().split('T')[0];
     detalleTincionMuestra.textContent = muestra.tincion_muestra;
     detalleObservacionesMuestra.textContent = muestra.observaciones_muestra;
     imagenPrincipalMuestra.src = muestra.imagen_muestra ? muestra.imagen_muestra : "ruta/default-image.jpg"; // Imagen por defecto si no tiene
+
+
+    //Cargamos las imagenes
+    obtenerImagenesMuestra(muestra.id_muestra);
 
     // Mostrar el modal
     modalOverlay.classList.remove("hidden");
@@ -371,6 +384,8 @@ const abrirModalEditarMuestra = () => {
     document.getElementById("editarTincionMuestra").value = detalleTincionMuestra.textContent;
     document.getElementById("editarObservacionesMuestra").value = detalleObservacionesMuestra.textContent;
 
+
+
     // Mostrar el modal de edición
     modalOverlayEditarMuestra.classList.remove("hidden");
     modalEditarMuestra.classList.remove("hidden");
@@ -388,13 +403,13 @@ const cerrarModalEditarMuestra = () => {
 // Función para abrir el modal de eliminar muestras
 const abrirModalEliminarMuestra = () => {
     modalOverlayEditarMuestra.classList.remove("hidden");
-    modalEliminarMuestra.classList.remove("hidden"); 
+    modalEliminarMuestra.classList.remove("hidden");
 };
 
 // Función para cerrar el modal de eliminar muestras
 const cerrarModalEliminarMuestra = () => {
     setTimeout(() => {
-        modalOverlayEditarMuestra.classList.add("hidden"); 
+        modalOverlayEditarMuestra.classList.add("hidden");
         modalEliminarMuestra.classList.add("hidden");
     }, 300);
 };
@@ -408,7 +423,7 @@ btnEliminarMuestra.addEventListener("click", abrirModalEliminarMuestra);
 cerrarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 cancelarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 
-contAddCassettes.addEventListener('click',showMuestrasAndDetalles);
+contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
 muestraForm.addEventListener("submit", postMuestra);
 btnAgregarImagenMuestra.addEventListener('click', () => {
     addImagen.click();
