@@ -3,13 +3,11 @@ const moment = require("moment");
 const {verificToken} = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
-  try {
     const userToken = req.cookies.access_token;
-    let payload = {};
 
     //Controlamos que existen toke
     if (!userToken) {
-      return res.satus(401).json({ error: "Falta Token" });
+      return res.status(401).json({ error: "Falta Token" });
     }
     //Comprobamos si el token es correcto
     const comparacion = verificToken(userToken);
@@ -17,18 +15,15 @@ const checkToken = (req, res, next) => {
     if (!comparacion) {
       return res.status(401).json({ message: "Token no valido" });
     }
-
-    
-    req.user = comparacion;
-    next();
-    if (payload.expiredAt < moment().unix()) {
+    //Comprobar si token a expirado
+    if (comparacion.exp && moment().unix() > comparacion.exp) {
       return res.json({
         error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
       });
     }
-  } catch (error) {
-    // res.satus(401).json({message: "Token incorrecto"})
-  }
+    
+    req.user = comparacion;
+    next();
 };
 
 module.exports = checkToken ;

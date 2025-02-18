@@ -67,35 +67,26 @@ const createUser = async (req, res) => {
 
 // Logear cliente 
 const logUser = async (req, res) => {
-  try {
     const { email_usu, password_usu } = req.body;
-
+    const token = createToken({id: user.id_usu, email: user.email_usu})
+    console.log("Token generado",token);
     const user = await usuarioService.getUserByEmail(email_usu);
     console.log("Usuario encontrado:", user);
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
+    console.log(contraseñaCorrecta);
+    
 
-    if (contraseñaCorrecta) {
-      const token = createToken({id: user.id_usu, email: user.email_usu })
+    if (!contraseñaCorrecta) return res.status(401).json({ message: "Contraseña incorrecta" });
 
-      res.cookie('access_token',token, {
+      res.cookie('access_token',token, {  
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
         maxAge: 86400000,
         sameSite: 'strict'
       })
       return res.json({ message: 'Loggin correcto' });
-
-    } else {
-
-      return res.status(401).json({ message: 'Contraseña incorrecta' });
-
-    }
-  } catch (error) {
-
-    return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
-
-  }
 };
 
 // Actualizar un cliente existente

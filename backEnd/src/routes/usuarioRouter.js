@@ -17,7 +17,7 @@ usuarioRouter.get("/email/:email", usuarioController.getUserByEmail);
 usuarioRouter.post("/", usuarioController.createUser);
 
 
-usuarioRouter.post("/logUser" ,usuarioController.logUser);
+usuarioRouter.post("/logUser" ,checkToken,usuarioController.logUser);
 // usuarioRouter.post("/logUser", checkToken);
 
 usuarioRouter.put("/:id", usuarioController.updateUser);
