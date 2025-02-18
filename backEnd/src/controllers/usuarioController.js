@@ -1,13 +1,16 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
-const generarToken = require("../utils/token");
-const createToken = require("../utils/token");
+const jwt = require("jwt-simple");
+// const generarToken = require("../utils/token");
+// const createToken = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
 
 
 // Obtener todos los usuarios
 const getAllUsers = async (req, res) => {
   try {
+    console.log(req.usuarioId);
+    
     const users = await usuarioService.getAllUsers();
     res.status(200).json(users);
   } catch (error) {
@@ -87,11 +90,7 @@ const logUser = async (req, res) => {
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
     if (contraseñaCorrecta) {
       res.json({success : createToken(user)})
-      res.cookie('access_token', token, {
-        httpOnly: true,
-        maxAge: 86400000,
-        sameSite: 'strict'
-      });
+      
       return res.status(200).json({ message: 'Loggin correcto', rol: user.rol });
     } else {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
@@ -101,6 +100,18 @@ const logUser = async (req, res) => {
   }
 };
 
+//Crear token
+const createToken = (user) =>{
+    const payload = {userId: user.id, userName: user.name}
+    postTokenLocalStorage(payload,process.env.JWT_SECRETKEY)
+    return jwt.encode(payload,process.env.JWT_SECRETKEY)
+}
+//Pasar el token al localStorage
+const postTokenLocalStorage = (token) =>{
+  const arrayLocal = JSON.parse(localStorage.getItem('token')) || [];
+  arrayLocal.push(token);
+  localStorage.setItem('token', JSON.stringify(arrayLocal));
+}
 // Actualizar un usuario existente
 const updateUser = async (req, res) => {
   try {
