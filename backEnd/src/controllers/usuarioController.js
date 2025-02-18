@@ -68,7 +68,6 @@ const createUser = async (req, res) => {
 // Logear cliente 
 const logUser = async (req, res) => {
     const { email_usu, password_usu } = req.body;
-    const token = createToken({id: user.id_usu, email: user.email_usu})
     console.log("Token generado",token);
     const user = await usuarioService.getUserByEmail(email_usu);
     console.log("Usuario encontrado:", user);
@@ -79,7 +78,8 @@ const logUser = async (req, res) => {
     
 
     if (!contraseñaCorrecta) return res.status(401).json({ message: "Contraseña incorrecta" });
-
+    
+    res.json({succes: createToken(user)})
       res.cookie('access_token',token, {  
         httpOnly: true,
         secure: process.env.NODE_ENV === "production",
