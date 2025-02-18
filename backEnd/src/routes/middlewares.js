@@ -1,26 +1,29 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jwt-simple");
 const moment = require("moment");
-const token = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
-  const userToken = req.cookies.access_token;
+  if (!req.headers['user-token']) {
+    res.json({error: "Necesitas inluir el token del usuario"})
+  }
+
+  const userToken = req.headers['user-token'];
+
   let payload = {};
-
-  if (!userToken) {
-    return res.json({ error: "Falta Token" });
-  }
-
   try {
-    payload = jwt.verify(userToken,token.secretKey);
+    payload = jwt.decode(userToken, process.env.JWT_SECRETKEY);
   } catch (error) {
-    return res.json({ error: "Token incorrecto" });
-  }
+    return res.json({error: "Token incorrecto"})
+  } 
 
+  
   if (payload.expiredAt < moment().unix()) {
     return res.json({
       error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
     });
   }
+
+  req.usuarioId = payload.usuarioId
+
   next();
 };
 
