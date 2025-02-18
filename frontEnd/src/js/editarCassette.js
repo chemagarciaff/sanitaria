@@ -1,6 +1,7 @@
 /*
     Editar Cassette
 */
+
 const btnEditCassette = document.getElementById('btnEditarCassette');
 const modalEditCassette = document.getElementById('modalEditarCassette');
 const cerrarModalEdicion = document.getElementById('cerrarEditarModal');
@@ -36,12 +37,12 @@ const openModalEdition = (event) =>{
     }, 10);
 
     let aux = event.target;
-    //Comporbamos si clicka en el logo
+    //Comprobamos si clicka en el logo
     if (aux.tagName === "path" || aux.tagName === "svg") {
         modalEditCassette.classList.remove('hidden');
         showDetailsModalEdition();
     }
-}
+};
 
 //Cerrar modal
 const closeModalEdition = (event) =>{
@@ -57,7 +58,7 @@ const closeModalEdition = (event) =>{
     if (aux === cerrarModalEdicion) {
         modalEditCassette.classList.add('hidden');
     }
-}
+};
 
 //Mostrar detalles en modal de edicon
 const showDetailsModalEdition = () =>{
@@ -73,7 +74,7 @@ const showDetailsModalEdition = () =>{
     editarCaracteristicas.value = detalleCaracteristicas.textContent;
     //Añadir valor observaciones
     editarObservaciones.value = detalleObservaciones.textContent;
-}
+};
 
 //Hacer POST a la API con los nuevos datos
 const postNewDetailsCassette = async (event) =>{
@@ -84,7 +85,7 @@ const postNewDetailsCassette = async (event) =>{
         descripcion_cassette: editarDescripcion.value,
         organo_cassette: editarOrgano.value,
         clave_cassette: editarClave.value,
-        caracteristicas_cassette: editarCaracteristicas.value ,
+        caracteristicas_cassette: editarCaracteristicas.value,
         observaciones_cassette: editarObservaciones.value,
     };
     //Hacemos el PUT
@@ -104,7 +105,7 @@ const postNewDetailsCassette = async (event) =>{
         await loadCassettes();
         await loadOneCassette(idCassetteGlobal);
     }
-}
+};
 
 /*EVENTOS*/
 btnEditCassette.addEventListener('click',openModalEdition);
