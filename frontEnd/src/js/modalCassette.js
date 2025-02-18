@@ -88,6 +88,21 @@ const enviarFormulario = async (event) => {
     };
 
     try {
+        // Verificar si la clave ya existe
+        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/');
+        if (!existingCassettesResponse.ok) {
+            throw new Error("Error al verificar cassettes existentes.");
+        }
+
+        const existingCassettes = await existingCassettesResponse.json();
+        const claveExistente = existingCassettes.some(cassette => cassette.clave_cassette === clave);
+
+        if (claveExistente) {
+            errorMessage.textContent = "La clave de un cassette no puede repetirse";
+            return;
+        }
+
+        // Enviar el nuevo cassette al backend
         const response = await fetch('http://localhost:3000/sanitaria/cassettes/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
