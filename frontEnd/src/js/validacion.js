@@ -18,7 +18,6 @@ let errorRegPass = document.getElementById('error_reg-pass');
 let errorRegPass2 = document.getElementById('error_reg-pass2');
 let errorRecuMial = document.getElementById('error_recu-mail');
 
-
 //FUNCIONES
 //Validar formulario login
 const validateData = () => {
@@ -61,6 +60,21 @@ const validateEmail = async (email) => {
 
 
 }
+//Obtener el token
+const loadToken = async (user) =>{
+    const token = await fetch("http://localhost:3000/sanitaria/usuarios/logUser",{
+        method:"POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(user)
+    })
+    const data = await token.json()
+    
+    console.log(data);
+    
+    if(data.token){
+        localStorage.setItem("token", data.token);
+    }
+}
 
 
 //Controlamos el formulario login
@@ -102,11 +116,12 @@ const validateLoginUser = async (event) => {
 
         console.log(data);
 
-        if (status =! 200) {
+        if (status !== 200) {
             errorLogPass.textContent = "Contraseña incorrecta";
             errorLogPass.classList.remove('hidden');
-        } else if (status == 200) {
+        } else if (status === 200) {
             sessionStorage.setItem('usuarioLoggeado', JSON.stringify(data));
+            loadToken(user);
             location.href = "./pages/gestion.html";
         }
 
