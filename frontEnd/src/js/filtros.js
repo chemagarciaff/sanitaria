@@ -90,12 +90,12 @@ ordenarClaveBtn.addEventListener("click", () => ordenarTabla(3));
 filtrarOrgano.removeEventListener("change", filtrarPorOrgano);
 fechaInicio.removeEventListener("change", filtrarPorFecha);
 fechaFin.removeEventListener("change", filtrarPorFecha);
-claveCassette.removeEventListener("change", filtrarPorClave);
+//claveCassette.removeEventListener("change", filtrarPorClave);
 
 filtrarOrgano.addEventListener("change", filtrarPorOrgano);
 fechaInicio.addEventListener("change", filtrarPorFecha);
 fechaFin.addEventListener("change", filtrarPorFecha);
-claveCassette.removeEventListener("change", filtrarPorClave);
+//claveCassette.removeEventListener("change", filtrarPorClave);
 
 /* ###################################################
    ###   Función para listar todos los Cassettes   ###
