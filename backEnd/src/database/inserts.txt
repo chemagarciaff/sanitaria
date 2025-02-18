@@ -5,20 +5,14 @@ VALUES
 ('Ana', 'Gómez', 'ana.gomez@email.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 2', 'T'),
 ('Luis', 'Martínez', 'luis.martinez@email.com', '$argon2id$v=19$m=65536,t=3,p=4$pLJAssT4fj7PcNeiMqE/3w$EyFvQ2UWjV9rqzFHXUq/Yre8fiOFclugj/DpfcXv7rU', 'Centro de Salud 3', 'T');
 
-INSERT INTO cassettes (fecha_cassette, observaciones_cassette, descripcion_cassette, caracteristicas_cassette, qr_casette, organo_cassette, usuarioIdUsu)
+INSERT INTO cassettes (clave_cassette, fecha_cassette, observaciones_cassette, descripcion_cassette, caracteristicas_cassette, qr_casette, organo_cassette, usuarioIdUsu)
 VALUES
-('2025-02-05', 'Observación 1', 'Descripción de cassette 1', 'Característica 1', 'QR001', 'Órgano 1', 1),
-('2025-02-06', 'Observación 2', 'Descripción de cassette 2', 'Característica 2', 'QR002', 'Órgano 2', 2),
-('2025-02-07', 'Observación 3', 'Descripción de cassette 3', 'Característica 3', 'QR003', 'Órgano 3', 3);
+('C1234567', '2025-02-05', 'Observación 1', 'Descripción de cassette 1', 'Característica 1', 'QR001', 'Piel', 1),
+('C2345678', '2025-02-06', 'Observación 2', 'Descripción de cassette 2', 'Característica 2', 'QR002', 'Uña', 2),
+('C3456789', '2025-02-07', 'Observación 3', 'Descripción de cassette 3', 'Característica 3', 'QR003', 'Pelo', 3);
 
 INSERT INTO muestras (fecha_muestra, observaciones_muestra, descripcion_muestra, tincion_muestra, qr_muestra, cassetteIdCassette)
 VALUES
-('2025-02-05', 'Observación muestra 1', 'Descripción muestra 1', 'Tinción 1', 'QR001M', 1),
-('2025-02-06', 'Observación muestra 2', 'Descripción muestra 2', 'Tinción 2', 'QR002M', 2),
-('2025-02-07', 'Observación muestra 3', 'Descripción muestra 3', 'Tinción 3', 'QR003M', 3);
-
-INSERT INTO imagenes (muestraIdMuestra)
-VALUES
-(1),
-(2),
-(3);
+('2025-02-05', 'Observación muestra 1', 'Descripción muestra 1', 'Gram', 'QR001M', 1),
+('2025-02-06', 'Observación muestra 2', 'Descripción muestra 2', 'Eoxina', 'QR002M', 2),
+('2025-02-07', 'Observación muestra 3', 'Descripción muestra 3', 'Giemsa', 'QR003M', 3);

@@ -3,7 +3,7 @@
 
 */
 // ! Versión antigua del js de gestion.html con todo en un fichero
-// ! ELIMINAR ARCHIVO (ya se han dividido el js en varios js)
+// ! AÚN NO ELIMINAR ARCHIVO, HAY QUE PASAR LOS FILTROS DE ESTE ARCHIVO A FILTROS.JS
 
 /* #############################
    ###   Elementos del DOM   ###

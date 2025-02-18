@@ -17,6 +17,9 @@ muestraRouter.post("/", muestraController.createMuestra);
 muestraRouter.put("/:id", muestraController.updateMuestra);
 
 
+muestraRouter.patch("/:id", muestraController.updateMuestra);
+
+
 muestraRouter.delete("/:id", muestraController.deleteMuestra);
 
 

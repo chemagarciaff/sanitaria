@@ -25,6 +25,21 @@ const getCassettesById = async (req, res) => {
   }
 };
 
+// Obtener un cassette por clave
+const getCassettesByClave = async (req, res) => {
+  try {
+    const {clave} = req.params;
+    const cassette = await cassetteService.getCassettesByClave(clave);
+    if (cassette) {
+      res.status(200).json(cassette);
+    } else {
+      res.status(404).json({ message: "Cassette no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Obtener un cassette por Usuario
 const getCassettesByUser = async (req, res) => {
     try {
@@ -147,6 +162,7 @@ module.exports = {
   getAllCassettes,
   getCassettesById,
   getCassettesByUser,
+  getCassettesByClave,
   getCassettesByOrgano,
   getCassettesByFecha,
   getCassettesBetweenFecha,

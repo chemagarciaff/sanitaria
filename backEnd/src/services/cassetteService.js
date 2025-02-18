@@ -16,6 +16,18 @@ const getCassettesById = async (id) => {
     throw new Error("Error al pedir un cassette por id: " + error.message);
   }
 };
+// Obtener un cassette por clave
+const getCassettesByClave = async (clave) => {
+  try {
+    return await Cassette.findOne({
+      where: {
+        clave_cassette: clave,
+      }
+    });
+  } catch (error) {
+    throw new Error("Error al pedir un cassette por id: " + error.message);
+  }
+};
 // Obtener un cassette por Usuario
 const getCassettesByUser = async (id_user) => {
     try {
@@ -111,6 +123,7 @@ module.exports = {
   getAllCassettes,
   getCassettesById,
   getCassettesByUser,
+  getCassettesByClave,
   getCassettesByOrgano,
   getCassettesByFecha,
   getCassettesBetweenFecha,

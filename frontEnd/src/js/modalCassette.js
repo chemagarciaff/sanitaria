@@ -10,6 +10,7 @@ const contAddCassettes = document.getElementById('cassetteTableBody');
 const abrirModal = () => {
     modalOverlay.classList.remove("hidden");
     modal.classList.remove("hidden");
+    
     setTimeout(() => {
         modalContent.classList.remove("scale-95", "opacity-0");
     }, 10);
@@ -27,10 +28,12 @@ const cerrarModal = () => {
 
 // Event listeners para abrir y cerrar el modal
 openModalBtn.addEventListener("click", () => {
-    restringirFechaMinima(); // Aplicar restricción de fecha al abrir el modal
+    restringirFechaMinima();
     abrirModal();
 });
+
 closeModalBtn.addEventListener("click", cerrarModal);
+modalOverlay.addEventListener("click", cerrarModal);
 
 // Petición para obtener todos los cassettes que existen 
 const loadCassettes = async () => {
@@ -38,14 +41,17 @@ const loadCassettes = async () => {
     const data = await response.json();
     showCassettes(data);
 }
-
 // Mostrar por pantalla los cassettes
 const showCassettes = (cassettes) => {
-    contAddCassettes.innerHTML = ""; // Limpiar la tabla antes de añadir los nuevos cassettes
+    contAddCassettes.innerHTML = "";
+
+    errorCrearMuestra.textContent = "";
+    errorMuestra.textContent = "";
+
     let fragment = document.createDocumentFragment();
 
     cassettes.forEach(cassette => {
-        fragment.appendChild(crearFilaCassette(cassette)); // Reutilizamos la función para mantener consistencia
+        fragment.appendChild(crearFilaCassette(cassette));
     });
 
     contAddCassettes.appendChild(fragment);
@@ -62,11 +68,12 @@ const enviarFormulario = async (event) => {
     const descripcion = descripcionInput.value.trim();
     const fecha = fechaInput.value.trim();
     const organo = organoInput.value.trim();
+    const clave = claveInput.value.trim();
     const caracteristicas = caracteristicasInput.value.trim() || "Sin características";
     const observaciones = observacionesInput.value.trim() || "Sin observaciones";
 
-    if (!descripcion || !fecha || !organo) {
-        errorMessage.textContent = "Los campos Descripción, Fecha y Órgano son obligatorios.";
+    if (!descripcion || !fecha || !organo || !clave) {
+        errorMessage.textContent = "Los campos Descripción, Fecha, Órgano y Clave son obligatorios.";
         return;
     }
 
@@ -74,6 +81,7 @@ const enviarFormulario = async (event) => {
         fecha_cassette: fecha,
         descripcion_cassette: descripcion,
         organo_cassette: organo,
+        clave_cassette: clave,
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };
@@ -116,20 +124,26 @@ const crearFilaCassette = (cassette) => {
     // Columna fecha
     let fecha = document.createElement('td');
     fecha.textContent = cassette.fecha_cassette;
-    fecha.classList.add("p-2", "text-gray-700", "text-center");
+    fecha.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(fecha);
 
     // Columna descripción
     let descripcion = document.createElement('td');
     descripcion.textContent = cassette.descripcion_cassette;
-    descripcion.classList.add("p-2", "text-gray-700", "text-center");
+    descripcion.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(descripcion);
 
     // Columna órgano
     let organo = document.createElement('td');
     organo.textContent = cassette.organo_cassette;
-    organo.classList.add("p-2", "text-gray-700", "text-center");
+    organo.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(organo);
+
+    // Columna clave
+    let clave = document.createElement('td');
+    clave.textContent = cassette.clave_cassette;
+    clave.classList.add("p-2", "text-gray-700", "text-left");
+    fila.appendChild(clave);
 
     // Columna icono
     let columIcono = document.createElement('td');
@@ -139,9 +153,6 @@ const crearFilaCassette = (cassette) => {
     let icono = document.createElement('i');
     icono.classList.add("p-none", "mt-4", "icono", "fa-solid", "fa-file", "relative", "w-8", "h-8", "text-teal-500", "detalle-cassette", "cursor-pointer", "hover:text-teal-400", "active:text-teal-700");
     icono.setAttribute("data-id", cassette.id_cassette);
-
-    // Evento para obtener detalles al hacer clic en el icono
-    // icono.addEventListener("click", () => obtenerDetallesCassette(cassette.id_cassette, fila));
 
     // Añadir icono a la fila
     columIcono.appendChild(icono);
