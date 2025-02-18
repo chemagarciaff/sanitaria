@@ -39,10 +39,6 @@ Usuario.init({
             len: {
                 args: [1, 30],
                 msg: "El nombre del usuario debe tener entre 1 y 60 caracteres",
-            },
-            isAlpha: {
-                args: true,
-                msg: "El nombre del usuario solo puede contener letras",
             }
         }
     },

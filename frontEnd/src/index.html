@@ -11,10 +11,11 @@
 </head>
 <body>
     <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">
+
         <!-- MODAL LOGIN -->
         <div id="login" class="w-[500px] h-[450px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center">
             <h1 class="mt-12 text-2xl">Inicia Sesion</h1>
-            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
+            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate id="form_login">
                 <!-- DATOS A RELLENAR -->
                 <!-- MAIL -->
                 <input type="email" class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
@@ -27,7 +28,6 @@
                     <input type="password"
                     id="login_password"
                         class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
-                        pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$"
                         required
                         placeholder="Contraseña">
                     <!-- ICON EYE -->
@@ -44,13 +44,14 @@
                 <p class="text-sm mt-[-5px]">¿No tienes cuenta? <a href="#" class="font-medium text-teal-200">Registrate</a></p>
             </form>
         </div>
+
         <!-- MODAL REGISTRO -->
         <div id="registro" class="w-[500px] h-[700px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center hidden">
             <h1 class="mt-12 text-2xl">Registrate</h1>
-            <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
+            <form id="form_register" action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
                 <!-- DATOS A RELLENAR -->
                 <!-- NAME -->
-                <input type="text" id="register_nomb"
+                <input type="text" id="register_nom"
                     class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
                     min="3"
                     required
@@ -59,17 +60,19 @@
                 <!-- APELLIDOS -->
                 <input type="text" id="register_ape"
                     class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
-                    pattern="^[A-Z][a-zA-Z]{4,}$"
+                    pattern="^[A-Z][a-zA-Z ]{4,}$"
                     required
                     placeholder="Apellidos">
                 <p id="error_reg-ape" class="hidden error"></p>
                 <!-- CENTRO -->
-                <select name="" id=""
+                <select name="" id="register_centro"
                 class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
                 required    
                 placeholder="Centro">
+
                     <option value="IES Ribera del Tajo" selected>IES Ribera del Tajo</option>
-                    <option value="" selected>Centro</option>
+                    <option value="" disabled selected>Centro</option>
+
                 </select>
                 <!-- MAIL -->
                 <input type="email"
