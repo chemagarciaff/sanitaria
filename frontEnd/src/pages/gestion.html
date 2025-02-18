@@ -83,7 +83,7 @@
                 <option>Otros</option>
             </select>
             <!-- Input para buscar cassettes según su clave -->
-            <input type="text" id="codigoCassette" placeholder="Clave del Cassette" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
+            <input type="text" id="claveCassette" placeholder="Clave del Cassette" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
             <!-- Input de Escaner QR (no funcional)-->
             <!--! Input de escaner qr no funcional, se le podría poner opacity-0 -->
             <input type="text" id="qrCassette" placeholder="Escanear QR" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
@@ -133,7 +133,7 @@
                 </div>
 
                 <!-- Cassettes main -->
-                <div class="overflow-y-auto h-64 mt-2">
+                <div class="overflow-y-auto h-96 mt-2">
                     <table class="w-full border border-teal-300">
                         <thead>
                             <tr class="bg-teal-200">
@@ -146,6 +146,9 @@
                                 </th>
                                 <th id="ordenarOrgano" class="p-2 border-b hover:bg-teal-300 text-start cursor-pointer">
                                     Órgano
+                                </th>
+                                <th id="ordenarClave" class="p-2 border-b hover:bg-teal-300 text-start cursor-pointer">
+                                    Clave
                                 </th>
                                 <th class="p-2 border-b"></th>
                             </tr>
@@ -204,8 +207,8 @@
                     </div>
 
                     <div class="border-b border-gray-300 pb-3">
-                        <p class="font-bold uppercase text-sm"> Código:</p>
-                        <p id="codigo" class="text-gray-600 break-words detalle-texto"></p>
+                        <p class="font-bold uppercase text-sm"> Clave:</p>
+                        <p id="clave" class="text-gray-600 break-words detalle-texto"></p>
                     </div>
 
                     <div class="border-b border-gray-300 pb-3">
@@ -350,7 +353,7 @@
                             <option>Otros</option>
                         </select>
                     </div>
-                    <input type="text" id="codigoInput" placeholder="Código Único *"
+                    <input type="text" id="claveInput" placeholder="Clave Única *"
                     class="w-full p-2 border rounded-md mb-4">
                     <textarea id="caracteristicasInput" placeholder="Características"
                         class="w-full p-2 border rounded-md"></textarea>
@@ -467,7 +470,7 @@
                             <option>Otros</option>
                         </select>
                     </div>
-                    <input type="text" id="editarCodigo" placeholder="Código Único *"
+                    <input type="text" id="editarClave" placeholder="Clave Única *"
                     class="w-full p-2 border rounded-md mb-4">
                     <textarea id="editarCaracteristicas" placeholder="Características"
                         class="w-full p-2 border rounded-md"></textarea>

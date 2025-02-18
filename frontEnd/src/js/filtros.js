@@ -80,19 +80,22 @@ const filtrarPorFecha = () => {
 ordenarFechaBtn.removeEventListener("click", () => ordenarTabla(0));
 ordenarDescripcionBtn.removeEventListener("click", () => ordenarTabla(1));
 ordenarOrganoBtn.removeEventListener("click", () => ordenarTabla(2));
+ordenarClaveBtn.removeEventListener("click", () => ordenarTabla(3));
 
 ordenarFechaBtn.addEventListener("click", () => ordenarTabla(0));
 ordenarDescripcionBtn.addEventListener("click", () => ordenarTabla(1));
 ordenarOrganoBtn.addEventListener("click", () => ordenarTabla(2));
+ordenarClaveBtn.addEventListener("click", () => ordenarTabla(3));
 
 filtrarOrgano.removeEventListener("change", filtrarPorOrgano);
 fechaInicio.removeEventListener("change", filtrarPorFecha);
 fechaFin.removeEventListener("change", filtrarPorFecha);
+claveCassette.removeEventListener("change", filtrarPorClave);
 
 filtrarOrgano.addEventListener("change", filtrarPorOrgano);
 fechaInicio.addEventListener("change", filtrarPorFecha);
 fechaFin.addEventListener("change", filtrarPorFecha);
-
+claveCassette.removeEventListener("change", filtrarPorClave);
 
 /* ###################################################
    ###   Función para listar todos los Cassettes   ###
@@ -113,6 +116,7 @@ const listarTodosLosCassettes = () => {
     filtrarOrgano.value = "";
     fechaInicio.value = "";
     fechaFin.value = "";
+    filtrarClave.value = "";
 };
 
 // Listener mostrar sin filtros

@@ -68,12 +68,12 @@ const enviarFormulario = async (event) => {
     const descripcion = descripcionInput.value.trim();
     const fecha = fechaInput.value.trim();
     const organo = organoInput.value.trim();
-    const codigo = codigoInput.value.trim();
+    const clave = claveInput.value.trim();
     const caracteristicas = caracteristicasInput.value.trim() || "Sin características";
     const observaciones = observacionesInput.value.trim() || "Sin observaciones";
 
-    if (!descripcion || !fecha || !organo || !codigo) {
-        errorMessage.textContent = "Los campos Descripción, Fecha, Órgano y Código son obligatorios.";
+    if (!descripcion || !fecha || !organo || !clave) {
+        errorMessage.textContent = "Los campos Descripción, Fecha, Órgano y Clave son obligatorios.";
         return;
     }
 
@@ -81,7 +81,7 @@ const enviarFormulario = async (event) => {
         fecha_cassette: fecha,
         descripcion_cassette: descripcion,
         organo_cassette: organo,
-        codigo_cassette: codigo,
+        clave_cassette: clave,
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };
@@ -138,6 +138,12 @@ const crearFilaCassette = (cassette) => {
     organo.textContent = cassette.organo_cassette;
     organo.classList.add("p-2", "text-gray-700", "text-left");
     fila.appendChild(organo);
+
+    // Columna clave
+    let clave = document.createElement('td');
+    clave.textContent = cassette.clave_cassette;
+    clave.classList.add("p-2", "text-gray-700", "text-left");
+    fila.appendChild(clave);
 
     // Columna icono
     let columIcono = document.createElement('td');
