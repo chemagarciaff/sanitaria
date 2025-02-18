@@ -97,13 +97,16 @@ const validateLoginUser = async (event) => {
             },
         })
 
-        const status = await result.status;
+        const status = result.status;
         const data = await result.json();
 
-        if (status == 401) {
+        console.log(data);
+
+        if (status =! 200) {
             errorLogPass.textContent = "Contraseña incorrecta";
             errorLogPass.classList.remove('hidden');
         } else if (status == 200) {
+            sessionStorage.setItem('usuarioLoggeado', JSON.stringify(data));
             location.href = "./pages/gestion.html";
         }
 

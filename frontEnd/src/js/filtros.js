@@ -7,6 +7,8 @@
    ###   Función de Ordenación   ###
    ###############################*/
 
+const botonAdministrar = document.getElementById('botonAdministrador');
+
    const ordenarTabla = (columna) => {
     let filas = Array.from(cassetteTableBody.children);
 
@@ -119,6 +121,14 @@ const listarTodosLosCassettes = () => {
     filtrarClave.value = "";
 };
 
+const mostrarBotonAdministrar = () => {
+    let rol = JSON.parse(sessionStorage.getItem('usuarioLoggeado')).rol;
+    if(rol != 'A'){
+        botonAdministrar.classList.add('hidden');
+    }
+}
+
 // Listener mostrar sin filtros
 btnListarTodo.addEventListener("click", listarTodosLosCassettes);
+document.addEventListener('DOMContentLoaded', mostrarBotonAdministrar);
 
