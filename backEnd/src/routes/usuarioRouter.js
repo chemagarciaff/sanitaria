@@ -19,7 +19,7 @@ usuarioRouter.get("/rol/:rol", usuarioController.getUsersByRol);
 usuarioRouter.post("/", usuarioController.createUser);
 
 
-usuarioRouter.post("/logUser", userToken.checkToken ,usuarioController.logUser);
+usuarioRouter.post("/logUser", usuarioController.logUser);
 
 
 usuarioRouter.put("/:id", usuarioController.updateUser);
