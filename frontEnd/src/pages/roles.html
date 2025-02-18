@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión del Sistema</title>
+    <link href="./output.css" rel="stylesheet">
+    <link rel="stylesheet" href="../style/index.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css">
+</head>
+<body>
+    <div id="container" class="flex flex-col items-center justify-center h-screen p-0 m-autow-fll bg-linear-to-b from-cyan-300 to-teal-500">   
+        <h1 class="mt-10 text-4xl text-teal-400">Gestión del Sistema</h1>
+          <div class="grid grid-cols-2 gap-6 mt-4">
+            <div class="flex flex-col gap-6 mr-6 text-[1.2rem]">                
+                <!-- Select de usuarios -->
+                <select id="user_list" class="w-[350px] p-3 mt-0 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center">
+                    <option value="" disabled selected>Seleccionar Usuario</option>
+                <!-- Usuarios cargados desde roles.js -->
+                </select>
+                <button id="btn_delete_user" class="w-[350px] p-3 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center"
+                >Eliminar Usuario</button>
+                <button id="btn_delete_all_cassettes" class="w-[350px] p-3 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center"
+                >Eliminar Todos los Cassettes</button>
+            </div>
+            <div class="flex flex-col gap-6 ml-6 text-[1.2rem]">
+                <button id="btn_edit_user" class="w-[350px] p-3 border-2 border-teal-300 text-teal-300 placeholder:text-teal-300 hover:bg-teal-300 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center"
+                >Editar-Promocionar Usuario</button>
+                <button id="btn_delete_all_samples" class="w-[350px] p-3 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center"
+                >Eliminar Todas las Muestras</button>
+                <button id="btn_delete_all_images" class="w-[350px] p-3 border-2 border-red-400 text-red-400 placeholder:text-red-400 hover:bg-red-400 hover:text-white focus:outline-none rounded-md focus:placeholder:text-white text-center"
+                >Eliminar Todas las Imágenes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para editar o promocionar usuario -->
+    <div id="editUserModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white p-6 rounded-lg shadow-lg w-[400px]">
+            <h2 class="text-2xl mb-4">Editar Usuario</h2>
+            <form id="edit_user_form" class="flex flex-col gap-4">
+                <input type="hidden" id="edit_user_id">
+                <input type="text" id="edit_user_email" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Correo Electrónico">
+                <input type="text" id="edit_user_name" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Nombre">
+                <input type="text" id="edit_user_apellidos" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Apellidos">
+                <input type="text" id="edit_user_centro" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Centro">
+                <input type="text" id="edit_user_role" class="p-2 border-2 border-teal-300 rounded-md" placeholder="Rol">
+                <div class="flex justify-end gap-4">
+                    <button type="button" id="cancel_edit" class="p-2 bg-red-400 text-white rounded-md">Cancelar</button>
+                    <button type="submit" class="p-2 bg-teal-400 text-white rounded-md">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+     <!-- Modal de mensajes -->
+     <div id="messageModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div id="messageModalContent" class="bg-white p-6 rounded-lg shadow-lg w-[400px] border-4">
+            <p id="messageText" class="text-center"></p>
+            <div class="flex justify-center mt-4">
+                <button id="closeMessageModal" class="p-2 bg-teal-400 text-white rounded-md">Cerrar</button>
+            </div>
+        </div>
+    </div>
+    <!-- Modal de confirmación -->
+    <div id="confirmModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div id="confirmModalContent" class="bg-white p-6 rounded-lg shadow-lg w-[400px] border-2">
+            <p id="confirmText" class="text-center"></p>
+            <div class="flex justify-end mt-4 gap-4">
+                <button id="confirmCancel" class="p-2 bg-red-400 text-white rounded-md">Cancelar</button>
+                <button id="confirmOk" class="p-2 bg-teal-400 text-white rounded-md">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./../js/roles.js"></script>
+</body>
+</html>

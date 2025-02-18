@@ -32,4 +32,7 @@ cassetteRouter.put("/:id", cassetteController.updateCassette);
 cassetteRouter.delete("/:id", cassetteController.deleteCassette);
 
 
+cassetteRouter.delete("/", cassetteController.deleteAllCassettes);
+
+
 module.exports = cassetteRouter;
