@@ -82,11 +82,11 @@ const logUser = async (req, res) => {
   try {
     const { email_usu, password_usu } = req.body;
     const user = await usuarioService.getUserByEmail(email_usu);
-    const token = createToken()
     console.log("Usuario encontrado:", user);
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
     if (contraseñaCorrecta) {
+      res.json({success : createToken(user)})
       res.cookie('access_token', token, {
         httpOnly: true,
         maxAge: 86400000,

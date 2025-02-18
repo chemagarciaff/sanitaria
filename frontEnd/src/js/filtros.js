@@ -33,9 +33,9 @@ const botonAdministrar = document.getElementById('botonAdministrador');
     cassetteTableBody.replaceChildren(...filas);
 };
 
-/* ################################
-   ###   Función de Filtrado   ###
-   ##############################*/
+/* ##########################################
+   ###   Función de Filtrado por Organos  ###
+   ########################################*/
 
    const filtrarPorOrgano = () => {
     let filtro = filtrarOrgano.value.trim().toLowerCase();
@@ -79,6 +79,29 @@ const filtrarPorFecha = () => {
     });
 };
 
+
+/* ##########################################
+   ###   Función de Filtrado por Clave    ###
+   ########################################*/
+
+   const filtrarPorClave = () => {
+    let filtro = claveCassette.value.trim().toLowerCase();
+    let filas = Array.from(cassetteTableBody.children);
+
+    filas.forEach(fila => {
+        let clave = fila.cells[3].textContent.trim().toLowerCase(); 
+
+        if (filtro === "") {
+            fila.style.display = "";
+        } else {
+            fila.style.display = clave === filtro ? "" : "none"; 
+        }
+    });
+};
+
+// Asignar evento al input para filtrar en tiempo real
+claveCassette.addEventListener("input", filtrarPorClave);
+
 ordenarFechaBtn.removeEventListener("click", () => ordenarTabla(0));
 ordenarDescripcionBtn.removeEventListener("click", () => ordenarTabla(1));
 ordenarOrganoBtn.removeEventListener("click", () => ordenarTabla(2));
@@ -92,12 +115,12 @@ ordenarClaveBtn.addEventListener("click", () => ordenarTabla(3));
 filtrarOrgano.removeEventListener("change", filtrarPorOrgano);
 fechaInicio.removeEventListener("change", filtrarPorFecha);
 fechaFin.removeEventListener("change", filtrarPorFecha);
-//claveCassette.removeEventListener("change", filtrarPorClave);
+claveCassette.removeEventListener("change", filtrarPorClave);
 
 filtrarOrgano.addEventListener("change", filtrarPorOrgano);
 fechaInicio.addEventListener("change", filtrarPorFecha);
 fechaFin.addEventListener("change", filtrarPorFecha);
-//claveCassette.removeEventListener("change", filtrarPorClave);
+claveCassette.removeEventListener("change", filtrarPorClave);
 
 /* ###################################################
    ###   Función para listar todos los Cassettes   ###

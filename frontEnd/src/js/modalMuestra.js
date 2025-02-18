@@ -140,28 +140,24 @@ const createMuestras = (muestras) => {
     containerMuestra.appendChild(fragment)
 }
 
-//Cargar los cassetes
-const loadOneCassette = async (idCassette) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassette}`)
-    const data = await response.json();
-    createDetailOfCassette(data);
-}
+// Función para cargar un cassette
+const loadOneCassette = async (id) => {
+    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`);
+    const cassette = await response.json();
+    // Actualizar detalles 
+    updateCassetteDetails(cassette);
+};
 
-//Crear los datos de los detalles
-const createDetailOfCassette = (cassette) => {
-    //Dejar el contenido vacio 
-    detalleDescripcion.textContent = "";
-    detalleOrgano.textContent = "";
-    detalleFecha.textContent = "";
-    detalleObservaciones.textContent = "";
-    detalleCaracteristicas.textContent = "";
-    //Añadimos los datos del objeto
+// Función para actualizar los detalles en la interfaz
+const updateCassetteDetails = (cassette) => {
     detalleDescripcion.textContent = cassette.descripcion_cassette;
-    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
     detalleFecha.textContent = cassette.fecha_cassette;
-    detalleObservaciones.textContent = cassette.observaciones_cassette;
     detalleOrgano.textContent = cassette.organo_cassette;
-}
+    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
+    detalleObservaciones.textContent = cassette.observaciones_cassette;
+    detalleClave.textContent = cassette.clave_cassette;
+};
+
 
 // Función para abrir el modal de muestras
 const abrirModalMuestra = (event) => {
