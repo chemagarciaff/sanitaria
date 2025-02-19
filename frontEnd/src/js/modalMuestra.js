@@ -79,7 +79,14 @@ const showMuestrasAndDetalles = async (event) => {
 
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
+    const token = getAuthToken()
+    if (!token) return;
+    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token
+        }
+    })
     const data = await response.json();
     createMuestras(data);
     muestrasFromCassette = data;

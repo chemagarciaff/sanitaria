@@ -54,7 +54,7 @@ const loadCassettes = async () => {
     const response = await fetch('http://localhost:3000/sanitaria/cassettes/',{
         headers: {
             'Content-Type': 'application/json',
-            'user-token': token // 🔥 Ahora se envía el token en la cabecera
+            'user-token': token
         }
     });
     const data = await response.json();
@@ -83,6 +83,12 @@ const showCassettes = (cassettes) => {
 
 // Función para validar y enviar el formulario de añadir cassettes al backend
 const enviarFormulario = async (event) => {
+    const token = getAuthToken();
+    if (!token) {
+        console.log("No existe token");
+        return null;
+    }
+
     event.preventDefault();
 
     const descripcion = descripcionInput.value.trim();
@@ -108,17 +114,23 @@ const enviarFormulario = async (event) => {
 
     try {
         // Verificar si la clave ya existe
-        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/');
+        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/',{
+            
+        });
         if (!existingCassettesResponse.ok) {
             throw new Error("Error al verificar cassettes existentes.");
         }
 
-        const existingCassettes = await existingCassettesResponse.json();
-        const claveExistente = existingCassettes.some(cassette => cassette.clave_cassette === clave);
+        const existingCassettes = await existingCassettesResponse.json() || null;
+        console.log(existingCassettes);
+        
+       if (existingCassettes) {
+            const claveExistente = existingCassettes.some(cassette => cassette.clave_cassette === clave);
 
-        if (claveExistente) {
-            errorMessage.textContent = "La clave de un cassette no puede repetirse";
-            return;
+            if (claveExistente) {
+                errorMessage.textContent = "La clave de un cassette no puede repetirse";
+                return;
+            }
         }
         const token = getAuthToken();
         if (!token) return;
