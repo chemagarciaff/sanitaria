@@ -60,74 +60,145 @@ const validateEmail = async (email) => {
 
 
 }
-//Obtener el token
-const loadToken = async (user) =>{
-    const token = await fetch("http://localhost:3000/sanitaria/usuarios/logUser",{
-        method:"POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user)
-    })
-    const data = await token.json()
+// //Obtener el token
+// const loadToken = async (user) =>{
+//     const token = await fetch("http://localhost:3000/sanitaria/usuarios/logUser",{
+//         method:"POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify(user)
+//     })
+//     const data = await token.json()
     
-    console.log(data);
+//     console.log(data);
     
-    if(data.token){
-        localStorage.setItem("token", data.token);
+//     if(data.token){
+//         localStorage.setItem("token", data.token);
+//     }
+// }
+
+
+// //Controlamos el formulario login
+// const validateLoginUser = async (event) => {
+
+//     event.preventDefault();
+
+//     errorLogMail.textContent = "";
+//     errorLogPass.textContent = "";
+
+//     let validatedData = false;
+//     let validatedEmail = false;
+
+//     //Objeto usuario
+//     let user = {
+//         email_usu: logCorreo.value,
+//         password_usu: logPass.value
+//     }
+
+//     validatedData = validateData();
+
+//     if (validatedData) {
+//         validatedEmail = await validateEmail(user.email_usu);
+//     }
+
+
+//     if (validatedData && validatedEmail) {
+//         const token = sessionStorage.getItem('usuarioLoggeado')
+
+//         const result = await fetch("http://localhost:3000/sanitaria/usuarios/logUser", {
+//             method: 'POST',
+//             body: JSON.stringify(user),
+//             headers: {
+//                 'Content-type': 'application/json',
+//                 "user-token": token,
+//             },
+//         })
+
+//         const status = result.status;
+//         const data = await result.json();
+
+//         console.log(data);
+
+//         if (status !== 200) {
+//             errorLogPass.textContent = "Contraseña incorrecta";
+//             errorLogPass.classList.remove('hidden');
+//         } else if (status === 200) {
+//             sessionStorage.setItem('usuarioLoggeado', JSON.stringify(data));
+//             loadToken(user);
+//             location.href = "./pages/gestion.html";
+//         }
+
+//     }
+// }
+
+// Obtener y guardar el token en localStorage
+const loadToken = async (user) => {
+    try {
+        const response = await fetch("http://localhost:3000/sanitaria/usuarios/logUser", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(user),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            localStorage.setItem("token", data.success);
+            return data.success;
+        } else {
+            console.error("No se recibió un token válido");
+        }
+    } catch (error) {
+        console.error("Error obteniendo el token:", error);
     }
-}
+};
 
-
-//Controlamos el formulario login
+// Controlar el formulario de login
 const validateLoginUser = async (event) => {
-
     event.preventDefault();
 
     errorLogMail.textContent = "";
     errorLogPass.textContent = "";
 
-    let validatedData = false;
-    let validatedEmail = false;
-
-    //Objeto usuario
     let user = {
         email_usu: logCorreo.value,
-        password_usu: logPass.value
+        password_usu: logPass.value,
+    };
+
+    if (!validateData()) return;
+    if (!(await validateEmail(user.email_usu))) return;
+
+    const token = await loadToken(user);
+
+    if (!token) {
+        errorLogPass.textContent = "Error al iniciar sesión";
+        errorLogPass.classList.remove('hidden');
+        return;
     }
 
-    validatedData = validateData();
-
-    if (validatedData) {
-        validatedEmail = await validateEmail(user.email_usu);
-    }
-
-
-    if (validatedData && validatedEmail) {
-
+    try {
         const result = await fetch("http://localhost:3000/sanitaria/usuarios/logUser", {
-            method: 'POST',
+            method: "POST",
             body: JSON.stringify(user),
             headers: {
-                'Content-type': 'application/json',
+                "Content-Type": "application/json",
+                "user-token": token,
             },
-        })
+        });
 
         const status = result.status;
         const data = await result.json();
 
-        console.log(data);
-
         if (status !== 200) {
             errorLogPass.textContent = "Contraseña incorrecta";
             errorLogPass.classList.remove('hidden');
-        } else if (status === 200) {
-            sessionStorage.setItem('usuarioLoggeado', JSON.stringify(data));
-            loadToken(user);
+        } else {
+            sessionStorage.setItem("usuarioLoggeado", JSON.stringify(data));
             location.href = "./pages/gestion.html";
         }
-
+    } catch (error) {
+        console.error("Error en la autenticación:", error);
     }
-}
-
+};
 
 
 //Validar formulario registro
