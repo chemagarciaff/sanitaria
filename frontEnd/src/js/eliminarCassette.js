@@ -11,6 +11,21 @@ let arrayIdMuestras = [];
 
 /*FUNCIONES*/
 //Mostrar modal delete cassette
+
+// Función para obtener el token
+const getAuthToken = () =>{
+    const token = sessionStorage.getItem('usuarioLoggeado')
+    const tokenValue = JSON.parse(token)
+    //Si no existe token
+    if (!tokenValue) {
+        console.log("No existe token");
+        return null
+    }
+    //Si existe el token
+    return tokenValue.success;
+}
+
+// Función para abrir el modal de eliminar cassette
 const showModalDelete = (event) =>{
     let aux = event.target;
 
@@ -64,8 +79,15 @@ const actionUserChange = async (event) =>{
 
 //Eliminar cassette
 const deleteOneCassete = async () =>{
+
+    const token = getAuthToken();
+
     const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassetteGlobal}`,{
-        method:'DELETE'
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token
+        }
     });
 
     if (response.ok) {
@@ -91,8 +113,14 @@ const loadIdMuestras = (muestras) =>{
 
 //Eliminar muestras que pertenician al cassett eliminado
 const deleteMuestrasFromOneCassette = async (id) =>{
+    const token = getAuthToken();
+
     const reponse = await fetch(`http://localhost:3000/sanitaria/muestras/${id}`,{
-        method:'DELETE'
+        method:'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token
+        }
     });
 }
 

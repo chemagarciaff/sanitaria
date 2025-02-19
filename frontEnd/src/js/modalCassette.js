@@ -111,11 +111,15 @@ const enviarFormulario = async (event) => {
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };
+    
 
     try {
         // Verificar si la clave ya existe
-        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/',{
-            
+        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'user-token': token,
+            }
         });
         if (!existingCassettesResponse.ok) {
             throw new Error("Error al verificar cassettes existentes.");
@@ -132,8 +136,7 @@ const enviarFormulario = async (event) => {
                 return;
             }
         }
-        const token = getAuthToken();
-        if (!token) return;
+
         // Enviar el nuevo cassette al backend
         const response = await fetch('http://localhost:3000/sanitaria/cassettes/', {
             method: 'POST',
