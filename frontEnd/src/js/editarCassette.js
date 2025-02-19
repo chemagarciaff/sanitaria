@@ -15,6 +15,19 @@ const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
 
 /* FUNCIONES */
+// Función para obtener el token
+const getAuthToken = () =>{
+    const token = sessionStorage.getItem('usuarioLoggeado')
+    const tokenValue = JSON.parse(token)
+    //Si no existe token
+    if (!tokenValue) {
+        console.log("No existe token");
+        return null
+    }
+    //Si existe el token
+    return tokenValue.success;
+}
+
 // Función para establecer la fecha mínima como la actual
 const restringirFechaMinimaEdicion = () => {
     const hoy = new Date().toISOString().split("T")[0];
@@ -88,10 +101,15 @@ const postNewDetailsCassette = async (event) =>{
         caracteristicas_cassette: editarCaracteristicas.value,
         observaciones_cassette: editarObservaciones.value,
     };
+
+    const token = getAuthToken();
     //Hacemos el PUT
     const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassetteGlobal}`,{
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 
+            'Content-Type': 'application/json',
+            'user-token': token
+        },
         body: JSON.stringify(editCassette)
     }
     )

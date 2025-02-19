@@ -45,6 +45,19 @@ let addImagenInput = document.getElementById('addImagenInput');
 
 */
 
+// Función para obtener el token
+const getAuthToken = () =>{
+    const token = sessionStorage.getItem('usuarioLoggeado')
+    const tokenValue = JSON.parse(token)
+    //Si no existe token
+    if (!tokenValue) {
+        console.log("No existe token");
+        return null
+    }
+    //Si existe el token
+    return tokenValue.success;
+}
+
 // Almacena la fila seleccionada
 let filaCassetteSeleccionado = null;
 
@@ -79,7 +92,15 @@ const showMuestrasAndDetalles = async (event) => {
 
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
+    const token = getAuthToken();
+
+    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token
+        }
+    });
+
     const data = await response.json();
     createMuestras(data);
     muestrasFromCassette = data;
@@ -180,6 +201,7 @@ const abrirModalMuestra = (event) => {
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) => {
     event.preventDefault();
+    const token = getAuthToken();
     //Creamos el objeto muestra
     const muestra = {
         fecha_muestra: fecha.value.trim(),
@@ -194,7 +216,8 @@ const postMuestra = async (event) => {
     const response = await fetch('http://localhost:3000/sanitaria/muestras/', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json',
+            'user-token': token
         },
         body: JSON.stringify(muestra)
     })
@@ -423,8 +446,6 @@ const abrirModalEditarMuestra = () => {
     editarFechaMuestra.value = muestraSeleccionada.fecha_muestra.split("T")[0];
     editarTincionMuestra.value = muestraSeleccionada.tincion_muestra;
     editarObservacionesMuestra.value = muestraSeleccionada.observaciones_muestra;
-    
-    
     
     // Mostrar el modal de edición
     modalOverlayEditarMuestra.classList.remove("hidden");

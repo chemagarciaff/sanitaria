@@ -54,7 +54,7 @@ const loadCassettes = async () => {
     const response = await fetch('http://localhost:3000/sanitaria/cassettes/',{
         headers: {
             'Content-Type': 'application/json',
-            'user-token': token // 🔥 Ahora se envía el token en la cabecera
+            'user-token': token
         }
     });
     const data = await response.json();
@@ -105,10 +105,19 @@ const enviarFormulario = async (event) => {
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };
+    
+    const token = getAuthToken();
+    if (!token) return;
 
     try {
         // Verificar si la clave ya existe
-        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/');
+        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'user-token': token
+            }
+        });
+        
         if (!existingCassettesResponse.ok) {
             throw new Error("Error al verificar cassettes existentes.");
         }
@@ -120,6 +129,7 @@ const enviarFormulario = async (event) => {
             errorMessage.textContent = "La clave de un cassette no puede repetirse";
             return;
         }
+
         const token = getAuthToken();
         if (!token) return;
         // Enviar el nuevo cassette al backend
