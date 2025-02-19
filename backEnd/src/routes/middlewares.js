@@ -3,7 +3,7 @@ const moment = require("moment");
 
 const checkToken = (req, res, next) => {
   if (!req.headers['user-token']) {
-    res.json({error: "Necesitas inluir el token del usuario"})
+    return res.json({error: "Necesitas inluir el token del usuario"})
   }
 
   const userToken = req.headers['user-token'];
@@ -11,6 +11,7 @@ const checkToken = (req, res, next) => {
   let payload = {};
   try {
     payload = jwt.decode(userToken, process.env.JWT_SECRETKEY);
+    req.user = payload;
   } catch (error) {
     return res.json({error: "Token incorrecto"})
   } 
@@ -21,8 +22,6 @@ const checkToken = (req, res, next) => {
       error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
     });
   }
-
-  req.usuarioId = payload.usuarioId
 
   next();
 };

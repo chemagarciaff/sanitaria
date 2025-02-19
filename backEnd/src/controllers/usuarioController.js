@@ -1,6 +1,7 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
 const jwt = require("jwt-simple");
+const moment = require('moment');
 // const generarToken = require("../utils/token");
 // const createToken = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
@@ -86,12 +87,16 @@ const logUser = async (req, res) => {
     const { email_usu, password_usu } = req.body;
     const user = await usuarioService.getUserByEmail(email_usu);
     console.log("Usuario encontrado:", user);
-    if(!user) return res.status(404).json({ message: "El email no esta registrado"});
+    if(!user){
+      return res.status(404).json({ message: "El email no esta registrado"});
+    } 
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
     if (contraseñaCorrecta) {
-      res.json({success : createToken(user)})
-      
-      return res.status(200).json({ message: 'Loggin correcto', rol: user.rol });
+      return res.status(200).json({ 
+        message: 'Loggin correcto', 
+        rol: user.rol, 
+        success : createToken(user)  
+      });
     } else {
       return res.status(401).json({ message: 'Contraseña incorrecta' });
     }
@@ -102,15 +107,12 @@ const logUser = async (req, res) => {
 
 //Crear token
 const createToken = (user) =>{
-    const payload = {userId: user.id, userName: user.name}
-    postTokenLocalStorage(payload,process.env.JWT_SECRETKEY)
-    return jwt.encode(payload,process.env.JWT_SECRETKEY)
-}
-//Pasar el token al localStorage
-const postTokenLocalStorage = (token) =>{
-  const arrayLocal = JSON.parse(localStorage.getItem('token')) || [];
-  arrayLocal.push(token);
-  localStorage.setItem('token', JSON.stringify(arrayLocal));
+    const payload = {
+      userId: user.id, 
+      userName: user.name,
+      expiredAt: moment().add(7, 'days').unix()
+  }
+  return jwt.encode(payload,process.env.JWT_SECRETKEY)
 }
 // Actualizar un usuario existente
 const updateUser = async (req, res) => {
