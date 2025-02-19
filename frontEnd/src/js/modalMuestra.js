@@ -45,18 +45,6 @@ let addImagenInput = document.getElementById('addImagenInput');
 
 */
 
-// Función para obtener el token
-const getAuthToken = () =>{
-    const token = sessionStorage.getItem('usuarioLoggeado')
-    const tokenValue = JSON.parse(token)
-    //Si no existe token
-    if (!tokenValue) {
-        console.log("No existe token");
-        return null
-    }
-    //Si existe el token
-    return tokenValue.success;
-}
 
 // Almacena la fila seleccionada
 let filaCassetteSeleccionado = null;
@@ -98,7 +86,7 @@ const loadMuestras = async (idCassette) => {
     const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`, {
         headers: {
             'Content-Type': 'application/json',
-            'user-token': token
+            'user-token': token,
         }
     });
 
@@ -164,7 +152,14 @@ const createMuestras = (muestras) => {
 
 // Función para cargar un cassette
 const loadOneCassette = async (id) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`);
+    const token = getAuthToken()
+    if (!token) return;
+    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
     const cassette = await response.json();
     // Actualizar detalles 
     updateCassetteDetails(cassette);
@@ -203,6 +198,7 @@ const abrirModalMuestra = (event) => {
 const postMuestra = async (event) => {
     event.preventDefault();
     const token = getAuthToken();
+    if (!token) return;
     //Creamos el objeto muestra
     const muestra = {
         fecha_muestra: fecha.value.trim(),
@@ -218,7 +214,7 @@ const postMuestra = async (event) => {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'user-token': token
+            'user-token': token,
         },
         body: JSON.stringify(muestra)
     })
@@ -242,7 +238,8 @@ const postMuestra = async (event) => {
 
 const sendImageToDB = async (file, idMuestra) => {
     const formData = new FormData();
-
+    const token = getAuthToken();
+    if (!token) return;
     formData.append("imagen", file, file.name);  // El archivo es tratado como un Blob
     formData.append("muestraIdMuestra", idMuestra);  // Otro parámetro que quieras agregar
 
@@ -250,6 +247,10 @@ const sendImageToDB = async (file, idMuestra) => {
         // Enviar la imagen como un Blob usando fetch
         const response = await fetch('http://localhost:3000/sanitaria/imagenes/', {
             method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'user-token': token,
+            },
             body: formData,
         });
 
@@ -290,7 +291,15 @@ const obtenerImagenesMuestra = async (idMuestra) => {
     contenedorMiniaturasMuestra.innerHTML = '';
     imagenPrincipalMuestra.src = '';
 
-    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`);
+    const token = getAuthToken();
+    if (!token) return;
+    
+    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
 
     if (response.ok) {
 
@@ -371,11 +380,14 @@ const cambiarImagenPrincipal = (event) => {
 
 
 const eliminarMuestra = async () => {
+    const token = getAuthToken();
+    if (!token) return;
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'DELETE',
-        headers: {
-            'Content-type': 'application/json'
-        },
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
     });
     cerrarModalEliminarMuestra();
     cerrarModalDetalleMuestra();
@@ -384,7 +396,9 @@ const eliminarMuestra = async () => {
 
 const editarValoresMuestra = async (event) => {
     event.preventDefault();
-    
+    const token = getAuthToken();
+    if (!token) return;
+
     let body = {
         tincion_muestra: editarTincionMuestra.value,
         descripcion_muestra: editarDescripcionMuestra.value,
@@ -394,8 +408,9 @@ const editarValoresMuestra = async (event) => {
     
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'PATCH',
-        headers: {
-            'Content-type': 'application/json'
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
         },
         body: JSON.stringify(body),
     })

@@ -12,18 +12,6 @@ let arrayIdMuestras = [];
 /*FUNCIONES*/
 //Mostrar modal delete cassette
 
-// Función para obtener el token
-const getAuthToken = () =>{
-    const token = sessionStorage.getItem('usuarioLoggeado')
-    const tokenValue = JSON.parse(token)
-    //Si no existe token
-    if (!tokenValue) {
-        console.log("No existe token");
-        return null
-    }
-    //Si existe el token
-    return tokenValue.success;
-}
 
 // Función para abrir el modal de eliminar cassette
 const showModalDelete = (event) =>{

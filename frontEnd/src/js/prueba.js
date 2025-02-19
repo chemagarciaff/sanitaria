@@ -33,11 +33,6 @@ let btnAgregarImagenMuestra = document.getElementById('btnAgregarImagenMuestra')
 let addImagenInput = document.getElementById('addImagenInput');
 
 /* FUNCIÓN PARA OBTENER EL TOKEN */
-const getAuthToken = () => {
-    const token = sessionStorage.getItem('usuarioLoggeado');
-    const tokenValue = JSON.parse(token);
-    return tokenValue ? tokenValue.success : null;
-};
 
 // Cargar muestras de un cassette con autenticación
 const loadMuestras = async (idCassette) => {

@@ -15,18 +15,6 @@ const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
 
 /* FUNCIONES */
-// Función para obtener el token
-const getAuthToken = () =>{
-    const token = sessionStorage.getItem('usuarioLoggeado')
-    const tokenValue = JSON.parse(token)
-    //Si no existe token
-    if (!tokenValue) {
-        console.log("No existe token");
-        return null
-    }
-    //Si existe el token
-    return tokenValue.success;
-}
 
 // Función para establecer la fecha mínima como la actual
 const restringirFechaMinimaEdicion = () => {
