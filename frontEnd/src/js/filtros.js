@@ -8,6 +8,14 @@
    ###############################*/
 
 const botonAdministrar = document.getElementById('botonAdministrar');
+const btnCerrarSesion = document.getElementById('btnLogaut');
+
+const cerrarSession = (event) =>{
+        //Limpiamos el session storage
+        sessionStorage.clear()
+        //Redirigimos al index
+        location.href = "./../index.html";
+}
 
    const ordenarTabla = (columna) => {
     let filas = Array.from(cassetteTableBody.children);
@@ -176,4 +184,5 @@ const mostrarBotonAdministrar = () => {
 // Listener mostrar sin filtros
 btnListarTodo.addEventListener("click", listarTodosLosCassettes);
 document.addEventListener('DOMContentLoaded', mostrarBotonAdministrar);
+btnCerrarSesion.addEventListener('click',cerrarSession);
 

@@ -15,7 +15,6 @@ const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
 
 /* FUNCIONES */
-
 // Función para establecer la fecha mínima como la actual
 const restringirFechaMinimaEdicion = () => {
     const hoy = new Date().toISOString().split("T")[0];
