@@ -81,23 +81,15 @@ const filtrarPorFecha = () => {
     });
 };
 
-// Restringir fechaInicio para que no permita fechas anteriores a hoy
-document.addEventListener("DOMContentLoaded", () => {
-    let hoy = new Date().toISOString().split("T")[0];
-    fechaInicio.setAttribute("min", hoy);
-    fechaFin.setAttribute("min", hoy);
-});
-
-// Restringir fechaFin para que no sea anterior a fechaInicio ni a la fecha actual
+// Restringir fechaFin para que no sea anterior a fechaInicio
 fechaInicio.addEventListener("change", () => {
     let fechaSeleccionada = fechaInicio.value;
-    let hoy = new Date().toISOString().split("T")[0];
 
     if (fechaSeleccionada) {
-        let fechaMinima = fechaSeleccionada >= hoy ? fechaSeleccionada : hoy;
-        fechaFin.setAttribute("min", fechaMinima);
+        fechaFin.setAttribute("min", fechaSeleccionada);
     } else {
-        fechaFin.setAttribute("min", hoy);
+        // Si fechaInicio se borra, eliminar restricción
+        fechaFin.removeAttribute("min");
     }
 
     // Aplicar filtro cuando se cambia fechaInicio
@@ -106,7 +98,6 @@ fechaInicio.addEventListener("change", () => {
 
 // Aplicar filtro cuando cambia fechaFin
 fechaFin.addEventListener("change", filtrarPorFecha);
-
 
 
 /* ##########################################
