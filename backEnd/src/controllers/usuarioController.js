@@ -1,7 +1,6 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
-const generarToken = require("../utils/token");
-const createToken = require("../utils/token");
+const {createToken} = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
 
 
@@ -79,18 +78,34 @@ const createUser = async (req, res) => {
 
 // Logear un usuario 
 const logUser = async (req, res) => {
-  try {
     const { email_usu, password_usu } = req.body;
+<<<<<<< HEAD
     const user = await usuarioService.getUserByEmail(email_usu);
     const token = createToken()
+=======
+    console.log("Token generado",token);
+    const user = await usuarioService.getUserByEmail(email_usu);
+>>>>>>> 8099013e9eb07a406fedf60cadb13ad5e0e8126c
     console.log("Usuario encontrado:", user);
     if(!user) return res.status(404).json({ message: "El email no esta registrado"});
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
+<<<<<<< HEAD
     if (contraseñaCorrecta) {
       res.cookie('access_token', token, {
+=======
+    console.log(contraseñaCorrecta);
+    
+
+    if (!contraseñaCorrecta) return res.status(401).json({ message: "Contraseña incorrecta" });
+    
+    res.json({succes: createToken(user)})
+      res.cookie('access_token',token, {  
+>>>>>>> 8099013e9eb07a406fedf60cadb13ad5e0e8126c
         httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
         maxAge: 86400000,
         sameSite: 'strict'
+<<<<<<< HEAD
       });
       return res.status(200).json({ message: 'Loggin correcto', rol: user.rol });
     } else {
@@ -99,6 +114,10 @@ const logUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
   }
+=======
+      })
+      return res.json({ message: 'Loggin correcto' });
+>>>>>>> 8099013e9eb07a406fedf60cadb13ad5e0e8126c
 };
 
 // Actualizar un usuario existente

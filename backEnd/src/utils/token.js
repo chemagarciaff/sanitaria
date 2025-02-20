@@ -1,12 +1,19 @@
 const jwt = require('jsonwebtoken')
-const secretKey = "esta-es-la-varible-de-la-palabra-secreta-del-token";
 
-const createToken = (req,res,next) =>{
-    const user = req.user;
-    const payload = {userId: user._id, userName: user._name}
-    const token = jwt.sign(payload,secretKey,{
+//Creacion del token
+const createToken = (user) =>{
+    return jwt.sign(user,process.env.JWT_SECRET,{
         expiresIn: '24h'
-    })
+    })    
 }
 
-module.exports = {createToken,secretKey}
+//Verificacion del token
+const verificToken = (token) =>{
+    try {
+        return jwt.verify(token, process.env.JWT_SECRET);
+    } catch (error) {
+        return null
+    }
+}
+
+module.exports = {createToken, verificToken}

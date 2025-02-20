@@ -23,7 +23,7 @@ const confirmText = document.getElementById('confirmText');
 const confirmCancel = document.getElementById('confirmCancel');
 const confirmOk = document.getElementById('confirmOk');
 
-// Función para mostrar el modal de mensajes
+// Mostrar el modal de mensajes
 const showMessageModal = (message, type) => {
     messageText.textContent = message;
     messageModalContent.classList.remove('border-teal-300', 'border-red-400', 'border-green-400');
@@ -37,14 +37,14 @@ const showMessageModal = (message, type) => {
     messageModal.classList.remove('hidden');
 };
 
-// Función para ocultar el modal de mensajes
+// Ocultar el modal de mensajes
 const hideMessageModal = () => {
     messageModal.classList.add('hidden');
 };
 
 closeMessageModal.addEventListener('click', hideMessageModal);
 
-// Función para mostrar el modal de confirmación
+// Mostrar modal de confirmación
 const showConfirmModal = (message, type, callback) => {
     confirmText.textContent = message;
     confirmModalContent.classList.remove('border-teal-300', 'border-red-400', 'border-green-400');
@@ -67,7 +67,7 @@ const showConfirmModal = (message, type, callback) => {
     };
 };
 
-// Cargar usuarios en el select
+// Cargar los usuarios en el select
 const cargarUsuarios = async () => {
     try {
         const response = await fetch('http://localhost:3000/sanitaria/usuarios');
@@ -97,7 +97,6 @@ btnEditUser.addEventListener('click', async () => {
         showMessageModal('Selecciona un usuario primero', 'info');
         return;
     }
-
     try {
         const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`);
         if (!response.ok) throw new Error('Error al cargar los datos del usuario');
@@ -110,7 +109,7 @@ btnEditUser.addEventListener('click', async () => {
         editUserCenter.value = usuario.centro_usu;
         editUserRole.value = usuario.rol;
         
-        // Bloquear el cambio de rol si es admin
+        // Evitar cambio de rol si ya es admin
         editUserRole.disabled = usuario.rol === 'A';
         editUserModal.classList.remove('hidden');
     } catch (error) {
@@ -151,7 +150,7 @@ editUserForm.addEventListener('submit', async (event) => {
     }
 });
 
-// Eliminar usuario con confirmación
+// Eliminar un usuario confirmando antes
 btnDeleteUser.addEventListener('click', async () => {
     const userId = userList.value;
     if (!userId) {
@@ -169,7 +168,7 @@ btnDeleteUser.addEventListener('click', async () => {
             return;
         }
 
-        showConfirmModal('¿Estás seguro de que deseas eliminar este usuario?', 'error', async () => {
+        showConfirmModal('¿Estás seguro de que deseas eliminar este usuario? Esta acción no es reversible.', 'error', async () => {
             try {
                 const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`, {
                     method: 'DELETE'
@@ -190,7 +189,7 @@ btnDeleteUser.addEventListener('click', async () => {
     }
 });
 
-// Eliminar todos los cassettes con confirmación
+// Eliminar todos los cassettes confirmando antes
 btnDeleteAllCassettes.addEventListener('click', () => {
     showConfirmModal('¿Seguro que quieres eliminar todos los cassettes? Esta acción no se puede deshacer.', 'error', async () => {
         try {
@@ -206,7 +205,7 @@ btnDeleteAllCassettes.addEventListener('click', () => {
     });
 });
 
-// Eliminar todas las muestras con confirmación
+// Eliminar todas las muestras confirmando antes
 btnDeleteAllSamples.addEventListener('click', () => {
     showConfirmModal('¿Seguro que quieres eliminar todas las muestras? Esta acción no se puede deshacer.', 'error', async () => {
         try {
@@ -222,7 +221,7 @@ btnDeleteAllSamples.addEventListener('click', () => {
     });
 });
 
-// Eliminar todas las imágenes con confirmación
+// Eliminar todas las imágenes confirmando antes
 btnDeleteAllImages.addEventListener('click', () => {
     showConfirmModal('¿Seguro que quieres eliminar todas las imágenes? Esta acción no se puede deshacer.', 'error', async () => {
         try {
