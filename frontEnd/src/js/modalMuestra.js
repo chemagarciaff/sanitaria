@@ -8,6 +8,8 @@ const imagen = document.getElementById("imagenMuestra").files[0];
 
 const btnEditarMuestra = document.getElementById("btnEditarMuestra");
 const btnEliminarMuestra = document.getElementById("btnEliminarMuestra");
+const btnEliminarImagen = document.getElementById("btnEliminarImagen");
+const imagen_qr = document.getElementById("imagen_qr");
 
 const modalOverlayEditarMuestra = document.getElementById("modalOverlayEditarMuestra");
 const modalEditarMuestra = document.getElementById("modalEditarMuestra");
@@ -29,7 +31,6 @@ const detalleDescripcionMuestra = document.getElementById("detalleDescripcionMue
 const detalleFechaMuestra = document.getElementById("detalleFechaMuestra");
 const detalleTincionMuestra = document.getElementById("detalleTincionMuestra");
 const detalleObservacionesMuestra = document.getElementById("detalleObservacionesMuestra");
-
 
 const file = document.getElementById("imagenMuestra");
 let idCassetteGlobal = null;
@@ -154,8 +155,8 @@ const createMuestras = (muestras) => {
 const loadOneCassette = async (id) => {
     const token = getAuthToken()
     if (!token) return;
-    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`,{
-        headers:{
+    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`, {
+        headers: {
             'Content-Type': 'application/json',
             'user-token': token,
         }
@@ -194,18 +195,36 @@ const abrirModalMuestra = (event) => {
     }, 10);
 };
 
+// const generarQr = async () => {
+//     return new Promise((resolve, reject) => {
+//         let texto = new Date().toISOString();
+
+//         QRCode.toDataURL(texto, { errorCorrectionLevel: 'H' }, function (err, url) {
+//             if (err) {
+//                 reject(err); // Rechazamos la promesa en caso de error
+//             } else {
+//                 resolve(url); // Resolvemos la promesa con la URL del QR
+//             }
+//         });
+//     });
+// };
+
+
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) => {
     event.preventDefault();
     const token = getAuthToken();
     if (!token) return;
+
+    // let qr_muestra = await generarQr();
+
     //Creamos el objeto muestra
     const muestra = {
         fecha_muestra: fecha.value.trim(),
         observaciones_muestra: observaciones.value.trim(),
         descripcion_muestra: descripcion.value.trim(),
         tincion_muestra: tincion.value,
-        qr_muestra: 'QR004M',
+        qr_muestra: 'E3454',
         cassetteIdCassette: idCassetteGlobal
     }
 
@@ -247,8 +266,7 @@ const sendImageToDB = async (file, idMuestra) => {
         // Enviar la imagen como un Blob usando fetch
         const response = await fetch('http://localhost:3000/sanitaria/imagenes/', {
             method: 'POST',
-            headers:{
-                'Content-Type': 'application/json',
+            headers: {
                 'user-token': token,
             },
             body: formData,
@@ -293,9 +311,9 @@ const obtenerImagenesMuestra = async (idMuestra) => {
 
     const token = getAuthToken();
     if (!token) return;
-    
-    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`,{
-        headers:{
+
+    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`, {
+        headers: {
             'Content-Type': 'application/json',
             'user-token': token,
         }
@@ -344,13 +362,13 @@ const obtenerImagenesMuestra = async (idMuestra) => {
 
 
 const addImagen = async (event) => {
-        const imagen = event.target.files[0];
-    
-        if (imagen) {
-            await sendImageToDB(imagen, muestraSeleccionada.id_muestra);  // Enviar el archivo Blob al servidor
-        }
-    
-        await obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
+    const imagen = event.target.files[0];
+
+    if (imagen) {
+        await sendImageToDB(imagen, muestraSeleccionada.id_muestra);  // Enviar el archivo Blob al servidor
+    }
+
+    await obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
 }
 
 
@@ -376,7 +394,18 @@ const cambiarImagenPrincipal = (event) => {
 
 }
 
-
+const eliminarImagenPrincipal = async () => {
+    const token = getAuthToken();
+    if (!token) return;
+    const results = await fetch(`http://localhost:3000/sanitaria/imagenes/${imagenPrincipalMuestra.alt}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
+    obtenerImagenesMuestra(muestraSeleccionada.id_muestra);
+}
 
 
 const eliminarMuestra = async () => {
@@ -384,7 +413,7 @@ const eliminarMuestra = async () => {
     if (!token) return;
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'DELETE',
-        headers:{
+        headers: {
             'Content-Type': 'application/json',
             'user-token': token,
         }
@@ -405,16 +434,16 @@ const editarValoresMuestra = async (event) => {
         fecha_muestra: editarFechaMuestra.value,
         observaciones_muestra: editarObservacionesMuestra.value,
     }
-    
+
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'PATCH',
-        headers:{
+        headers: {
             'Content-Type': 'application/json',
             'user-token': token,
         },
         body: JSON.stringify(body),
     })
-        
+
     cerrarModalEditarMuestra();
     cerrarModalDetalleMuestra();
     loadMuestras(idCassetteGlobal);
@@ -427,17 +456,16 @@ let muestraSeleccionada = {};
 const abrirModalDetalleMuestra = (muestra) => {
     // Asignar el valor a la variable muestra global
     muestraSeleccionada = muestra;
-    
+
     // Asignar los valores al modal de detalle muestra
     detalleDescripcionMuestra.textContent = muestra.descripcion_muestra;
     detalleFechaMuestra.textContent = new Date(muestra.fecha_muestra).toISOString().split('T')[0];
     detalleTincionMuestra.textContent = muestra.tincion_muestra;
     detalleObservacionesMuestra.textContent = muestra.observaciones_muestra;
     imagenPrincipalMuestra.src = muestra.imagen_muestra ? muestra.imagen_muestra : "ruta/default-image.jpg"; // Imagen por defecto si no tiene
-    
     //Cargamos las imagenes
     obtenerImagenesMuestra(muestra.id_muestra);
-    
+
     // Mostrar el modal
     modalOverlay.classList.remove("hidden");
     modalDetalleMuestra.classList.remove("hidden");
@@ -462,7 +490,7 @@ const abrirModalEditarMuestra = () => {
     editarFechaMuestra.value = muestraSeleccionada.fecha_muestra.split("T")[0];
     editarTincionMuestra.value = muestraSeleccionada.tincion_muestra;
     editarObservacionesMuestra.value = muestraSeleccionada.observaciones_muestra;
-    
+
     // Mostrar el modal de edición
     modalOverlayEditarMuestra.classList.remove("hidden");
     modalEditarMuestra.classList.remove("hidden");
@@ -491,13 +519,14 @@ const cerrarModalEliminarMuestra = () => {
     }, 300);
 };
 
+
+
 addImagenInput.addEventListener('change', addImagen);
 
 
 // Event listeners para abrir/cerrar modal
 openModalMuestraBtn.addEventListener("click", abrirModalMuestra);
 closeModalMuestraBtn.addEventListener("click", cerrarModalMuestra);
-
 
 contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
 muestraForm.addEventListener("submit", postMuestra);
@@ -512,15 +541,18 @@ document.addEventListener("DOMContentLoaded", () => {
 cerrarDetalleMuestra.addEventListener("click", cerrarModalDetalleMuestra);
 btnEditarMuestra.addEventListener("click", abrirModalEditarMuestra);
 cerrarEditarMuestra.addEventListener("click", cerrarModalEditarMuestra);
+btnEliminarImagen.addEventListener("click", eliminarImagenPrincipal)
 
 btnEliminarMuestra.addEventListener("click", abrirModalEliminarMuestra);
 confirmarEliminarMuestra.addEventListener("click", eliminarMuestra);
 cerrarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 cancelarEliminarMuestra.addEventListener("click", cerrarModalEliminarMuestra);
 
+
 contAddCassettes.addEventListener('click', showMuestrasAndDetalles);
 muestraForm.addEventListener("submit", postMuestra);
 btnAgregarImagenMuestra.addEventListener('click', () => {
+    addImagenInput.value = "";
     addImagenInput.click();
 });
 

@@ -8,7 +8,9 @@
 
   "dependencies": {
 
-    "@tailwindcss/cli": "^4.0.3"
+    "@tailwindcss/cli": "^4.0.3",
+
+    "qr-code-styling": "^1.9.1"
 
   },
 

@@ -8,16 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="../style/gestion.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
 </head>
 
 <body class="bg-teal-50 p-4">
     <div id="container" class="max-w-screen-xl mx-auto bg-white shadow-lg rounded-lg p-4 h-auto">
-
+        
         <!-- Header -->
         <header class="flex flex-wrap justify-between items-center gap-2 mb-6">
             <!-- Select de Organos -->
             <select id="filtrarOrgano"
-                class="border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
+            class="border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
                 <option disabled selected>Seleccionar un Órgano</option>
                 <option value="*">Todos</option>
                 <optgroup label="Sistema Nervioso">
@@ -26,19 +27,19 @@
                     <option>Nervio</option>
                     <option>Ganglio Nervios</option>
                 </optgroup>
-
+                
                 <optgroup label="Tegumento">
                     <option>Piel</option>
                     <option>Uña</option>
                     <option>Pelo</option>
                 </optgroup>
-
+                
                 <optgroup label="Cardiovascular">
                     <option>Corazón</option>
                     <option>Venas</option>
                     <option>Arteria</option>
                 </optgroup>
-
+                
                 <optgroup label="Linfático">
                     <option>Ganglio Linfático</option>
                     <option>Timo</option>
@@ -90,8 +91,8 @@
             <!-- Input para seleccionar fecha única o rango -->
             <input type="date" id="fechaInicio" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
             <input type="date" id="fechaFin" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
-
-            <a href="./roles.html"><i class="fa-solid fa-user-doctor absolute top-8 left-12 text-3xl text-teal-600 hover:text-teal-400" id="botonAdministrar"></i></a>
+            
+            <a href="./roles.html"><i class="fa-solid fa-user-doctor text-3xl text-teal-600 hover:text-teal-400" id="botonAdministrar"></i></a>
 
         </header>
 
@@ -557,9 +558,12 @@
 
                     <!-- Imagen principal de la muestra -->
                     <div class="col-span-2">
-                        <div class="border rounded-lg overflow-hidden">
+                        <div class="border rounded-lg overflow-hidden flex flex-col gap-2">
+                            <svg id="btnEliminarImagen" xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-teal-400 block hover:text-teal-600" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M6 7H18M9 7V5H15V7M10 11V17M14 11V17M4 7H20L19 20H5L4 7Z"></path>
+                            </svg>
                             <img id="imagenPrincipalMuestra" class="w-full h-64 object-contain" src=""
-                                alt="Imagen de muestra">
+                            alt="Imagen de muestra">
                         </div>
                     </div>
                 </div>
@@ -582,6 +586,9 @@
                         <input  type="file" id="addImagenInput" class="hidden" />
 
                     </div>
+                </div>
+                <div>
+                    <img src="" alt="" id="imagen_qr" class="border border-gray-200 w-[150px] h-[150px]">
                 </div>
 
                 <!-- Botones de acción -->
@@ -667,8 +674,13 @@
         </div>
 
 
+
     </div>
     <!-- <script src="../js/gestion.js"></script> -->
+    
+
+
+
 
     <script src="../js/globales.js"></script>
     <script src="../js/modalCassette.js"></script>
@@ -677,6 +689,7 @@
     <script src="../js/eliminarCassette.js"></script>
     <script src="../js/muestras.js"></script>
     <script src="../js/filtros.js"></script>
+
 
 </body>
 

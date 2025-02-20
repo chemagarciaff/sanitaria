@@ -7,7 +7,7 @@
    ###   Función de Ordenación   ###
    ###############################*/
 
-const botonAdministrar = document.getElementById('botonAdministrador');
+const botonAdministrar = document.getElementById('botonAdministrar');
 
    const ordenarTabla = (columna) => {
     let filas = Array.from(cassetteTableBody.children);
@@ -148,6 +148,8 @@ const mostrarBotonAdministrar = () => {
     let rol = JSON.parse(sessionStorage.getItem('usuarioLoggeado')).rol;
     if(rol != 'A'){
         botonAdministrar.classList.add('hidden');
+    }else {
+        botonAdministrar.classList.remove('hidden');
     }
 }
 
