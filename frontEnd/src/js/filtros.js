@@ -57,34 +57,63 @@ const botonAdministrar = document.getElementById('botonAdministrador');
    ###   Función de Filtrado por Fecha ###
    #####################################*/
 
+// Filtrar cassettes por fecha
 const filtrarPorFecha = () => {
-    let fechaInicial = fechaInicio.value ? new Date(fechaInicio.value).toISOString().split("T")[0] : null;
-    let fechaFinal = fechaFin.value ? new Date(fechaFin.value).toISOString().split("T")[0] : null;
+    let fechaInicial = fechaInicio.value || null;
+    let fechaFinal = fechaFin.value || null;
     
     let filas = Array.from(cassetteTableBody.children);
 
     filas.forEach(fila => {
-        let fechaCassette = new Date(fila.cells[0].textContent).toISOString().split("T")[0]; // Convierte la fecha de la tabla al mismo formato
+        // Obtener la fecha directamente
+        let fechaCassette = fila.cells[0].textContent;
 
         if (fechaInicial && !fechaFinal) {
-            // Si solo se usa el primer input, mostrar solo los cassettes con esa fecha exacta
+            // Mostrar solo los cassettes con la fecha exacta seleccionada
             fila.style.display = (fechaCassette === fechaInicial) ? "" : "none";
         } else if (fechaInicial && fechaFinal) {
-            // Si ambos inputs tienen valor, filtrar en el rango de fechas
+            // Filtrar en el rango de fechas
             fila.style.display = (fechaCassette >= fechaInicial && fechaCassette <= fechaFinal) ? "" : "none";
         } else {
-            // Si no hay filtros de fecha, mostrar todo
+            // Mostrar todos los cassettes si no hay filtro
             fila.style.display = "";
         }
     });
 };
+
+// Restringir fechaInicio para que no permita fechas anteriores a hoy
+document.addEventListener("DOMContentLoaded", () => {
+    let hoy = new Date().toISOString().split("T")[0];
+    fechaInicio.setAttribute("min", hoy);
+    fechaFin.setAttribute("min", hoy);
+});
+
+// Restringir fechaFin para que no sea anterior a fechaInicio ni a la fecha actual
+fechaInicio.addEventListener("change", () => {
+    let fechaSeleccionada = fechaInicio.value;
+    let hoy = new Date().toISOString().split("T")[0];
+
+    if (fechaSeleccionada) {
+        let fechaMinima = fechaSeleccionada >= hoy ? fechaSeleccionada : hoy;
+        fechaFin.setAttribute("min", fechaMinima);
+    } else {
+        fechaFin.setAttribute("min", hoy);
+    }
+
+    // Aplicar filtro cuando se cambia fechaInicio
+    filtrarPorFecha();
+});
+
+fechaFin.addEventListener("change", filtrarPorFecha); // Aplicar filtro cuando cambia fechaFin
+
+
 
 
 /* ##########################################
    ###   Función de Filtrado por Clave    ###
    ########################################*/
 
-   const filtrarPorClave = () => {
+const filtrarPorClave = () => {
     let filtro = claveCassette.value.trim().toLowerCase();
     let filas = Array.from(cassetteTableBody.children);
 
