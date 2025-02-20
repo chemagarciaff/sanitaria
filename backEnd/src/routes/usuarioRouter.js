@@ -14,11 +14,14 @@ usuarioRouter.get("/:id", usuarioController.getUserById);
 usuarioRouter.get("/email/:email", usuarioController.getUserByEmail);
 
 
+usuarioRouter.get("/rol/:rol", usuarioController.getUsersByRol);
+
+
 usuarioRouter.post("/", usuarioController.createUser);
 
 
-usuarioRouter.post("/logUser" ,checkToken,usuarioController.logUser);
-// usuarioRouter.post("/logUser", checkToken);
+usuarioRouter.post("/logUser", usuarioController.logUser);
+
 
 usuarioRouter.put("/:id", usuarioController.updateUser);
 
@@ -33,5 +36,7 @@ usuarioRouter.delete("/", usuarioController.deleteAllUsers);
 
 //Ruta de recuperacion de contraseña
 usuarioRouter.post("/recuperar", usuarioController.recuperarPassword);
+
+
 
 module.exports = usuarioRouter;

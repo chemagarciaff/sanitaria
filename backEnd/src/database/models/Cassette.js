@@ -11,6 +11,16 @@ Cassette.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    clave_cassette: {
+      type: DataTypes.STRING(200),
+      unique: true,
+      validate: {
+        len: {
+        args: [1, 200],
+        msg: "Las observaciones deben tener entre 1 y 200 caracteres",
+        },
+    },
+    },
     fecha_cassette: {
         type: DataTypes.DATEONLY,
         allowNull: false, 
@@ -50,7 +60,7 @@ Cassette.init(
       },
     qr_casette : {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
     organo_cassette: {
         type: DataTypes.STRING(30),

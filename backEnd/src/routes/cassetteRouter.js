@@ -8,6 +8,9 @@ cassetteRouter.get("/", cassetteController.getAllCassettes);
 cassetteRouter.get("/:id", cassetteController.getCassettesById);
 
 
+cassetteRouter.get("/:clave", cassetteController.getCassettesByClave);
+
+
 cassetteRouter.get("/user/:id", cassetteController.getCassettesByUser);
 
 
@@ -27,6 +30,9 @@ cassetteRouter.put("/:id", cassetteController.updateCassette);
 
 
 cassetteRouter.delete("/:id", cassetteController.deleteCassette);
+
+
+cassetteRouter.delete("/", cassetteController.deleteAllCassettes);
 
 
 module.exports = cassetteRouter;

@@ -14,6 +14,7 @@ require("./database/associations.js")
 app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors());
 app.use(cookieParser());
 
 const apiroutes = require("./routes/apiRouter.js");
@@ -21,7 +22,7 @@ app.use("/sanitaria", apiroutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Servidor eschando en http://localhost:${PORT}`);
+  console.log(`Servidor escuchando en http://localhost:${PORT}`);
 
   sequelize
   .sync({force: true})

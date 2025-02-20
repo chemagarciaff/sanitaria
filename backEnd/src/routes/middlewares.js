@@ -1,29 +1,28 @@
-const jwt = require("jsonwebtoken");
+const jwt = require("jwt-simple");
 const moment = require("moment");
-const {verificToken} = require('./../utils/token')
 
 const checkToken = (req, res, next) => {
-    const userToken = req.cookies.access_token;
+  if (!req.headers['user-token']) {
+    return res.json({error: "Necesitas inluir el token del usuario"})
+  }
 
-    //Controlamos que existen toke
-    if (!userToken) {
-      return res.status(401).json({ error: "Falta Token" });
-    }
-    //Comprobamos si el token es correcto
-    const comparacion = verificToken(userToken);
+  const userToken = req.headers['user-token'];
 
-    if (!comparacion) {
-      return res.status(401).json({ message: "Token no valido" });
-    }
-    //Comprobar si token a expirado
-    if (comparacion.exp && moment().unix() > comparacion.exp) {
-      return res.json({
-        error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
-      });
-    }
-    
-    req.user = comparacion;
-    next();
+  let payload = {};
+  try {
+    payload = jwt.decode(userToken, process.env.JWT_SECRETKEY);
+    req.user = payload;
+  } catch (error) {
+    return res.json({error: "Token incorrecto"})
+  } 
+
+  
+  if (payload.expiredAt < moment().unix()) {
+    return res.json({
+      error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
+    });
+  }
+  next();
 };
 
-module.exports = checkToken ;
+module.exports ={ checkToken };

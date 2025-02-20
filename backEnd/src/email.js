@@ -2,15 +2,15 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com", // o el servidor que estés utilizando
-    port: 587,  // Usar el puerto 587 en lugar del 25
-    secure: false, // Desactiva SSL/TLS, si el servidor no lo soporta
+    host: "smtp.gmail.com",
+    port: 587, 
+    secure: false, 
     type: 'OAuth2',
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS
     },
-    logger: true // Habilitar logs para depurar
+    logger: true
 });
 
 const enviarCorreo = async (email_usu, nuevaPassword) => {

@@ -1,12 +1,17 @@
 const usuarioService = require("../services/usuarioService");
 const argon2 = require("argon2");
-const {createToken} = require("../utils/token");
+const jwt = require("jwt-simple");
+const moment = require('moment');
+// const generarToken = require("../utils/token");
+// const createToken = require("../utils/token");
 const { Usuario } = require('./../database/models/Usuario');
 
 
-// Obtener todos los clientes
+// Obtener todos los usuarios
 const getAllUsers = async (req, res) => {
   try {
+    console.log(req.usuarioId);
+    
     const users = await usuarioService.getAllUsers();
     res.status(200).json(users);
   } catch (error) {
@@ -14,7 +19,7 @@ const getAllUsers = async (req, res) => {
   }
 };
 
-// Obtener un cliente por ID
+// Obtener un usuario por ID
 const getUserById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -29,7 +34,7 @@ const getUserById = async (req, res) => {
   }
 };
 
-// Obtener un cliente por ID
+// Obtener un usuario por ID
 const getUserByEmail = async (req, res) => {
   try {
     const { email } = req.params;
@@ -44,7 +49,18 @@ const getUserByEmail = async (req, res) => {
   }
 };
 
-// Crear un nuevo cliente
+
+// Obtener todos los usuarios
+const getUsersByRol = async (req, res) => {
+  try {
+    const users = await usuarioService.getUsersByRol();
+    res.status(200).json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Crear un nuevo usuario
 const createUser = async (req, res) => {
   try {
     const body = req.body;
@@ -65,31 +81,40 @@ const createUser = async (req, res) => {
   }
 };
 
-// Logear cliente 
+// Logear un usuario 
 const logUser = async (req, res) => {
+  try {
     const { email_usu, password_usu } = req.body;
-    console.log("Token generado",token);
     const user = await usuarioService.getUserByEmail(email_usu);
     console.log("Usuario encontrado:", user);
-    if(!user) return res.status(404).json({ message: "El email no esta registrado"});
-    
+    if(!user){
+      return res.status(404).json({ message: "El email no esta registrado"});
+    } 
     const contraseñaCorrecta = await argon2.verify(user.password_usu, password_usu);
-    console.log(contraseñaCorrecta);
-    
-
-    if (!contraseñaCorrecta) return res.status(401).json({ message: "Contraseña incorrecta" });
-    
-    res.json({succes: createToken(user)})
-      res.cookie('access_token',token, {  
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 86400000,
-        sameSite: 'strict'
-      })
-      return res.json({ message: 'Loggin correcto' });
+    if (contraseñaCorrecta) {
+      return res.status(200).json({ 
+        message: 'Loggin correcto', 
+        rol: user.rol, 
+        success : createToken(user)  
+      });
+    } else {
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
+    }
+  } catch (error) {
+    return res.status(500).json({ message: 'Error al iniciar sesión', error: error.message });
+  }
 };
 
-// Actualizar un cliente existente
+//Crear token
+const createToken = (user) =>{
+    const payload = {
+      userId: user.id, 
+      userName: user.name,
+      expiredAt: moment().add(7, 'days').unix()
+  }
+  return jwt.encode(payload,process.env.JWT_SECRETKEY)
+}
+// Actualizar un usuario existente
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
@@ -164,7 +189,59 @@ console.log("Email recibido:", email_usu);
     res.status(500).json({ message: "Error en el servidor" });
   }
 };
+// Middleware para verificar si el usuario es administrador
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.rol === 'A') {
+    next();
+  } else {
+    res.status(403).json({ message: "Acceso denegado" });
+  }
+};
 
+// Cambiar el rol de un usuario
+const changeUserRole = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rol } = req.body;
+
+    if (rol !== 'A' && rol !== 'T') {
+      return res.status(400).json({ message: "Rol no válido" });
+    }
+
+    const updatedUser = await usuarioService.updateUser(id, { rol });
+
+    if (updatedUser) {
+      res.status(200).json(updatedUser);
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+// Eliminar un usuario (solo admin)
+const deleteUserByAdmin = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const user = await usuarioService.getUserById(id);
+
+    if (user.rol === 'A') {
+      return res.status(403).json({ message: "No se puede eliminar a otro administrador" });
+    }
+
+    const deletedUser = await usuarioService.deleteUser(id);
+
+    if (deletedUser) {
+      res.status(200).json({ message: "Usuario eliminado" });
+    } else {
+      res.status(404).json({ message: "Usuario no encontrado" });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 module.exports = {
   getAllUsers,
@@ -176,5 +253,8 @@ module.exports = {
   deleteUser,
   deleteAllUsers,
   recuperarPassword,
+  isAdmin,
+  changeUserRole,
+  deleteUserByAdmin,
+  getUsersByRol
 };
-

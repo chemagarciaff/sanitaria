@@ -15,65 +15,55 @@ let errorMsg = document.getElementById("error_recu-mail");
 //FUNCIONES
 
 //Cambiar de modal
-const changeModal = (event) =>{
+const changeModal = (event) => {
     let aux = event.target;
     //Controlamos si pulsa en un link
     if (aux.tagName === "A") {
-        if(aux.textContent === "Login"){
-        modalLogin.style.display = "flex";
-        modalRegister.style.display = "none"
-        modalRecuperar.style.display = "none"
-    }else if(aux.textContent === "Registrate"){
-        modalRegister.style.display = "flex";
-        modalLogin.style.display = "none"
-        modalRecuperar.style.display = "none"
-    }else if(aux.textContent === "contraseña"){
-        modalRecuperar.style.display = "flex";
-        modalRegister.style.display = "none"
-        modalLogin.style.display = "none"
-    }
+        if (aux.textContent === "Login") {
+            modalLogin.style.display = "flex";
+            modalRegister.style.display = "none"
+            modalRecuperar.style.display = "none"
+        } else if (aux.textContent === "Registrate") {
+            modalRegister.style.display = "flex";
+            modalLogin.style.display = "none"
+            modalRecuperar.style.display = "none"
+        } else if (aux.textContent === "contraseña") {
+            modalRecuperar.style.display = "flex";
+            modalRegister.style.display = "none"
+            modalLogin.style.display = "none"
+        }
     }
 }
+
 //Mostrar contraseña 
-const showPass = (input) =>{
+const showPass = (input) => {
     if (input.type === 'password') {
         input.type = 'text';
-    }else if (input.type === 'text') {
+    } else if (input.type === 'text') {
         input.type = "password";
     }
 }
+
 //Cambiar icono 
-const changeIconEye = (btn) =>{
+const changeIconEye = (btn) => {
     let spanEye = btn.children[0];
     spanEye.classList.toggle('mdi-eye-outline');
     spanEye.classList.toggle('mdi-eye-off-outline');
 }
-//Coprobar si existe el user
-const compUser = (event) =>{
-
-    let user = validateLoginUser(event);
-    const token = importToke.j
-
-    
-}
-//Validacion de inicio de sesion
-const loginUser = (event) =>{
-    validateLoginUser(event)
-}
 
 ////ENVIAR CORREO DE RECUPERACION
 document.getElementById("btn_recuperar").addEventListener("click", async () => {
-    const email_usu = emailInput.value.trim(); 
-    console.log("Enviando email:", email_usu); 
+    const email_usu = emailInput.value.trim();
+    console.log("Enviando email:", email_usu);
     try {
-        const response = await fetch('http://localhost:3000/sanitaria/usuarios/recuperar', { 
+        const response = await fetch('http://localhost:3000/sanitaria/usuarios/recuperar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ email_usu: email_usu })
         });
-        console.log("Código de estado:", response.status); 
+        console.log("Código de estado:", response.status);
         if (!response.ok) {
             const errorMessage = await response.text();
             throw new Error(`HTTP error! status: ${response.status}, mensaje: ${errorMessage}`);
@@ -111,8 +101,22 @@ const enviarCorreo = (email) => {
     }, 2000); //Envío de 2 segundos
 };
 
+// Añadir botón de roles solo para administradores
+const addAdminButton = (rol) => {
+    if (rol === 'A') {
+        const adminButton = document.createElement('button');
+        adminButton.textContent = 'Administrar Roles';
+        adminButton.className = 'bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200';
+        adminButton.onclick = () => {
+            window.location.href = './pages/roles.html';
+        };
+        container.appendChild(adminButton);
+    }
+};
+
+
 //EVENTOS
-container.addEventListener('click',changeModal);
+container.addEventListener('click', changeModal);
 btnShowPass.addEventListener('click', () => {
     showPass(logPass);
     changeIconEye(btnShowPass);
@@ -125,5 +129,3 @@ btnShowPassReg2.addEventListener('click', () => {
     showPass(regPass2);
     changeIconEye(btnShowPassReg2);
 });
-btn_login.addEventListener('click', loginUser);
-//btn_register.addEventListener('click',createUser);

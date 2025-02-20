@@ -3,6 +3,10 @@
     "development"
   ],
   "hints": {
+<<<<<<< HEAD
+    "button-type": "off",
+=======
+>>>>>>> rolesUsuario
     "axe/name-role-value": [
       "default",
       {
@@ -15,7 +19,11 @@
         "select-name": "off",
         "label": "off"
       }
+<<<<<<< HEAD
+    ]
+=======
     ],
     "button-type": "off"
+>>>>>>> rolesUsuario
   }
 }
