@@ -10,7 +10,7 @@ const checkToken = (req, res, next) => {
 
   let payload = {};
   try {
-    payload = jwt.decode(userToken, process.env.JWT_SECRETKEY);
+    payload = jwt.decode(userToken, process.env.JWT_SECRET);
     req.user = payload;
   } catch (error) {
     return res.json({error: "Token incorrecto"})

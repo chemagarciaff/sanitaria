@@ -112,7 +112,7 @@ const createToken = (user) =>{
       userName: user.name,
       expiredAt: moment().add(7, 'days').unix()
   }
-  return jwt.encode(payload,process.env.JWT_SECRETKEY)
+  return jwt.encode(payload,process.env.JWT_SECRET)
 }
 // Actualizar un usuario existente
 const updateUser = async (req, res) => {
