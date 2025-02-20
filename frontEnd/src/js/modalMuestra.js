@@ -45,6 +45,7 @@ let addImagenInput = document.getElementById('addImagenInput');
 
 */
 
+
 // Almacena la fila seleccionada
 let filaCassetteSeleccionado = null;
 
@@ -79,7 +80,16 @@ const showMuestrasAndDetalles = async (event) => {
 
 //Cargar las muestras que pertenecen al cassette
 const loadMuestras = async (idCassette) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`)
+
+    const token = getAuthToken();
+
+    const response = await fetch(`http://localhost:3000/sanitaria/muestras/cassette/${idCassette}`, {
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
+
     const data = await response.json();
     createMuestras(data);
     muestrasFromCassette = data;
@@ -140,28 +150,31 @@ const createMuestras = (muestras) => {
     containerMuestra.appendChild(fragment)
 }
 
-//Cargar los cassetes
-const loadOneCassette = async (idCassette) => {
-    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${idCassette}`)
-    const data = await response.json();
-    createDetailOfCassette(data);
-}
+// Función para cargar un cassette
+const loadOneCassette = async (id) => {
+    const token = getAuthToken()
+    if (!token) return;
+    const response = await fetch(`http://localhost:3000/sanitaria/cassettes/${id}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
+    const cassette = await response.json();
+    // Actualizar detalles 
+    updateCassetteDetails(cassette);
+};
 
-//Crear los datos de los detalles
-const createDetailOfCassette = (cassette) => {
-    //Dejar el contenido vacio 
-    detalleDescripcion.textContent = "";
-    detalleOrgano.textContent = "";
-    detalleFecha.textContent = "";
-    detalleObservaciones.textContent = "";
-    detalleCaracteristicas.textContent = "";
-    //Añadimos los datos del objeto
+// Función para actualizar los detalles en la interfaz
+const updateCassetteDetails = (cassette) => {
     detalleDescripcion.textContent = cassette.descripcion_cassette;
-    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
     detalleFecha.textContent = cassette.fecha_cassette;
-    detalleObservaciones.textContent = cassette.observaciones_cassette;
     detalleOrgano.textContent = cassette.organo_cassette;
-}
+    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
+    detalleObservaciones.textContent = cassette.observaciones_cassette;
+    detalleClave.textContent = cassette.clave_cassette;
+};
+
 
 // Función para abrir el modal de muestras
 const abrirModalMuestra = (event) => {
@@ -184,7 +197,15 @@ const abrirModalMuestra = (event) => {
 //Hacer POST a la API con los datos del modal muestra
 const postMuestra = async (event) => {
     event.preventDefault();
-    //Creamos el objeto muestra
+    const token = getAuthToken();
+    if (!token) return;
+
+    // Llamar a la función de validación antes de continuar
+    if (!validarFormularioMuestra()) {
+        return;
+    }
+
+    //Creamos el objeto muestra con los valores dle formulario
     const muestra = {
         fecha_muestra: fecha.value.trim(),
         observaciones_muestra: observaciones.value.trim(),
@@ -198,10 +219,12 @@ const postMuestra = async (event) => {
     const response = await fetch('http://localhost:3000/sanitaria/muestras/', {
         method: 'POST',
         headers: {
-            'Content-type': 'application/json'
+            'Content-Type': 'application/json',
+            'user-token': token,
         },
         body: JSON.stringify(muestra)
     })
+
     //Comprobamos si se ha subido correctamente
     if (response.ok) {
         const data = await response.json();
@@ -213,16 +236,49 @@ const postMuestra = async (event) => {
             // Solo enviamos el archivo Blob sin necesidad de mostrar vista previa
             sendImageToDB(imagen, idMuestra);  // Enviar el archivo Blob al servidor
         }
+
+        // Limpiar el formulario después de crear la muestra
+        resetFormularioMuestra();
         //Cerramos el modal
         cerrarModalMuestra();
         //LLamamos a la funcion que saca las muestras para msotrar la muestra creada
         loadMuestras(idCassetteGlobal)
+    };
+};
+
+// Función para validar el formulario crear muestra
+const validarFormularioMuestra = () => {
+    const descripcionValor = descripcion.value.trim();
+    const fechaValor = fecha.value.trim();
+    const tincionValor = tincion.value;
+    const observacionesValor = observaciones.value.trim();
+
+    // Validar que los campos obligatorios no estén vacíos
+    if (!descripcionValor || !fechaValor || !tincionValor || tincionValor === "Seleccionar" || !observacionesValor ) {
+        errorMuestra.textContent = "Todos los campos excepto la imagen son obligatorios.";
+        return false;
     }
-}
+     // Limpiar mensaje de error si todo está correcto
+    errorMuestra.textContent = "";
+    // Indicar que la validación fue exitosa
+    return true;
+};
+
+// Función para limpiar el form de crear muestras
+const resetFormularioMuestra = () => {
+    descripcion.value = "";
+    fecha.value = "";
+    tincion.selectedIndex = 0;
+    observaciones.value = "";
+    file.value = ""; 
+    errorMuestra.textContent = "";
+};
+
 
 const sendImageToDB = async (file, idMuestra) => {
     const formData = new FormData();
-
+    const token = getAuthToken();
+    if (!token) return;
     formData.append("imagen", file, file.name);  // El archivo es tratado como un Blob
     formData.append("muestraIdMuestra", idMuestra);  // Otro parámetro que quieras agregar
 
@@ -230,6 +286,10 @@ const sendImageToDB = async (file, idMuestra) => {
         // Enviar la imagen como un Blob usando fetch
         const response = await fetch('http://localhost:3000/sanitaria/imagenes/', {
             method: 'POST',
+            headers:{
+                'Content-Type': 'application/json',
+                'user-token': token,
+            },
             body: formData,
         });
 
@@ -270,7 +330,15 @@ const obtenerImagenesMuestra = async (idMuestra) => {
     contenedorMiniaturasMuestra.innerHTML = '';
     imagenPrincipalMuestra.src = '';
 
-    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`);
+    const token = getAuthToken();
+    if (!token) return;
+    
+    const response = await fetch(`http://localhost:3000/sanitaria/imagenes/muestra/${idMuestra}`,{
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
+    });
 
     if (response.ok) {
 
@@ -351,11 +419,14 @@ const cambiarImagenPrincipal = (event) => {
 
 
 const eliminarMuestra = async () => {
+    const token = getAuthToken();
+    if (!token) return;
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'DELETE',
-        headers: {
-            'Content-type': 'application/json'
-        },
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
+        }
     });
     cerrarModalEliminarMuestra();
     cerrarModalDetalleMuestra();
@@ -364,7 +435,9 @@ const eliminarMuestra = async () => {
 
 const editarValoresMuestra = async (event) => {
     event.preventDefault();
-    
+    const token = getAuthToken();
+    if (!token) return;
+
     let body = {
         tincion_muestra: editarTincionMuestra.value,
         descripcion_muestra: editarDescripcionMuestra.value,
@@ -374,8 +447,9 @@ const editarValoresMuestra = async (event) => {
     
     const results = await fetch(`http://localhost:3000/sanitaria/muestras/${muestraSeleccionada.id_muestra}`, {
         method: 'PATCH',
-        headers: {
-            'Content-type': 'application/json'
+        headers:{
+            'Content-Type': 'application/json',
+            'user-token': token,
         },
         body: JSON.stringify(body),
     })
@@ -427,8 +501,6 @@ const abrirModalEditarMuestra = () => {
     editarFechaMuestra.value = muestraSeleccionada.fecha_muestra.split("T")[0];
     editarTincionMuestra.value = muestraSeleccionada.tincion_muestra;
     editarObservacionesMuestra.value = muestraSeleccionada.observaciones_muestra;
-    
-    
     
     // Mostrar el modal de edición
     modalOverlayEditarMuestra.classList.remove("hidden");

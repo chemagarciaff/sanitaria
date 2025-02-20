@@ -6,6 +6,18 @@ const contAddCassettes = document.getElementById('cassetteTableBody');
     Abrir y cerrar modal, enviar form del modal y crear cassettes en la lista de cassettes
 */
 
+//Funcion para obtener el token
+const getAuthToken = () =>{
+    const token = sessionStorage.getItem('usuarioLoggeado')
+    const tokenValue = JSON.parse(token)
+    //Si no existe token
+    if (!tokenValue) {
+        console.log("No existe token");
+        return null
+    }
+    //Si existe el token
+    return tokenValue.success;
+}
 // Función para abrir el modal de añadir cassettes
 const abrirModal = () => {
     modalOverlay.classList.remove("hidden");
@@ -37,10 +49,18 @@ modalOverlay.addEventListener("click", cerrarModal);
 
 // Petición para obtener todos los cassettes que existen 
 const loadCassettes = async () => {
-    const response = await fetch('http://localhost:3000/sanitaria/cassettes/');
+    const token = getAuthToken();
+    if (!token) return;
+    const response = await fetch('http://localhost:3000/sanitaria/cassettes/',{
+        headers: {
+            'Content-Type': 'application/json',
+            'user-token': token
+        }
+    });
     const data = await response.json();
     showCassettes(data);
 }
+
 // Mostrar por pantalla los cassettes
 const showCassettes = (cassettes) => {
     contAddCassettes.innerHTML = "";
@@ -63,6 +83,12 @@ const showCassettes = (cassettes) => {
 
 // Función para validar y enviar el formulario de añadir cassettes al backend
 const enviarFormulario = async (event) => {
+    const token = getAuthToken();
+    if (!token) {
+        console.log("No existe token");
+        return null;
+    }
+
     event.preventDefault();
 
     const descripcion = descripcionInput.value.trim();
@@ -85,11 +111,39 @@ const enviarFormulario = async (event) => {
         caracteristicas_cassette: caracteristicas,
         observaciones_cassette: observaciones,
     };
+    
 
     try {
+        // Verificar si la clave ya existe
+        const existingCassettesResponse = await fetch('http://localhost:3000/sanitaria/cassettes/', {
+            headers: {
+                'Content-Type': 'application/json',
+                'user-token': token,
+            }
+        });
+        if (!existingCassettesResponse.ok) {
+            throw new Error("Error al verificar cassettes existentes.");
+        }
+
+        const existingCassettes = await existingCassettesResponse.json() || null;
+        console.log(existingCassettes);
+        
+       if (existingCassettes) {
+            const claveExistente = existingCassettes.some(cassette => cassette.clave_cassette === clave);
+
+            if (claveExistente) {
+                errorMessage.textContent = "La clave de un cassette no puede repetirse";
+                return;
+            }
+        }
+
+        // Enviar el nuevo cassette al backend
         const response = await fetch('http://localhost:3000/sanitaria/cassettes/', {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'user-token': token
+            },
             body: JSON.stringify(nuevoCassette)
         });
 
