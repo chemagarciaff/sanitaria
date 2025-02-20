@@ -6,13 +6,14 @@ const contAddCassettes = document.getElementById('cassetteTableBody');
     Abrir y cerrar modal, enviar form del modal y crear cassettes en la lista de cassettes
 */
 
+
 //Funcion para obtener el token
 const getAuthToken = () =>{
     const token = sessionStorage.getItem('usuarioLoggeado')
     const tokenValue = JSON.parse(token)
-    //Si no existe token
+    //Si no existe token volvemos al usuario al index
     if (!tokenValue) {
-        console.log("No existe token");
+        location.href = "./../index.html";
         return null
     }
     //Si existe el token

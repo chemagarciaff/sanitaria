@@ -23,6 +23,7 @@ const confirmText = document.getElementById('confirmText');
 const confirmCancel = document.getElementById('confirmCancel');
 const confirmOk = document.getElementById('confirmOk');
 
+
 // Mostrar el modal de mensajes
 const showMessageModal = (message, type) => {
     messageText.textContent = message;
@@ -281,5 +282,6 @@ btnDeleteAllImages.addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+    getAuthToken();
     userList.addEventListener('focus', cargarUsuarios);
 });
