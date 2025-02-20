@@ -258,4 +258,3 @@ module.exports = {
   deleteUserByAdmin,
   getUsersByRol
 };
-

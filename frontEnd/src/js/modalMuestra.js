@@ -219,6 +219,13 @@ const postMuestra = async (event) => {
     // let qr_muestra = await generarQr();
 
     //Creamos el objeto muestra
+
+    // Llamar a la función de validación antes de continuar
+    if (!validarFormularioMuestra()) {
+        return;
+    }
+
+    //Creamos el objeto muestra con los valores dle formulario
     const muestra = {
         fecha_muestra: fecha.value.trim(),
         observaciones_muestra: observaciones.value.trim(),
@@ -237,6 +244,7 @@ const postMuestra = async (event) => {
         },
         body: JSON.stringify(muestra)
     })
+
     //Comprobamos si se ha subido correctamente
     if (response.ok) {
         const data = await response.json();
@@ -248,12 +256,44 @@ const postMuestra = async (event) => {
             // Solo enviamos el archivo Blob sin necesidad de mostrar vista previa
             sendImageToDB(imagen, idMuestra);  // Enviar el archivo Blob al servidor
         }
+
+        // Limpiar el formulario después de crear la muestra
+        resetFormularioMuestra();
         //Cerramos el modal
         cerrarModalMuestra();
         //LLamamos a la funcion que saca las muestras para msotrar la muestra creada
         loadMuestras(idCassetteGlobal)
+    };
+};
+
+// Función para validar el formulario crear muestra
+const validarFormularioMuestra = () => {
+    const descripcionValor = descripcion.value.trim();
+    const fechaValor = fecha.value.trim();
+    const tincionValor = tincion.value;
+    const observacionesValor = observaciones.value.trim();
+
+    // Validar que los campos obligatorios no estén vacíos
+    if (!descripcionValor || !fechaValor || !tincionValor || tincionValor === "Seleccionar" || !observacionesValor ) {
+        errorMuestra.textContent = "Todos los campos excepto la imagen son obligatorios.";
+        return false;
     }
-}
+     // Limpiar mensaje de error si todo está correcto
+    errorMuestra.textContent = "";
+    // Indicar que la validación fue exitosa
+    return true;
+};
+
+// Función para limpiar el form de crear muestras
+const resetFormularioMuestra = () => {
+    descripcion.value = "";
+    fecha.value = "";
+    tincion.selectedIndex = 0;
+    observaciones.value = "";
+    file.value = ""; 
+    errorMuestra.textContent = "";
+};
+
 
 const sendImageToDB = async (file, idMuestra) => {
     const formData = new FormData();
