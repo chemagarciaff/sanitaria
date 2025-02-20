@@ -104,8 +104,8 @@ fechaInicio.addEventListener("change", () => {
     filtrarPorFecha();
 });
 
-fechaFin.addEventListener("change", filtrarPorFecha); // Aplicar filtro cuando cambia fechaFin
-
+// Aplicar filtro cuando cambia fechaFin
+fechaFin.addEventListener("change", filtrarPorFecha);
 
 
 

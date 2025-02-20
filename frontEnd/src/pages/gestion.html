@@ -14,85 +14,85 @@
     <div id="container" class="max-w-screen-xl mx-auto bg-white shadow-lg rounded-lg p-4 h-auto">
 
         <!-- Header -->
-        <header class="flex flex-wrap justify-between items-center gap-2 mb-6">
-            <!-- Select de Organos -->
-            <select id="filtrarOrgano"
-                class="border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
-                <option disabled selected>Seleccionar un Órgano</option>
-                <option value="*">Todos</option>
-                <optgroup label="Sistema Nervioso">
-                    <option>Encéfalo</option>
-                    <option>Médula Espinal</option>
-                    <option>Nervio</option>
-                    <option>Ganglio Nervios</option>
-                </optgroup>
-
-                <optgroup label="Tegumento">
-                    <option>Piel</option>
-                    <option>Uña</option>
-                    <option>Pelo</option>
-                </optgroup>
-
-                <optgroup label="Cardiovascular">
-                    <option>Corazón</option>
-                    <option>Venas</option>
-                    <option>Arteria</option>
-                </optgroup>
-
-                <optgroup label="Linfático">
-                    <option>Ganglio Linfático</option>
-                    <option>Timo</option>
-                    <option>Bazo</option>
-                </optgroup>
-
-                <optgroup label="Sistema Digestivo">
-                    <option>Lengua</option>
-                    <option>Esófago</option>
-                    <option>Estómago</option>
-                    <option>Intestino Delgado</option>
-                    <option>Intestino Grueso</option>
-                    <option>Diente</option>
-                    <option>Glándula Salivar</option>
-                    <option>Páncrea</option>
-                    <option>Hígado</option>
-                </optgroup>
-
-                <optgroup label="Aparato Excretor">
-                    <option>Riñón</option>
-                    <option>Vejiga</option>
-                </optgroup>
-
-                <optgroup label="Respiratorio">
-                    <option>Tránquea</option>
-                    <option>Bronquios</option>
-                    <option>Tejido Respiratorio</option>
-                </optgroup>
-
-                <optgroup label="Endocrino">
-                    <option>Tiroides</option>
-                    <option>Parótidas</option>
-                    <option>Suprarrenales</option>
-                    <option>Ovario</option>
-                    <option>Testículo</option>
-                </optgroup>
-
-                <optgroup label="Locomotor">
-                    <option>Hueso</option>
-                    <option>Musculo Esquelético</option>
-                </optgroup>
-                <option>Otros</option>
-            </select>
-            <!-- Input para buscar cassettes según su clave -->
-            <input type="text" id="claveCassette" placeholder="Clave del Cassette" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
-            <!-- Input de Escaner QR (no funcional)-->
-            <!--! Input de escaner qr no funcional, se le podría poner opacity-0 -->
-            <input type="text" id="qrCassette" placeholder="Escanear QR" class="text-center border border-teal-500 rounded-md p-2 hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-700">
-            <!-- Input para seleccionar fecha única o rango -->
-            <input type="date" id="fechaInicio" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
-            <input type="date" id="fechaFin" class="border border-teal-500 rounded-md p-2 hover:bg-teal-100">
-
-            <a href="./roles.html"><i class="fa-solid fa-user-doctor absolute top-8 left-12 text-3xl text-teal-600 hover:text-teal-400" id="botonAdministrar"></i></a>
-
+        <header class="flex flex-wrap justify-between items-center gap-4 p-4 bg-white shadow-md rounded-lg md:flex-nowrap">
+            <!-- Contenedor para los filtros -->
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full">
+                <!-- Select de Órganos -->
+                <select id="filtrarOrgano"
+                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
+                    <option disabled selected>Seleccionar un Órgano</option>
+                    <option value="*">Todos</option>
+                    <optgroup label="Sistema Nervioso">
+                        <option>Encéfalo</option>
+                        <option>Médula Espinal</option>
+                        <option>Nervio</option>
+                        <option>Ganglio Nervios</option>
+                    </optgroup>
+                    <optgroup label="Tegumento">
+                        <option>Piel</option>
+                        <option>Uña</option>
+                        <option>Pelo</option>
+                    </optgroup>
+                    <optgroup label="Cardiovascular">
+                        <option>Corazón</option>
+                        <option>Venas</option>
+                        <option>Arteria</option>
+                    </optgroup>
+                    <optgroup label="Linfático">
+                        <option>Ganglio Linfático</option>
+                        <option>Timo</option>
+                        <option>Bazo</option>
+                    </optgroup>
+                    <optgroup label="Sistema Digestivo">
+                        <option>Lengua</option>
+                        <option>Esófago</option>
+                        <option>Estómago</option>
+                        <option>Intestino Delgado</option>
+                        <option>Intestino Grueso</option>
+                        <option>Diente</option>
+                        <option>Glándula Salivar</option>
+                        <option>Páncrea</option>
+                        <option>Hígado</option>
+                    </optgroup>
+                    <optgroup label="Aparato Excretor">
+                        <option>Riñón</option>
+                        <option>Vejiga</option>
+                    </optgroup>
+                    <optgroup label="Respiratorio">
+                        <option>Tránquea</option>
+                        <option>Bronquios</option>
+                        <option>Tejido Respiratorio</option>
+                    </optgroup>
+                    <optgroup label="Endocrino">
+                        <option>Tiroides</option>
+                        <option>Parótidas</option>
+                        <option>Suprarrenales</option>
+                        <option>Ovario</option>
+                        <option>Testículo</option>
+                    </optgroup>
+                    <optgroup label="Locomotor">
+                        <option>Hueso</option>
+                        <option>Musculo Esquelético</option>
+                    </optgroup>
+                    <option>Otros</option>
+                </select>
+                <!-- Input de Clave del Cassette -->
+                <input type="text" id="claveCassette" placeholder="Clave del Cassette"
+                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200">
+                <!-- Input de Escaner QR (Siempre Visible) -->
+                <input type="text" id="qrCassette" placeholder="Escanear QR"
+                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200">
+                <!-- Input para seleccionar fecha única -->
+                <input type="date" id="fechaInicio"
+                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200">
+                <!-- Input para seleccionar fecha de fin -->
+                <input type="date" id="fechaFin"
+                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200">
+            </div>
+            <!-- Botón de usuario (Siempre Visible, Independiente del Grid) -->
+            <a href="./roles.html" class="ml-2 flex items-center">
+                <i class="fa-solid fa-user-doctor text-3xl sm:text-3xl md:text-3xl lg:text-4xl text-teal-600 hover:text-teal-400"></i>
+            </a>
         </header>
 
         <!-- Mensaje de error, añadir muestras sin tener un cassette seleccionado-->
