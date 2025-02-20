@@ -90,8 +90,8 @@
                 <input type="date" id="fechaFin"
                     class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200">
             </div>
-            <!-- Botón de usuario (Siempre Visible, Independiente del Grid) -->
-            <a href="./roles.html" class="ml-2 flex items-center">
+            <!-- Botón de usuario (Visible cuando el admin esta registrado) -->
+            <a href="./roles.html" class="ml-2 flex items-center" id="botonAdministrar">
                 <i class="fa-solid fa-user-doctor text-3xl sm:text-3xl md:text-3xl lg:text-4xl text-teal-600 hover:text-teal-400"></i>
             </a>
         </header>
@@ -586,9 +586,6 @@
                         <input  type="file" id="addImagenInput" class="hidden" />
 
                     </div>
-                </div>
-                <div>
-                    <img src="" alt="" id="imagen_qr" class="border border-gray-200 w-[150px] h-[150px]">
                 </div>
 
                 <!-- Botones de acción -->
