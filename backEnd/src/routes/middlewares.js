@@ -22,7 +22,6 @@ const checkToken = (req, res, next) => {
       error: "La sesión ha expirado, por favor vuelve a iniciar sesión",
     });
   }
-
   next();
 };
 

@@ -69,8 +69,15 @@ const showConfirmModal = (message, type, callback) => {
 
 // Cargar los usuarios en el select
 const cargarUsuarios = async () => {
+    const token = getAuthToken();//guarda el token en la variable
+    if (!token) return;//comprueba que existe el token
     try {
-        const response = await fetch('http://localhost:3000/sanitaria/usuarios');
+        const response = await fetch('http://localhost:3000/sanitaria/usuarios',{
+            headers: {//paso por la cabecera de petición
+                'Content-Type': 'application/json',
+                'user-token': token
+            }
+        });
         if (!response.ok) throw new Error('Error al cargar los usuarios');
         
         const usuarios = await response.json();
@@ -92,13 +99,21 @@ userList.addEventListener('focus', cargarUsuarios);
 
 // Mostrar el modal de edición de usuario
 btnEditUser.addEventListener('click', async () => {
+    const token = getAuthToken();
+    if (!token) return;
     const userId = userList.value;
     if (!userId) {
         showMessageModal('Selecciona un usuario primero', 'info');
         return;
     }
     try {
-        const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`);
+        const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`,{
+                headers: {
+                    'Content-Type': 'application/json',
+                    'user-token': token
+                }
+            });
+
         if (!response.ok) throw new Error('Error al cargar los datos del usuario');
         
         const usuario = await response.json();
@@ -125,6 +140,8 @@ cancelEdit.addEventListener('click', () => {
 
 // Guardar los cambios del usuario editado
 editUserForm.addEventListener('submit', async (event) => {
+    const token = getAuthToken();
+    if (!token) return;
     event.preventDefault();
 
     const userId = editUserId.value;
@@ -137,7 +154,9 @@ editUserForm.addEventListener('submit', async (event) => {
     try {
         const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`, {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json',
+                        'user-token': token,
+            },
             body: JSON.stringify({ email_usu: userEmail, nombre_usu: userName, apellidos_usu: userSurname, centro_usu: userCenter, rol: userRole })
         });
         if (!response.ok) throw new Error('Error al actualizar el usuario');
@@ -152,6 +171,8 @@ editUserForm.addEventListener('submit', async (event) => {
 
 // Eliminar un usuario confirmando antes
 btnDeleteUser.addEventListener('click', async () => {
+    const token = getAuthToken();
+    if (!token) return;
     const userId = userList.value;
     if (!userId) {
         showMessageModal('Selecciona un usuario primero', 'info');
@@ -159,7 +180,11 @@ btnDeleteUser.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`);
+        const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`,{
+            headers: {'Content-Type': 'application/json',
+                        'user-token': token,
+                    }
+        });
         if (!response.ok) throw new Error('Error al cargar los datos del usuario');
         
         const usuario = await response.json();
@@ -171,7 +196,10 @@ btnDeleteUser.addEventListener('click', async () => {
         showConfirmModal('¿Estás seguro de que deseas eliminar este usuario? Esta acción no es reversible.', 'error', async () => {
             try {
                 const response = await fetch(`http://localhost:3000/sanitaria/usuarios/${userId}`, {
-                    method: 'DELETE'
+                    method: 'DELETE',
+                    headers: {'Content-Type': 'application/json',
+                            'user-token': token,
+                    }
                 });
 
                 if (!response.ok) throw new Error('Error al eliminar el usuario');
@@ -191,10 +219,15 @@ btnDeleteUser.addEventListener('click', async () => {
 
 // Eliminar todos los cassettes confirmando antes
 btnDeleteAllCassettes.addEventListener('click', () => {
+    const token = getAuthToken();
+    if (!token) return;
     showConfirmModal('¿Seguro que quieres eliminar todos los cassettes? Esta acción no se puede deshacer.', 'error', async () => {
         try {
             const response = await fetch('http://localhost:3000/sanitaria/cassettes', {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json',
+                            'user-token': token,
+                }
             });
             if (!response.ok) throw new Error('Error al eliminar todos los cassettes');
             showMessageModal('Todos los cassettes eliminados correctamente', 'success');
@@ -207,10 +240,15 @@ btnDeleteAllCassettes.addEventListener('click', () => {
 
 // Eliminar todas las muestras confirmando antes
 btnDeleteAllSamples.addEventListener('click', () => {
+    const token = getAuthToken();
+    if (!token) return;
     showConfirmModal('¿Seguro que quieres eliminar todas las muestras? Esta acción no se puede deshacer.', 'error', async () => {
         try {
             const response = await fetch('http://localhost:3000/sanitaria/muestras', {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json',
+                            'user-token': token,
+                }
             });
             if (!response.ok) throw new Error('Error al eliminar todas las muestras');
             showMessageModal('Todas las muestras eliminadas correctamente', 'success');
@@ -223,10 +261,15 @@ btnDeleteAllSamples.addEventListener('click', () => {
 
 // Eliminar todas las imágenes confirmando antes
 btnDeleteAllImages.addEventListener('click', () => {
+    const token = getAuthToken();
+    if (!token) return;
     showConfirmModal('¿Seguro que quieres eliminar todas las imágenes? Esta acción no se puede deshacer.', 'error', async () => {
         try {
             const response = await fetch('http://localhost:3000/sanitaria/imagenes', {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers: {'Content-Type': 'application/json',
+                            'user-token': token,
+                }
             });
             if (!response.ok) throw new Error('Error al eliminar todas las imágenes');
             showMessageModal('Todas las imágenes eliminadas correctamente', 'success');
