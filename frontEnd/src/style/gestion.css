@@ -35,6 +35,6 @@
 
 @media (max-width: 530px) {
     .grid {
-        grid-template-columns: 1fr !important;
+        grid-template-columns: 1fr;
     }
 }
