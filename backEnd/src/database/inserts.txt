@@ -16,3 +16,4 @@ VALUES
 ('2025-02-05', 'Observación muestra 1', 'Descripción muestra 1', 'Gram', 'QR001M', 1),
 ('2025-02-06', 'Observación muestra 2', 'Descripción muestra 2', 'Eoxina', 'QR002M', 2),
 ('2025-02-07', 'Observación muestra 3', 'Descripción muestra 3', 'Giemsa', 'QR003M', 3);
+
