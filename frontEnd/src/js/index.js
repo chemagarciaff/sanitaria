@@ -117,15 +117,18 @@ const addAdminButton = (rol) => {
 
 //EVENTOS
 container.addEventListener('click', changeModal);
-btnShowPass.addEventListener('click', () => {
+btnShowPass.addEventListener('click', (event) => {
+    event.preventDefault();
     showPass(logPass);
     changeIconEye(btnShowPass);
 });
-btnShowPassReg.addEventListener('click', () => {
+btnShowPassReg.addEventListener('click', (event) => {
+    event.preventDefault();
     showPass(regPass);
     changeIconEye(btnShowPassReg);
 });
-btnShowPassReg2.addEventListener('click', () => {
+btnShowPassReg2.addEventListener('click', (event) => {
+    event.preventDefault();
     showPass(regPass2);
     changeIconEye(btnShowPassReg2);
 });
