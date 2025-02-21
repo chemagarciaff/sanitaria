@@ -1,3 +1,8 @@
+/*
+    Validaciones del login, registro y recuperar contraseña
+*/
+
+// Variables del dom
 let formRegister = document.getElementById('form_register');
 let formLogin = document.getElementById('form_login');
 let logCorreo = document.getElementById('login_correo');

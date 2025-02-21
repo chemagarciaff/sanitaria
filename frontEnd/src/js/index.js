@@ -1,3 +1,8 @@
+/*
+    Funcionalidades de la página de inicio
+*/
+
+// Variables del dom
 let container = document.getElementById('container');
 let modalLogin = document.getElementById('login');
 let modalRegister = document.getElementById('registro');

@@ -234,6 +234,16 @@ const returnIdOfCassette = (event) => {
     }
 };
 
+// Función para actualizar los detalles de la muestra
+const updateCassetteDetails = (cassette) => {
+    detalleDescripcion.textContent = cassette.descripcion_cassette;
+    detalleFecha.textContent = cassette.fecha_cassette;
+    detalleOrgano.textContent = cassette.organo_cassette;
+    detalleCaracteristicas.textContent = cassette.caracteristicas_cassette;
+    detalleObservaciones.textContent = cassette.observaciones_cassette;
+    detalleClave.textContent = cassette.clave_cassette;
+};
+
 /* ###############################################
    ###   Restricción de fecha en formulario   ###
    #############################################*/
