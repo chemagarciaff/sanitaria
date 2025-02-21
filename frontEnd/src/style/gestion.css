@@ -33,44 +33,8 @@
     border: 2px solid blue;
 }
 
-/* Responsive del header */
-
-/* Ajustes para dispositivos móviles */
-@media (max-width: 450px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    header .grid {
-        grid-template-columns: 1fr; 
-        gap: 10px;
-    }
-
-    a i {
-        font-size: 28px;
+@media (max-width: 530px) {
+    .grid {
+        grid-template-columns: 1fr !important;
     }
 }
-
-/* Ajustes para tablets */
-@media (min-width: 641px) and (max-width: 1024px) {
-    header .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    a i {
-        font-size: 32px;
-    }
-}
-
-/* Ajustes para pantallas grandes */
-@media (min-width: 1025px) {
-    header .grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    a i {
-        font-size: 36px;
-    }
-}
-

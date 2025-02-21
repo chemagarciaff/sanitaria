@@ -17,17 +17,17 @@
         <!-- Header -->
         <header class="flex flex-wrap justify-between items-center gap-4 p-4 bg-white shadow-md rounded-lg md:flex-nowrap">
             <!-- Contenedor para los filtros -->
-            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 w-full">
                 <!-- Select de Órganos -->
                 <select id="filtrarOrgano"
-                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
+                    class="cursor-pointer border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 hover:border-teal-600 focus:bg-teal-200 focus:border-teal-800">
                     <option disabled selected>Seleccionar un Órgano</option>
                     <option value="*">Todos</option>
                     <optgroup label="Sistema Nervioso">
                         <option>Encéfalo</option>
                         <option>Médula Espinal</option>
                         <option>Nervio</option>
-                        <option>Ganglio Nervios</option>
+                        <option>Ganglio Nervioso</option>
                     </optgroup>
                     <optgroup label="Tegumento">
                         <option>Piel</option>
@@ -52,7 +52,7 @@
                         <option>Intestino Grueso</option>
                         <option>Diente</option>
                         <option>Glándula Salivar</option>
-                        <option>Páncrea</option>
+                        <option>Páncreas</option>
                         <option>Hígado</option>
                     </optgroup>
                     <optgroup label="Aparato Excretor">
@@ -60,7 +60,7 @@
                         <option>Vejiga</option>
                     </optgroup>
                     <optgroup label="Respiratorio">
-                        <option>Tránquea</option>
+                        <option>Tráquea</option>
                         <option>Bronquios</option>
                         <option>Tejido Respiratorio</option>
                     </optgroup>
@@ -73,30 +73,35 @@
                     </optgroup>
                     <optgroup label="Locomotor">
                         <option>Hueso</option>
-                        <option>Musculo Esquelético</option>
+                        <option>Músculo Esquelético</option>
                     </optgroup>
                     <option>Otros</option>
                 </select>
                 <!-- Input de Clave del Cassette -->
                 <input type="text" id="claveCassette" placeholder="Clave del Cassette"
-                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200">
+                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200 cursor-pointer">
                 <!-- Input de Escaner QR (Siempre Visible) -->
                 <input type="text" id="qrCassette" placeholder="Escanear QR"
-                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200">
+                    class="border border-teal-500 rounded-md p-2 w-full text-center hover:bg-teal-100 focus:bg-teal-200 cursor-pointer">
                 <!-- Input para seleccionar fecha única -->
                 <input type="date" id="fechaInicio"
-                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200">
+                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200 cursor-pointer">
                 <!-- Input para seleccionar fecha de fin -->
                 <input type="date" id="fechaFin"
-                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200">
+                    class="border border-teal-500 rounded-md p-2 w-full hover:bg-teal-100 focus:bg-teal-200 cursor-pointer">
             </div>
-            <!-- Botón de usuario (Visible cuando el admin esta registrado) -->
-            <a href="./roles.html" class="ml-2 flex items-center" id="botonAdministrar">
-                <i class="fa-solid fa-user-doctor text-3xl sm:text-3xl md:text-3xl lg:text-4xl text-teal-600 hover:text-teal-400"></i>
-            </a>
-            <button id="btnLogaut" >
-                <i class="fa-solid fa-right-from-bracket bg-teal-600 text-white rounded-sm p-3 hover:bg-teal-400"></i>
-            </button>
+
+            <!-- Contenedor de iconos alineado a la derecha -->
+            <div class="flex items-center gap-3 ml-auto">
+                <!-- Botón de usuario (Visible cuando el admin está registrado) -->
+                <a href="./roles.html" class="flex items-center cursor-pointer" id="botonAdministrar">
+                    <i class="fa-solid fa-user-doctor text-3xl sm:text-3xl md:text-3xl lg:text-4xl text-teal-600 hover:text-teal-400"></i>
+                </a>
+                <!-- Botón de cerrar sesión -->
+                <button id="btnLogaut" class="cursor-pointer">
+                    <i class="fa-solid fa-right-from-bracket bg-teal-600 text-white rounded-sm p-3 hover:bg-teal-400"></i>
+                </button>
+            </div>
         </header>
 
         <!-- Mensaje de error, añadir muestras sin tener un cassette seleccionado-->
@@ -128,7 +133,7 @@
                         </div>
                         <!-- Ícono de listar todo -->
                         <div id="btnListarTodo"
-                            class="w-8 h-8 text-teal-600 icono hover:text-teal-400 active:text-teal-700">
+                            class="cursor-pointer w-8 h-8 text-teal-600 icono hover:text-teal-400 active:text-teal-700">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24"
                                 fill="currentColor">
                                 <rect x="6" y="6" width="12" height="12" rx="2"></rect>
@@ -239,7 +244,7 @@
                 <h2 class="text-xl font-semibold text-teal-700">Muestras</h2>
 
                 <!-- Ícono de agregar archivo -->
-                <div id="openModalMuestraBtn" class="relative w-8 h-8 text-teal-600">
+                <div id="openModalMuestraBtn" class="cursor-pointer relative w-8 h-8 text-teal-600">
                     <svg xmlns="http://www.w3.org/2000/svg"
                         class="w-8 h-8 text-teal-600 icono hover:text-teal-400 active:text-teal-700" viewBox="0 0 24 24"
                         fill="currentColor">
@@ -561,7 +566,7 @@
 
                     <!-- Imagen principal de la muestra -->
                     <div class="col-span-2">
-                        <div class="border rounded-lg overflow-hidden flex flex-col gap-2">
+                        <div class="cursor-pointer border rounded-lg overflow-hidden flex flex-col gap-2">
                             <svg id="btnEliminarImagen" xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-teal-400 block hover:text-teal-600" viewBox="0 0 24 24" fill="currentColor">
                                 <path d="M6 7H18M9 7V5H15V7M10 11V17M14 11V17M4 7H20L19 20H5L4 7Z"></path>
                             </svg>
@@ -673,23 +678,15 @@
             </div>
         </div>
 
-
-
     </div>
-    <!-- <script src="../js/gestion.js"></script> -->
-    
 
-
-
-
+    <!-- Enlaces al JS -->
     <script src="../js/globales.js"></script>
     <script src="../js/modalCassette.js"></script>
     <script src="../js/modalMuestra.js"></script>
     <script src="../js/editarCassette.js"></script>
     <script src="../js/eliminarCassette.js"></script>
-    <script src="../js/muestras.js"></script>
     <script src="../js/filtros.js"></script>
-
 
 </body>
 
