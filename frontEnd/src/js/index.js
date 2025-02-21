@@ -53,7 +53,7 @@ const changeIconEye = (btn) => {
     spanEye.classList.toggle('mdi-eye-off-outline');
 }
 
-////ENVIAR CORREO DE RECUPERACION
+//ENVIAR CORREO DE RECUPERACION
 document.getElementById("btn_recuperar").addEventListener("click", async () => {
     const email_usu = emailInput.value.trim();
     console.log("Enviando email:", email_usu);

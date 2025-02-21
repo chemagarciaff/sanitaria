@@ -1,16 +1,19 @@
 /*
-    Editar Cassette
+    Funcionalidad del modal Editar Cassette
 */
 
+// Variables del dom
 const btnEditCassette = document.getElementById('btnEditarCassette');
 const modalEditCassette = document.getElementById('modalEditarCassette');
 const cerrarModalEdicion = document.getElementById('cerrarEditarModal');
+
 const editarDescripcion = document.getElementById('editarDescripcion');
 const editarFecha = document.getElementById('editarFecha');
 const editarOrgano = document.getElementById('editarOrgano');
 const editarCaracteristicas = document.getElementById('editarCaracteristicas');
 const editarClave = document.getElementById("editarClave");
 const editarObservaciones = document.getElementById('editarObservaciones');
+
 const formEditarCassette = document.getElementById('formEditarCassette');
 const fechaInputEditar = document.getElementById("editarFecha");
 
@@ -23,21 +26,22 @@ const restringirFechaMinimaEdicion = () => {
 
 //Abrir modal
 const openModalEdition = (event) =>{
-
+    // Comprobar si hay un cassette seleccionado
     if (!idCassetteGlobal) {
         errorCrearMuestra.textContent = "Debes seleccionar un cassette antes editarlo.";
         return;
     }
-
+    // Mostrar el modal
     modalOverlay.classList.remove("hidden");
     modalEditCassette.classList.remove("hidden");
     
+    // Animación de entrada
     setTimeout(() => {
         modalContent.classList.remove("scale-95", "opacity-0");
     }, 10);
 
-    let aux = event.target;
     //Comprobamos si clicka en el logo
+    let aux = event.target;
     if (aux.tagName === "path" || aux.tagName === "svg") {
         modalEditCassette.classList.remove('hidden');
         showDetailsModalEdition();
@@ -46,7 +50,7 @@ const openModalEdition = (event) =>{
 
 //Cerrar modal
 const closeModalEdition = (event) =>{
-
+    // Animación de salida 
     modalContent.classList.add("scale-95");
     setTimeout(() => {
         modalOverlay.classList.add("hidden");
