@@ -8,6 +8,8 @@ let btn_recuperar = document.getElementById('btn_recuperar')
 let btnShowPass = document.getElementById('login_show-pass')
 let btnShowPassReg = document.getElementById('register_show-pass')
 let btnShowPassReg2 = document.getElementById('register_show-pass2');
+let loginAlert = document.getElementById('loginAlert');
+let recPassAlert = document.getElementById('recPassAlert');
 let emailInput = document.getElementById("recu_correo");
 let errorMsg = document.getElementById("error_recu-mail");
 
@@ -70,11 +72,28 @@ document.getElementById("btn_recuperar").addEventListener("click", async () => {
         }
         const data = await response.json();
         console.log("Respuesta del servidor:", data);
+        showLogin(); 
     } catch (error) {
         console.error("Error al enviar la solicitud:", error);
+        recPassAlert.textContent = "Usuario no encontrado, registrate primero";
+        setTimeout(() => {
+            recPassAlert.textContent = "";
+        }, 2000)
     }
 });
 
+//Cambiar de modal
+const showLogin = () => {
+    emailInput.value = "";
+    modalLogin.style.display = "flex";
+    modalRegister.style.display = "none"
+    modalRecuperar.style.display = "none"
+    loginAlert.textContent = "Comprueba en la bandeja de entrada de tu correo";
+    setTimeout(() => {
+        loginAlert.textContent = "";
+    
+    }, 2500);
+}
 // Función para validar el correo
 const validarCorreo = (correo) => {
     const regexCorreo = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -98,7 +117,7 @@ const enviarCorreo = (email) => {
         btn_recuperar.textContent = "Enviar";
         btn_recuperar.disabled = false;
         alert(`Se ha enviado un enlace de recuperación a ${email}`);
-    }, 2000); //Envío de 2 segundos
+    }, 700); //Envío de 2 segundos
 };
 
 // Añadir botón de roles solo para administradores

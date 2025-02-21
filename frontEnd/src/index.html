@@ -14,6 +14,7 @@
         <!-- MODAL LOGIN -->
         <div id="login" class="w-[500px] h-[450px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center">
             <h1 class="mt-12 text-2xl">Inicia Sesion</h1>
+            <p class="text-red-400 text-[10px]" id="loginAlert"></p>
             <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate id="form_login">
                 <!-- DATOS A RELLENAR -->
                 <!-- MAIL -->
@@ -29,14 +30,14 @@
                         class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
                         required
                         placeholder="Contraseña">
-                    <!-- ICON EYE -->
-                    <button id="login_show-pass"><span class="mdi mdi-eye-outline"></span></button>
-                </div>
-                <p id="error_log-pass" class="hidden error"></p>
-                <!-- INFORMACION -->
-                <span class="text-[0.65rem] mt-[-10px]">8-16 caracteres, mayusculas, minusculas, numeros y simbolos.</span>
-                <!-- BUTTON LOGIN -->
-                <button id="btn_login" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Login</button>
+                        <!-- ICON EYE -->
+                        <button id="login_show-pass"><span class="mdi mdi-eye-outline"></span></button>
+                    </div>
+                    <p id="error_log-pass" class="hidden error"></p>
+                    <!-- INFORMACION -->
+                    <span class="text-[0.65rem] mt-[-10px]">8-16 caracteres, mayusculas, minusculas, numeros y simbolos.</span>
+                    <!-- BUTTON LOGIN -->
+                    <button id="btn_login" class="bg-teal-400 rounded-md p-2 w-[200px] hover:bg-teal-200">Login</button>
                 <!-- LINK CONTRASEÑA OLVIDADA -->
                 <p class="text-sm">¿Olvidaste la <a href="#" class="font-medium text-teal-200">contraseña</a>?</p>
                 <!-- USUARIO REGISTRADO -->
@@ -58,10 +59,10 @@
                 <p id="error_reg-nomb" class="hidden error"></p>
                 <!-- APELLIDOS -->
                 <input type="text" id="register_ape"
-                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
-                    pattern="^[A-Z][a-zA-Z ]{4,}$"
-                    required
-                    placeholder="Apellidos">
+                class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                pattern="^[A-Z][a-zA-Z ]{4,}$"
+                required
+                placeholder="Apellidos">
                 <p id="error_reg-ape" class="hidden error"></p>
                 <!-- CENTRO -->
                 <select name="" id="register_centro"
@@ -71,9 +72,9 @@
 
                     <option value="IES Ribera del Tajo" selected>IES Ribera del Tajo</option>
                     <option value="" disabled selected>Centro</option>
+                    
 
-
-
+                    
                     <option value="IES. Ribera del Tajo">IES Ribera del Tajo</option>
                     <option value="IES Ramon y Cajal">IES Ramón y Cajal</option>
                     <option value="IES Carlos Castilla Del Pino">IES Carlos Castilla Del Pino</option>
@@ -81,14 +82,14 @@
                 </select>
                 <!-- MAIL -->
                 <input type="email"
-                    id="register_correo"
+                id="register_correo"
                     class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
                     required
                     placeholder="Correo">
-                <p id="error_reg-mail" class="hidden error"></p>
-                <!-- PASSWORD 1 -->
-                <div class="flex items-center">
-                    <input type="password" id="register_password"
+                    <p id="error_reg-mail" class="hidden error"></p>
+                    <!-- PASSWORD 1 -->
+                    <div class="flex items-center">
+                        <input type="password" id="register_password"
                         class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
                         pattern="^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).{8,16}$"
                         required
@@ -101,9 +102,9 @@
                 <!-- PASSWORD 2 -->
                 <div class="flex items-center">
                     <input type="password" id="register_password2"
-                        class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
-                        required
-                        placeholder="Contraseña">
+                    class="w-[300px] p-2 border-b-2 border-teal-200 text-teal-200 placeholder:text-teal-200 focus:bg-teal-200 focus:text-white focus:outline-none rounded-md focus:placeholder:text-white"
+                    required
+                    placeholder="Contraseña">
                     <!-- OJO ABIERTO -->
                     <button id="register_show-pass2"><span class="mdi mdi-eye-outline"></span></button>
                 </div>
@@ -120,6 +121,7 @@
         <!-- MODAL LOGIN -->
         <div id="recuperar" class="w-[500px] h-[300px] bg-white rounded-md mt-[100px] mb-[100px] flex flex-col items-center hidden">
             <h1 class="mt-12 text-2xl">Recupera tu contraseña</h1>
+            <p class="text-red-400 text-[10px]" id="recPassAlert"></p>
             <form action="" class="flex flex-col items-center gap-5 mt-6" novalidate>
                 <!-- DATOS A RELLENAR -->
                 <input type="email" id="recu_correo"
