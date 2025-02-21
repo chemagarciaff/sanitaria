@@ -1,4 +1,11 @@
-//VARIABLES
+/*
+    Funciones de los Modales de Muestra
+    Abrir y cerrar modal, enviar form del modal, crear, modificar y eliminar muestras,
+    cargar imagenes de la muestra seleccionada, cambiar y eliminar imagene
+*/
+
+
+// Cargar variables del dom
 let containerMuestra = document.getElementById('muestraTableBody');
 const descripcion = document.getElementById("descripcionMuestra");
 const observaciones = document.getElementById("observacionesMuestra");
