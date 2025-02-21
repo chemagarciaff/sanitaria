@@ -1,5 +1,5 @@
 /*
-    Funcionalidad del modal Editar Cassette
+    Funcionalidad del modal de editar cassettes
 */
 
 // Variables del dom
@@ -40,7 +40,7 @@ const openModalEdition = (event) =>{
         modalContent.classList.remove("scale-95", "opacity-0");
     }, 10);
 
-    //Comprobamos si clicka en el logo
+    //Comprobamos si clique en el logo
     let aux = event.target;
     if (aux.tagName === "path" || aux.tagName === "svg") {
         modalEditCassette.classList.remove('hidden');
@@ -50,14 +50,17 @@ const openModalEdition = (event) =>{
 
 //Cerrar modal
 const closeModalEdition = (event) =>{
+    // Ocultar el modal
+    modalOverlay.classList.add("hidden");
+    modalEditCassette.classList.add("hidden");
+    errorMessage.textContent = "";
+
     // Animación de salida 
-    modalContent.classList.add("scale-95");
     setTimeout(() => {
-        modalOverlay.classList.add("hidden");
-        modalEditCassette.classList.add("hidden");
-        errorMessage.textContent = "";
+        modalContent.classList.add("scale-95");
     }, 300);
 
+    // Comprobar que se clique el logo
     let aux = event.target;
     if (aux === cerrarModalEdicion) {
         modalEditCassette.classList.add('hidden');
@@ -104,7 +107,7 @@ const postNewDetailsCassette = async (event) =>{
         body: JSON.stringify(editCassette)
     }
     )
-    //Si esta correctamente hecho
+    //Si está correctamente hecho
     if (response.ok) {
         const data = await response.json();
         //Cerramos modal
@@ -121,6 +124,3 @@ btnEditCassette.addEventListener('click',openModalEdition);
 cerrarModalEdicion.addEventListener('click',closeModalEdition);
 formEditarCassette.addEventListener('submit',postNewDetailsCassette);
 document.addEventListener("DOMContentLoaded", restringirFechaMinimaEdicion);
-closeModalBtn.addEventListener("click", cerrarModal);
-modalOverlay.addEventListener("click", cerrarModal);
-
